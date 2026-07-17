@@ -211,18 +211,22 @@ window.__resources = {
   .s10-card-title { font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0; }
   .s10-card-desc { font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0; }
   /* ---- Section 8b: Amenities & Services slider ---- */
-  .s8b-scroll { position: relative; width: 100%; background: #ffffff; }
-  .s8b-frame { position: absolute; top: 0; left: 0; width: 1440px; height: 800px; transform-origin: top left; overflow: hidden; background: #210302; }
+  .s8b-scroll { position: relative; width: 100%; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; background: #210302; }
+  /* Amenities scene: photo slides cover-fill the viewport (fit() sets translate(-50%,-50%) scale(cover)). */
+  .s8b-frame { position: absolute; left: 50%; top: 50%; width: 1440px; height: 800px; transform-origin: center center; overflow: hidden; background: #210302; }
+  /* Panel + copy sit in a viewport-anchored overlay so they stay native size and fully visible. */
+  .s8b-ui { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+  .s8b-ui > * { pointer-events: auto; }
   .s8b-slide { position: absolute; inset: 0; opacity: 1; clip-path: inset(0 100% 0 0); transition: clip-path 1s cubic-bezier(.65,0,.35,1); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
   .s8b-slide.active { clip-path: inset(0 0 0 0); z-index: 2; }
   .s8b-slide.was-active { clip-path: inset(0 0 0 0); z-index: 1; }
   .s8b-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(33,3,2,0.35), rgba(33,3,2,0.35)); }
-  .s8b-panel { position: absolute; left: 819px; top: 132px; width: 556px; height: 535px; background: rgba(33,3,2,0.25); backdrop-filter: blur(44px); z-index: 3; }
-  .s8b-content { position: absolute; left: 854px; top: 164px; width: 487px; height: 470px; z-index: 4; }
-  .s8b-eyebrow { position: absolute; left: 0; top: 0; font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1; color: #ffffff; margin: 0; }
-  .s8b-heading { position: absolute; left: 0; top: 27px; width: 487px; margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 64px; line-height: 64px; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
-  .s8b-body { position: absolute; left: 52.5px; top: 255px; width: 334px; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.4; color: #ffffff; margin: 0; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
-  .s8b-nav { position: absolute; left: 52.5px; top: 389px; display: flex; flex-direction: row; gap: 10px; }
+  .s8b-panel { position: absolute; right: clamp(16px,4vw,64px); top: 50%; transform: translateY(-50%); width: min(556px,48vw); box-sizing: border-box; padding: clamp(28px,3vw,40px); background: rgba(33,3,2,0.25); backdrop-filter: blur(44px); display: flex; flex-direction: column; align-items: flex-start; }
+  .s8b-content { position: static; display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+  .s8b-eyebrow { position: static; width: auto; height: auto; font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1; color: #ffffff; margin: 0 0 22px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .s8b-heading { position: static; width: auto; height: auto; margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(38px,4.4vw,64px); line-height: 1; text-transform: uppercase; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
+  .s8b-body { position: static; width: auto; max-width: 360px; margin: 22px 0 0; font-family: var(--font-sans); font-weight: 300; font-size: clamp(15px,1.2vw,16px); line-height: 1.45; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
+  .s8b-nav { position: static; margin: clamp(24px,3vh,34px) 0 0; display: flex; flex-direction: row; gap: 10px; }
   .s8b-arrow { width: 81px; height: 81px; border-radius: 50%; border: 1px solid #ffffff; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .35s cubic-bezier(.22,1,.36,1), border-color .35s cubic-bezier(.22,1,.36,1), opacity .35s cubic-bezier(.22,1,.36,1); }
   .s8b-arrow:hover { background: #210302; border-color: #210302; opacity: 1; }
   .s8b-arrow svg { width: 19px; height: 12px; stroke: #ffffff; fill: none; stroke-width: 1; }
@@ -789,14 +793,17 @@ move-in ready</span></p>
     <div class="s8b-slide" id="s8b-slide-2" style="background-image: url(assets/slider-img-3s.png);"></div>
     <div class="s8b-slide" id="s8b-slide-3" style="background-image: url(assets/slider-img-4s.png);"></div>
     <div class="s8b-slide" id="s8b-slide-4" style="background-image: url(assets/slider-img-5s.png);"></div>
-    <div class="s8b-panel"></div>
-    <div class="s8b-content">
-      <p class="s8b-eyebrow" style="text-transform: uppercase; width: 161px; height: 14px">Amenities &amp; Services</p>
-      <h2 class="s8b-heading" id="s8b-heading" style="text-transform: uppercase; width: 496px; height: 191px">A lifestyle<br>&nbsp; &nbsp; &nbsp; &nbsp; designed<br>&nbsp; &nbsp; around you</h2>
-      <p class="s8b-body" id="s8b-body" style="width: 371px; height: 110px; top: 245px">City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.</p>
-      <div class="s8b-nav">
-        <button class="s8b-arrow prev" id="s8b-prev" aria-label="Previous" type="button"><svg viewBox="0 0 19 12"><path d="M19 6H0M6 1L1 6l5 5" stroke="#ffffff" fill="none"></path></svg></button>
-        <button class="s8b-arrow next" id="s8b-next" aria-label="Next" type="button"><svg viewBox="0 0 19 12"><path d="M0 6h19M13 1l5 5-5 5" stroke="#ffffff" fill="none"></path></svg></button>
+  </div>
+  <div class="s8b-ui">
+    <div class="s8b-panel">
+      <div class="s8b-content">
+        <p class="s8b-eyebrow">Amenities &amp; Services</p>
+        <h2 class="s8b-heading" id="s8b-heading">A lifestyle<br>designed<br>around you</h2>
+        <p class="s8b-body" id="s8b-body">City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.</p>
+        <div class="s8b-nav">
+          <button class="s8b-arrow prev" id="s8b-prev" aria-label="Previous" type="button"><svg viewBox="0 0 19 12"><path d="M19 6H0M6 1L1 6l5 5" stroke="#ffffff" fill="none"></path></svg></button>
+          <button class="s8b-arrow next" id="s8b-next" aria-label="Next" type="button"><svg viewBox="0 0 19 12"><path d="M0 6h19M13 1l5 5-5 5" stroke="#ffffff" fill="none"></path></svg></button>
+        </div>
       </div>
     </div>
   </div>
@@ -905,7 +912,7 @@ class Component extends DCLogic {
       if (s6Scroll && s6Frame) {
         s6Frame.style.transform = 'scale(' + s + ')';
         s6Frame.style.left = cx + 'px';
-        s6Scroll.style.height = sectionH(s6Scroll, this.props.s6SectionGap ?? 1353, s);
+        s6Scroll.style.height = sectionH(s6Scroll, 1040, s);
       }
       if (s9Scroll && s9Frame) {
         s9Frame.style.transform = 'scale(' + s + ')';
@@ -913,9 +920,9 @@ class Component extends DCLogic {
         s9Scroll.style.height = sectionH(s9Scroll, 1101, s);
       }
       if (s8bScroll && s8bFrame) {
-        s8bFrame.style.transform = 'scale(' + s + ')';
-        s8bFrame.style.left = cx + 'px';
-        s8bScroll.style.height = sectionH(s8bScroll, 800, s);
+        // Amenities scene cover-fills the viewport; section height is 100svh via CSS.
+        const cover8b = Math.max(wrap.clientWidth / 1440, s8bScroll.clientHeight / 800);
+        s8bFrame.style.transform = 'translate(-50%,-50%) scale(' + cover8b + ')';
       }
       if (s10Scroll && s10Frame) {
         s10Frame.style.transform = 'scale(' + s + ')';
