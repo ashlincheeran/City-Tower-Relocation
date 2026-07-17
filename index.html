@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Tower — The Address Your Team Deserves | betterhomes</title>
+<meta name="description" content="City Tower on Sheikh Zayed Road: studios to four-bedroom penthouses, move-in from June 2026. 93 storeys, 15 min to Dubai International Airport, 5 min walk to Emirates Towers Metro.">
+<meta name="theme-color" content="#210302">
+<link rel="icon" type="image/svg+xml" href="assets/logo-monogram.svg">
+<link rel="apple-touch-icon" href="assets/betterhomes-logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="City Tower — The Address Your Team Deserves">
+<meta property="og:description" content="Studios to four-bedroom penthouses on Sheikh Zayed Road. Move-in from June 2026.">
+<meta property="og:image" content="assets/tower-a-new.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+/* Serve the runtime's React / ReactDOM / Babel from local vendored copies
+   instead of unpkg.com, so the site is self-contained and never depends on a
+   third-party CDN being reachable at load time. */
+window.__resources = {
+  "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js",
+  "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js",
+  "https://unpkg.com/@babel/standalone@7.29.0/babel.min.js": "vendor/babel.min.js"
+};
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -27,6 +47,9 @@
 <style>
   @font-face { font-family: 'PP Museum'; src: url('assets/fonts/PPMuseum-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
   html, body { margin: 0; padding: 0; background: #ffffff; }
+  /* Keep the 1440px design at native scale on large screens (no upscaling) and center it. */
+  x-dc { display: block; }
+  .cth-wrap, .s2-scroll, .s6-scroll, .s8b-scroll, .s9-scroll, .s10-scroll { max-width: 1440px; margin-left: auto; margin-right: auto; }
   .cth-wrap { position: relative; width: 100%; overflow: hidden; background: #ffffff; }
   .cth-frame { position: absolute; top: 0; left: 0; width: 1440px; height: 848px; transform-origin: top left; }
   .cth-link { position: relative; font-family: var(--font-sans); font-weight: 400; font-size: 16px; line-height: 1.5; color: #210302; text-decoration: none; white-space: nowrap; opacity: 0.92; transition: opacity .25s cubic-bezier(.22,1,.36,1); }
@@ -709,7 +732,7 @@ move-in ready</span></p>
   </div>
 </div>
 
-<div class="s2-scroll" data-screen-label="Urban living, reimagined" style="width: 2229px; height: 1733px">
+<div class="s2-scroll" data-screen-label="Urban living, reimagined">
   <div class="s2-wrap">
   <div class="s2-frame">
 
@@ -743,7 +766,7 @@ move-in ready</span></p>
 </div>
 
 
-<div class="s6-scroll" data-screen-label="Space to live, work and grow" style="width: 2232px; height: 2102px; top: 222px">
+<div class="s6-scroll" data-screen-label="Space to live, work and grow">
   <div class="s6-frame" style="width: 1440px; height: 1020px; left: 0px; position: absolute">
     <div class="s6-band" style="height: 521px; width: 1440px; left: 0px; background-color: #D4BD9C54; top: -49px">
       <span class="ln ln3" style="position: absolute; left: 57px; top: 74px; font-size: 64px; font-family: &quot;PP Museum&quot;, IvyMode, IvyEpic, &quot;Cormorant Garamond&quot;, &quot;Playfair Display&quot;, Georgia, serif; text-transform: uppercase; color: #210302; line-height: 64px">Urban living,</span>
@@ -1246,312 +1269,10 @@ class Component extends DCLogic {
       } catch(e) { /* keep the loop alive across a bad frame */ }
     };
     this._applyToggles();
-    this._initFreeTransform();
-    this._initSectionResize();
     this._initHScroll();
     this._initOfferSlider();
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
-  }
-  _initFreeTransform() {
-    if (document.getElementById('cth-ft-btn')) return;
-    // Auto-discover the major editable elements across every section.
-    const SEL = [
-      'h1','h2','h3','h4','p','img','image-slot','video','.s6-h1 .ln',
-      '[class*="photo"]','[class*="cube"]','[class*="disc"]','[class*="logo"]','[class*="pill"]',
-      '[class*="seal"]','[class*="word"]','[class*="marker"]','[class*="head"]','[class*="title"]',
-      '[class*="body"]','[class*="intro"]','[class*="label"]','[class*="badge"]','[class*="eyebrow"]',
-      '[class*="-cat"]','[class*="-num"]','[class*="footer-img"]','[class*="-line"]','[class*="progress"]',
-      '[class*="-h1"]','[class*="-h2"]','[class*="-sub"]','[class*="-disc"]','.s10-hl-card'
-    ].join(',');
-    const seen = new Set();
-    const items = [];
-    Array.from(document.querySelectorAll(SEL)).forEach(el => {
-      if (seen.has(el)) return;
-      if (el.closest('#cth-ft-btn')) return;
-      // skip tiny structural wrappers with no box
-      if (!el.offsetWidth && !el.offsetHeight) return;
-      seen.add(el);
-      const cls = (el.className && typeof el.className === 'string') ? el.className.trim().split(/\s+/)[0] : el.tagName.toLowerCase();
-      items.push({ el, base: cls });
-    });
-    if (!items.length) return;
-    // Stable id: first class (or tag) + ordinal among same-base elements.
-    const counts = {};
-    items.forEach(it => { const n = counts[it.base] = (counts[it.base] || 0) + 1; it.id = it.base + (n > 1 ? '-' + n : ''); });
-    const isText = el => /^(H1|H2|H3|H4|P|SPAN)$/.test(el.tagName) || (el.children.length === 0 && el.textContent.trim().length > 0);
-    const KEY = 'cth_ft_v2';
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
-    items.forEach(it => {
-      const g = saved[it.id];
-      if (g) {
-        if (g.left != null) it.el.style.left = g.left + 'px';
-        if (g.top != null) it.el.style.top = g.top + 'px';
-        if (g.width != null) it.el.style.width = g.width + 'px';
-        if (g.height != null) it.el.style.height = g.height + 'px';
-        if (g.font != null) it.el.style.fontSize = g.font + 'px';
-        if (g.z != null) { it.el.style.zIndex = g.z; if (getComputedStyle(it.el).position === 'static') it.el.style.position = 'relative'; }
-      }
-    });
-    const persist = () => {
-      const out = {};
-      items.forEach(it => {
-        const rec = { left: it.el.offsetLeft, top: it.el.offsetTop, width: it.el.offsetWidth, height: it.el.offsetHeight };
-        if (it.el.style.fontSize) rec.font = parseFloat(it.el.style.fontSize);
-        if (it.el.style.zIndex) rec.z = parseInt(it.el.style.zIndex, 10);
-        out[it.id] = rec;
-      });
-      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
-    };
-    const scaleOf = el => { const f = el.closest('[class*="frame"]'); return (f && f.offsetWidth) ? f.getBoundingClientRect().width / f.offsetWidth : 1; };
-
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;z-index:99998;border:1.5px solid #2C537A;pointer-events:none;display:none;';
-    document.body.appendChild(ov);
-    const body = document.createElement('div');
-    body.style.cssText = 'position:absolute;inset:0;pointer-events:auto;cursor:move;';
-    ov.appendChild(body);
-    const HPOS = [['nw',0,0],['n',.5,0],['ne',1,0],['e',1,.5],['se',1,1],['s',.5,1],['sw',0,1],['w',0,.5]];
-    const handles = HPOS.map(([name, hx, hy]) => {
-      const h = document.createElement('div');
-      h.dataset.hx = hx; h.dataset.hy = hy;
-      const cur = name.length === 2 ? ((name === 'nw' || name === 'se') ? 'nwse-resize' : 'nesw-resize') : ((name === 'n' || name === 's') ? 'ns-resize' : 'ew-resize');
-      h.style.cssText = 'position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;background:#fff;border:1.5px solid #2C537A;border-radius:50%;pointer-events:auto;cursor:' + cur + ';';
-      ov.appendChild(h); return h;
-    });
-    let mode = false, sel = null;
-    const syncOverlay = () => {
-      if (!sel) { ov.style.display = 'none'; return; }
-      const r = sel.el.getBoundingClientRect();
-      ov.style.display = 'block';
-      ov.style.left = r.left + 'px'; ov.style.top = r.top + 'px'; ov.style.width = r.width + 'px'; ov.style.height = r.height + 'px';
-      handles.forEach(h => { h.style.left = (parseFloat(h.dataset.hx) * r.width) + 'px'; h.style.top = (parseFloat(h.dataset.hy) * r.height) + 'px'; });
-    };
-    const promote = el => {
-      const cs = getComputedStyle(el);
-      if (cs.position === 'absolute' || cs.position === 'fixed') return;
-      const container = el.parentElement;
-      const s = scaleOf(el);
-      const er = el.getBoundingClientRect(), cr = container.getBoundingClientRect();
-      const L = (er.left - cr.left) / (s || 1), T = (er.top - cr.top) / (s || 1);
-      el.style.position = 'absolute';
-      el.style.left = L + 'px'; el.style.top = T + 'px';
-      el.style.width = (er.width / (s || 1)) + 'px';
-      el.style.margin = '0';
-      el.style.flexShrink = '';
-      container.style.overflow = 'visible';
-    };
-    body.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      promote(sel.el);
-      const sc = scaleOf(sel.el), sx = e.clientX, sy = e.clientY, L = sel.el.offsetLeft, T = sel.el.offsetTop;
-      const mv = ev => { sel.el.style.left = (L + (ev.clientX - sx) / sc) + 'px'; sel.el.style.top = (T + (ev.clientY - sy) / sc) + 'px'; syncOverlay(); };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    handles.forEach(h => h.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      promote(sel.el);
-      const sc = scaleOf(sel.el), hx = parseFloat(h.dataset.hx), hy = parseFloat(h.dataset.hy);
-      const sx = e.clientX, sy = e.clientY, L = sel.el.offsetLeft, T = sel.el.offsetTop, W = sel.el.offsetWidth, H = sel.el.offsetHeight, aspect = W / H;
-      const txt = isText(sel.el);
-      const F0 = parseFloat(getComputedStyle(sel.el).fontSize) || 0;
-      const mv = ev => {
-        const dx = (ev.clientX - sx) / sc, dy = (ev.clientY - sy) / sc;
-        let nL = L, nT = T, nW = W, nH = H;
-        if (hx === 1) nW = Math.max(24, W + dx);
-        if (hx === 0) { nW = Math.max(24, W - dx); nL = L + (W - nW); }
-        if (hy === 1) nH = Math.max(16, H + dy);
-        if (hy === 0) { nH = Math.max(16, H - dy); nT = T + (H - nH); }
-        // corner drag keeps aspect for images; text scales font by the drag ratio
-        if (hx !== .5 && hy !== .5 && (txt || !ev.shiftKey)) { /* free */ }
-        if (ev.shiftKey && hx !== .5 && hy !== .5) { nH = nW / aspect; if (hy === 0) nT = T + (H - nH); }
-        sel.el.style.left = nL + 'px'; sel.el.style.top = nT + 'px'; sel.el.style.width = nW + 'px';
-        if (txt) {
-          // scale the type with the box; let height follow the text
-          if (F0 && (hy !== .5 || hx !== .5)) {
-            const ratio = hy !== .5 ? (nH / H) : (nW / W);
-            sel.el.style.fontSize = Math.max(6, F0 * ratio) + 'px';
-          }
-          sel.el.style.height = '';
-        } else {
-          sel.el.style.height = nH + 'px';
-        }
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    }));
-    document.addEventListener('pointerdown', e => {
-      if (!mode || ov.contains(e.target)) return;
-      // pick the most specific (smallest-area) element under the cursor
-      const hits = items.filter(it => it.el.contains(e.target));
-      if (hits.length) {
-        hits.sort((a, b) => (a.el.offsetWidth * a.el.offsetHeight) - (b.el.offsetWidth * b.el.offsetHeight));
-        e.preventDefault(); sel = hits[0]; syncOverlay();
-      } else { sel = null; syncOverlay(); }
-    }, true);
-    window.addEventListener('scroll', syncOverlay, true);
-    window.addEventListener('resize', syncOverlay);
-    (function loop() { if (mode && sel) syncOverlay(); requestAnimationFrame(loop); })();
-
-    const btn = document.createElement('button');
-    btn.id = 'cth-ft-btn'; btn.textContent = '✥ Edit layout';
-    btn.style.cssText = 'position:fixed;left:18px;bottom:18px;z-index:99999;font-family:var(--font-sans),sans-serif;font-size:13px;font-weight:500;color:#fff;background:#2C537A;border:none;border-radius:22px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);';
-    document.body.appendChild(btn);
-    const tray = document.createElement('div');
-    tray.style.cssText = 'position:fixed;left:18px;bottom:60px;z-index:99999;display:none;flex-direction:column;gap:6px;align-items:flex-start;';
-    const hint = document.createElement('div');
-    hint.textContent = 'Click any element · drag to move · handles to resize · Shift = keep ratio';
-    hint.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:11px;color:#2C537A;background:rgba(255,255,255,.92);border-radius:12px;padding:6px 10px;max-width:230px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.12);';
-    tray.appendChild(hint);
-    const mk = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#2C537A;background:#fff;border:1px solid #2C537A;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; tray.appendChild(b); return b; };
-    const zrow = document.createElement('div');
-    zrow.style.cssText = 'display:flex;gap:6px;';
-    const mkZ = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#2C537A;background:#fff;border:1px solid #2C537A;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; zrow.appendChild(b); return b; };
-    const bBack = mkZ('↓ Send back'), bFwd = mkZ('↑ Bring front');
-    tray.appendChild(zrow);
-    const bReset = mk('Reset selected'), bAll = mk('Reset all'), bCopy = mk('Copy CSS');
-    document.body.appendChild(tray);
-    const RP = ['left','top','width','height','fontSize','zIndex'];
-    let zTop = 500;
-    const nudgeZ = dir => {
-      if (!sel) return;
-      const cur = parseInt(sel.el.style.zIndex || getComputedStyle(sel.el).zIndex, 10);
-      let z = isNaN(cur) ? 0 : cur;
-      if (dir > 0) { zTop += 1; z = zTop; } else { z = z - 1; }
-      sel.el.style.position = sel.el.style.position || getComputedStyle(sel.el).position;
-      if (sel.el.style.position === 'static') sel.el.style.position = 'relative';
-      sel.el.style.zIndex = z;
-      persist();
-      syncOverlay();
-    };
-    bFwd.addEventListener('click', () => nudgeZ(1));
-    bBack.addEventListener('click', () => nudgeZ(-1));
-    const setMode = on => {
-      mode = on;
-      btn.textContent = on ? '✓ Done' : '✥ Edit layout';
-      btn.style.background = on ? '#1F343F' : '#2C537A';
-      tray.style.display = on ? 'flex' : 'none';
-      items.forEach(it => { it.el.style.outline = on ? '1px dashed rgba(44,83,122,.5)' : ''; it.el.style.outlineOffset = on ? '1px' : ''; });
-      if (!on) { sel = null; syncOverlay(); }
-    };
-    btn.addEventListener('click', () => setMode(!mode));
-    bReset.addEventListener('click', () => { if (sel) { RP.forEach(p => sel.el.style[p] = ''); persist(); syncOverlay(); } });
-    bAll.addEventListener('click', () => { items.forEach(it => RP.forEach(p => it.el.style[p] = '')); try { localStorage.removeItem(KEY); } catch (e) {} sel = null; syncOverlay(); });
-    bCopy.addEventListener('click', () => {
-      const css = items.filter(it => it.el.style.left || it.el.style.top || it.el.style.width || it.el.style.height || it.el.style.fontSize || it.el.style.zIndex).map(it => {
-        const p = [];
-        if (it.el.style.left) p.push('left:' + it.el.offsetLeft + 'px');
-        if (it.el.style.top) p.push('top:' + it.el.offsetTop + 'px');
-        if (it.el.style.width) p.push('width:' + it.el.offsetWidth + 'px');
-        if (it.el.style.height) p.push('height:' + it.el.offsetHeight + 'px');
-        if (it.el.style.fontSize) p.push('font-size:' + parseFloat(it.el.style.fontSize) + 'px');
-        if (it.el.style.zIndex) p.push('z-index:' + parseInt(it.el.style.zIndex, 10));
-        return '.' + it.id + ' { ' + p.join('; ') + '; }';
-      }).join('\n');
-      try { navigator.clipboard.writeText(css); } catch (e) {}
-      console.log(css); bCopy.textContent = 'Copied!'; setTimeout(() => bCopy.textContent = 'Copy CSS', 1200);
-    });
-  }
-  _initSectionResize() {
-    if (document.getElementById('cth-sr-btn')) return;
-    const items = Array.from(document.querySelectorAll('[class$="-scroll"]')).map(el => ({ el, id: el.className.trim().split(/\s+/)[0] }));
-    if (!items.length) return;
-    const KEY = 'cth_sr_v1';
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
-    items.forEach(it => {
-      const g = saved[it.id];
-      if (g) {
-        if (g.h != null) it.el.dataset.hOverride = g.h;
-        if (g.w != null) { it.el.style.maxWidth = g.w + 'px'; it.el.style.marginLeft = 'auto'; it.el.style.marginRight = 'auto'; }
-      }
-    });
-    const persist = () => {
-      const out = {};
-      items.forEach(it => {
-        const rec = {};
-        if (it.el.dataset.hOverride) rec.h = parseFloat(it.el.dataset.hOverride);
-        if (it.el.style.maxWidth) rec.w = parseFloat(it.el.style.maxWidth);
-        if (Object.keys(rec).length) out[it.id] = rec;
-      });
-      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
-    };
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;z-index:99998;border:1.5px dashed #D7A86F;pointer-events:none;display:none;';
-    document.body.appendChild(ov);
-    const hHandle = document.createElement('div');
-    hHandle.style.cssText = 'position:absolute;left:50%;bottom:0;width:60px;height:14px;margin:0 0 -7px -30px;background:#fff;border:1.5px solid #D7A86F;border-radius:7px;pointer-events:auto;cursor:ns-resize;';
-    const wHandle = document.createElement('div');
-    wHandle.style.cssText = 'position:absolute;top:50%;right:0;width:14px;height:60px;margin:-30px -7px 0 0;background:#fff;border:1.5px solid #D7A86F;border-radius:7px;pointer-events:auto;cursor:ew-resize;';
-    ov.appendChild(hHandle); ov.appendChild(wHandle);
-    let mode = false, sel = null;
-    const syncOverlay = () => {
-      if (!sel) { ov.style.display = 'none'; return; }
-      const r = sel.el.getBoundingClientRect();
-      ov.style.display = 'block';
-      ov.style.left = r.left + 'px'; ov.style.top = r.top + 'px'; ov.style.width = r.width + 'px'; ov.style.height = r.height + 'px';
-    };
-    hHandle.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      const sy = e.clientY, H0 = sel.el.getBoundingClientRect().height;
-      const frame = sel.el.querySelector('[class$="-frame"]');
-      const s = frame ? frame.getBoundingClientRect().width / (parseFloat(frame.style.width) || frame.offsetWidth || 1440) : 1;
-      const mv = ev => {
-        const nh = Math.max(80, H0 + (ev.clientY - sy));
-        sel.el.dataset.hOverride = (nh / (s || 1)).toFixed(1);
-        sel.el.style.height = nh + 'px';
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    wHandle.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      const sx = e.clientX, W0 = sel.el.getBoundingClientRect().width;
-      const mv = ev => {
-        const nw = Math.max(320, W0 + (ev.clientX - sx) * 2);
-        sel.el.style.maxWidth = nw + 'px';
-        sel.el.style.marginLeft = 'auto'; sel.el.style.marginRight = 'auto';
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    document.addEventListener('pointerdown', e => {
-      if (!mode || ov.contains(e.target)) return;
-      const hit = items.find(it => it.el.contains(e.target));
-      if (hit) { e.preventDefault(); sel = hit; syncOverlay(); } else { sel = null; syncOverlay(); }
-    }, true);
-    window.addEventListener('scroll', syncOverlay, true);
-    window.addEventListener('resize', syncOverlay);
-    (function loop() { if (mode && sel) syncOverlay(); requestAnimationFrame(loop); })();
-    const btn = document.createElement('button');
-    btn.id = 'cth-sr-btn'; btn.textContent = '⤢ Resize sections';
-    btn.style.cssText = 'position:fixed;left:18px;bottom:66px;z-index:99999;font-family:var(--font-sans),sans-serif;font-size:13px;font-weight:500;color:#fff;background:#D7A86F;border:none;border-radius:22px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);';
-    document.body.appendChild(btn);
-    const tray = document.createElement('div');
-    tray.style.cssText = 'position:fixed;left:18px;bottom:112px;z-index:99999;display:none;flex-direction:column;gap:6px;align-items:flex-start;';
-    const hint = document.createElement('div');
-    hint.textContent = 'Click a section \u00b7 bottom handle = height \u00b7 side handle = width';
-    hint.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:11px;color:#a5723a;background:rgba(255,255,255,.92);border-radius:12px;padding:6px 10px;max-width:230px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.12);';
-    tray.appendChild(hint);
-    const mk = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#a5723a;background:#fff;border:1px solid #D7A86F;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; tray.appendChild(b); return b; };
-    const bReset = mk('Reset selected'), bAll = mk('Reset all');
-    document.body.appendChild(tray);
-    const setMode = on => {
-      mode = on;
-      btn.textContent = on ? '✓ Done' : '⤢ Resize sections';
-      btn.style.background = on ? '#a5723a' : '#D7A86F';
-      tray.style.display = on ? 'flex' : 'none';
-      items.forEach(it => { it.el.style.outline = on ? '1px dashed rgba(215,168,111,.7)' : ''; it.el.style.outlineOffset = on ? '2px' : ''; });
-      if (!on) { sel = null; syncOverlay(); }
-    };
-    btn.addEventListener('click', () => setMode(!mode));
-    bReset.addEventListener('click', () => { if (sel) { delete sel.el.dataset.hOverride; sel.el.style.height = ''; sel.el.style.maxWidth = ''; sel.el.style.marginLeft = ''; sel.el.style.marginRight = ''; persist(); syncOverlay(); if (this._fit) this._fit(); } });
-    bAll.addEventListener('click', () => { items.forEach(it => { delete it.el.dataset.hOverride; it.el.style.height = ''; it.el.style.maxWidth = ''; it.el.style.marginLeft = ''; it.el.style.marginRight = ''; }); try { localStorage.removeItem(KEY); } catch (e) {} sel = null; syncOverlay(); if (this._fit) this._fit(); });
   }
   _initOfferSlider() {
     const clip = document.querySelector('.s10-corp-row');
