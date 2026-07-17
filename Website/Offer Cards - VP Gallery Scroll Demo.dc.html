@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/betterhomes-design-system-c80c9051-f518-4a8a-a48b-19d8fac363f9/colors_and_type.css">
+  <script src="_ds/betterhomes-design-system-c80c9051-f518-4a8a-a48b-19d8fac363f9/_ds_bundle.js"></script>
+  <style>
+    @font-face { font-family: 'PP Museum'; src: url('assets/fonts/PPMuseum-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
+    html, body { margin: 0; padding: 0; background: #ffffff; }
+    a { color: #210302; } a:hover { color: #6b5a45; }
+  </style>
+</helmet>
+<div class="vpg-root" style="width: 100%; background: #ffffff; color: #210302; font-family: var(--font-sans);">
+
+  <section style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 0 64px; box-sizing: border-box;">
+    <p style="font-family: var(--font-sans); font-weight: 500; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 18px;">VP-gallery scroll · demo</p>
+    <h1 style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 64px; line-height: 64px; margin: 0; max-width: 900px; text-transform: uppercase;">What we offer<br><span style="padding-left: 150px;">your company</span></h1>
+    <p style="font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.5; margin: 28px 0 0; max-width: 480px;">Scroll down — the section pins and the five cards glide sideways with an inner-image parallax, exactly like the vp.moscow gallery. The travel <strong>stops the moment card 05 “Continued support” is fully shown</strong>, then the page releases.</p>
+    <div style="margin-top: 44px; display: flex; align-items: center; gap: 12px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.55;"><span>Scroll to explore</span><span>↓</span></div>
+  </section>
+
+  <section class="vpg-outer" style="position: relative;">
+    <div class="vpg-sticky" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center;">
+
+      <div style="position: absolute; left: 64px; top: 56px; z-index: 3; display: flex; align-items: baseline; gap: 14px;">
+        <span class="vpg-counter" style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 44px; line-height: 1; color: #210302;">01</span>
+        <span style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; opacity: 0.5;">/ 05</span>
+      </div>
+
+      <div class="vpg-track" style="display: flex; flex-direction: row; gap: 40px; padding: 0 64px; will-change: transform;">
+
+        <article class="vpg-card" style="position: relative; width: 380px; height: 560px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); will-change: transform;">
+          <div class="vpg-imgwrap" style="position: absolute; inset: 0; overflow: hidden;"><img class="vpg-img" src="assets/m2-card1-s.jpg" alt="Dedicated relocation coordinator" style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; object-fit: cover; display: block; will-change: transform;"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-sizing: border-box; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 42px; line-height: 1; color: #D4BD9C; margin: 0;">01</p>
+            <p style="font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Dedicated relocation coordinator</p>
+            <p style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">One dedicated contact to guide you from first enquiry through to move-in.</p>
+          </div>
+        </article>
+
+        <article class="vpg-card" style="position: relative; width: 380px; height: 560px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); will-change: transform;">
+          <div class="vpg-imgwrap" style="position: absolute; inset: 0; overflow: hidden;"><img class="vpg-img" src="assets/m2-card2-s.jpg" alt="Corporate lease agreements" style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; object-fit: cover; display: block; will-change: transform;"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-sizing: border-box; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 42px; line-height: 1; color: #D4BD9C; margin: 0;">02</p>
+            <p style="font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Corporate lease agreements</p>
+            <p style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Flexible lease options tailored to your company's relocation and mobility needs.</p>
+          </div>
+        </article>
+
+        <article class="vpg-card" style="position: relative; width: 380px; height: 560px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); will-change: transform;">
+          <div class="vpg-imgwrap" style="position: absolute; inset: 0; overflow: hidden;"><img class="vpg-img" src="./03-mrlpj8ih-wxh2.png" alt="Bulk unit availability" style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; object-fit: cover; display: block; will-change: transform;"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-sizing: border-box; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 42px; line-height: 1; color: #D4BD9C; margin: 0;">03</p>
+            <p style="font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Bulk unit availability</p>
+            <p style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Reserve multiple units across different layouts, ensuring your team is in the same building.</p>
+          </div>
+        </article>
+
+        <article class="vpg-card" style="position: relative; width: 380px; height: 560px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); will-change: transform;">
+          <div class="vpg-imgwrap" style="position: absolute; inset: 0; overflow: hidden;"><img class="vpg-img" src="./04-mrlpuh26-d9eb.png" alt="Private viewings" style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; object-fit: cover; display: block; will-change: transform;"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-sizing: border-box; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 42px; line-height: 1; color: #D4BD9C; margin: 0;">04</p>
+            <p style="font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Private viewings</p>
+            <p style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Exclusive tours and private presentations at a time that suits your schedule.</p>
+          </div>
+        </article>
+
+        <article class="vpg-card" style="position: relative; width: 380px; height: 560px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); will-change: transform;">
+          <div class="vpg-imgwrap" style="position: absolute; inset: 0; overflow: hidden;"><img class="vpg-img" src="./02-mrlp7uow-fvow.png" alt="Continued support" style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; object-fit: cover; display: block; will-change: transform;"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-sizing: border-box; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 42px; line-height: 1; color: #D4BD9C; margin: 0;">05</p>
+            <p style="font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Continued support</p>
+            <p style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Our corporate &amp; relocation team will assist with each tenancy, from renewals to unit changes.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <div style="position: absolute; left: 64px; right: 64px; bottom: 44px; height: 2px; background: rgba(33,3,2,0.12);"><div class="vpg-bar" style="height: 100%; width: 0%; background: #210302;"></div></div>
+    </div>
+  </section>
+
+  <section style="min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 0 64px; box-sizing: border-box;">
+    <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; margin: 0; text-align: center; text-transform: uppercase;">Released — normal scrolling resumes.</p>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const outer = document.querySelector('.vpg-outer');
+    const track = document.querySelector('.vpg-track');
+    const bar = document.querySelector('.vpg-bar');
+    const counter = document.querySelector('.vpg-counter');
+    const cards = [...document.querySelectorAll('.vpg-card')];
+    if (!outer || !track) return;
+
+    let maxX = 0;
+    const measure = () => {
+      // travel ends exactly when the last card (05) is fully shown
+      maxX = Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+      outer.style.height = (window.innerHeight + maxX) + 'px';
+    };
+    measure();
+    this._measure = measure;
+    window.addEventListener('resize', measure);
+
+    const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+    let curX = 0, targetX = 0, progress = 0;
+    const vw = () => document.documentElement.clientWidth;
+
+    const tick = () => {
+      const rect = outer.getBoundingClientRect();
+      const scrollable = outer.offsetHeight - window.innerHeight;
+      progress = scrollable > 0 ? clamp01(-rect.top / scrollable) : 0;
+      targetX = -progress * maxX;
+      curX += (targetX - curX) * 0.09;               // smooth inertia (vp.moscow feel)
+      if (Math.abs(targetX - curX) < 0.05) curX = targetX;
+      track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
+      if (bar) bar.style.width = (progress * 100).toFixed(1) + '%';
+
+      // per-card inner-image parallax + subtle scale on the centered card
+      const centerX = vw() / 2;
+      let active = 0, best = Infinity;
+      cards.forEach((card, i) => {
+        const cr = card.getBoundingClientRect();
+        const cCenter = cr.left + cr.width / 2;
+        const rel = (cCenter - centerX) / vw();       // -1 .. 1 across the viewport
+        const img = card.querySelector('.vpg-img');
+        if (img) img.style.transform = 'translate3d(' + (rel * 60).toFixed(2) + 'px,0,0) scale(1.06)';
+        const s = 1 - Math.min(Math.abs(rel), 0.5) * 0.08; // center card slightly larger
+        card.style.transform = 'scale(' + s.toFixed(3) + ')';
+        const d = Math.abs(cCenter - centerX);
+        if (d < best) { best = d; active = i; }
+      });
+      if (counter) counter.textContent = String(active + 1).padStart(2, '0');
+
+      this._raf = requestAnimationFrame(tick);
+    };
+    this._raf = requestAnimationFrame(tick);
+  }
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._measure) window.removeEventListener('resize', this._measure);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/betterhomes-design-system-c80c9051-f518-4a8a-a48b-19d8fac363f9/colors_and_type.css">
+  <script src="_ds/betterhomes-design-system-c80c9051-f518-4a8a-a48b-19d8fac363f9/_ds_bundle.js"></script>
+  <style>
+    @font-face { font-family: 'PP Museum'; src: url('assets/fonts/PPMuseum-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
+    html, body { margin: 0; padding: 0; background: #ffffff; }
+    a { color: #210302; } a:hover { color: #6b5a45; }
+  </style>
+</helmet>
+<div class="ss-root" style="width: 100%; background: #ffffff; color: #210302; font-family: var(--font-sans);">
+
+  <section style="min-height: 70vh; display: flex; flex-direction: column; justify-content: center; padding: 0 64px; box-sizing: border-box;">
+    <p style="font-family: var(--font-sans); font-weight: 500; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 18px;">Scroll-slider · demo (preview only)</p>
+    <h1 style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 56px; line-height: 58px; margin: 0; max-width: 900px;">The five cards slide left as you scroll</h1>
+    <p style="font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.5; margin: 24px 0 0; max-width: 520px;">Same section layout as the live page — header, cards, and offer panel untouched. Scroll down and only the card strip (01–05) translates to the left, revealing 04 and 05.</p>
+    <div style="margin-top: 40px; display: flex; align-items: center; gap: 12px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.55;"><span>Scroll to explore</span><span>↓</span></div>
+  </section>
+
+  <div class="ss-outer" style="position: relative; width: 100%; background: #ffffff;">
+    <div class="ss-sticky" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff;">
+    <div class="ss-frame" style="position: relative; width: 1440px; height: 1169px; transform-origin: center center; background: #ffffff; flex-shrink: 0;">
+
+      <div style="position: absolute; left: 64px; top: 64px; font-family: var(--font-sans); font-weight: 300; font-size: 14px; letter-spacing: 0; text-transform: uppercase; color: #210302;">Corporate relocation</div>
+      <h2 style="position: absolute; left: 64px; top: 94px; width: 900px; margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 64px; line-height: 64px; letter-spacing: -0.01em; text-transform: uppercase; color: #210302;">What we offer<span style="display: block; padding-left: 150px;">your company</span></h2>
+      <p style="position: absolute; left: 64px; top: 292px; width: 440px; margin: 0; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.5; color: #210302;">betterhomes is Dubai's leading relocation partner. We work directly with HR, mobility, and procurement teams to make housing transitions seamless for your incoming employees.</p>
+
+      <!-- Scroll-driven card slider: clipped viewport, inner row translates left -->
+      <div class="ss-slider" style="position: absolute; left: 64px; top: 404px; width: 728px; height: 362px; overflow: hidden;">
+        <div class="ss-track" style="position: absolute; left: 0; top: 0; height: 362px; display: flex; flex-direction: row; gap: 16px; will-change: transform;">
+
+          <div style="position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: url(assets/slider-thumb-2s.png) center / cover no-repeat;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0;">01</p>
+              <p style="font-family: var(--font-sans); font-weight: 600; font-size: 14px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Dedicated relocation coordinator</p>
+              <p style="font-family: var(--font-sans); font-weight: 300; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">One dedicated contact to guide you from first enquiry through to move-in.</p>
+            </div>
+          </div>
+
+          <div style="position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: url('./02-mrlp7uow-fvow.png') center / cover no-repeat;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0;">02</p>
+              <p style="font-family: var(--font-sans); font-weight: 600; font-size: 14px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Corporate lease agreements</p>
+              <p style="font-family: var(--font-sans); font-weight: 300; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Flexible lease options tailored to your company's relocation and mobility needs.</p>
+            </div>
+          </div>
+
+          <div style="position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: url('./03-mrlpj8ih-wxh2.png') center / cover no-repeat;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0;">03</p>
+              <p style="font-family: var(--font-sans); font-weight: 600; font-size: 14px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Bulk unit availability</p>
+              <p style="font-family: var(--font-sans); font-weight: 300; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Reserve multiple units across different layouts, ensuring your team is in the same building.</p>
+            </div>
+          </div>
+
+          <div style="position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: url('./04-mrlpuh26-d9eb.png') center / cover no-repeat;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0;">04</p>
+              <p style="font-family: var(--font-sans); font-weight: 600; font-size: 14px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Private viewings</p>
+              <p style="font-family: var(--font-sans); font-weight: 300; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Exclusive tours and private presentations at a time that suits your schedule.</p>
+            </div>
+          </div>
+
+          <div style="position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: url('./04-mrlpuh26-d9eb.png') center / cover no-repeat;">
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0;">05</p>
+              <p style="font-family: var(--font-sans); font-weight: 600; font-size: 14px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0;">Continued support</p>
+              <p style="font-family: var(--font-sans); font-weight: 300; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0;">Our corporate &amp; relocation team will assist with each tenancy, from renewals to unit changes.</p>
+            </div>
+          </div>
+
+        </div>
+        <div style="position: absolute; left: 0; right: 0; bottom: -22px; height: 2px; background: rgba(33,3,2,0.10);"><div class="ss-bar" style="height: 100%; width: 40%; background: #210302;"></div></div>
+      </div>
+
+      <!-- Offer panel (right) — unchanged layout -->
+      <div style="position: absolute; left: 792px; top: 64px; width: 580px; height: 1041px; overflow: hidden; background: #210302; box-sizing: border-box; padding: 40px; display: flex; flex-direction: column; gap: 20px;">
+        <p style="font-family: var(--font-sans); font-weight: 500; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: #D4BD9C; margin: 0;">Exclusive offer</p>
+        <h3 style="margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; line-height: 1.1; text-transform: uppercase; color: #ffffff;">Corporate relocation<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;benefits now available</h3>
+        <p style="margin: 0; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.25; color: rgba(255,255,255,0.85);">Designed for qualifying bulk lease agreements, this limited-time opportunity gives companies more value when relocating their teams. Speak to our team to discuss eligibility and terms.</p>
+        <div style="margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.18); border-bottom: 1px solid rgba(255,255,255,0.18); padding: 20px 0;">
+          <p style="margin: 0; font-family: var(--font-sans); font-weight: 500; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #D4BD9C;">Offer</p>
+          <p style="margin: 8px 0 6px; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 34px; text-transform: uppercase; color: #ffffff;">Rent-free months</p>
+          <p style="margin: 0; font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: rgba(255,255,255,0.7);">On qualifying bulk corporate lease agreements.</p>
+        </div>
+        <button type="button" style="margin-top: auto; width: 176px; height: 47px; border-radius: 33px; background: #ffffff; border: none; cursor: pointer; font-family: var(--font-sans); font-weight: 400; font-size: 15px; color: #210302;">Claim this offer</button>
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+  <section style="min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 0 64px; box-sizing: border-box;">
+    <p style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; margin: 0; text-align: center; text-transform: uppercase;">Preview only — the live page is unchanged.</p>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 900 },
+  &quot;pinLength&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1.4, &quot;min&quot;: 0.5, &quot;max&quot;: 3, &quot;step&quot;: 0.1, &quot;unit&quot;: &quot;x&quot;, &quot;section&quot;: &quot;Slider motion&quot;, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;smoothing&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.28, &quot;min&quot;: 0.02, &quot;max&quot;: 0.4, &quot;step&quot;: 0.01, &quot;unit&quot;: &quot;&quot;, &quot;section&quot;: &quot;Slider motion&quot;, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;startAt&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0, &quot;min&quot;: 0, &quot;max&quot;: 0.6, &quot;step&quot;: 0.02, &quot;unit&quot;: &quot;&quot;, &quot;section&quot;: &quot;Slider motion&quot;, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;finishAt&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0.4, &quot;max&quot;: 1, &quot;step&quot;: 0.02, &quot;unit&quot;: &quot;&quot;, &quot;section&quot;: &quot;Slider motion&quot;, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;travel&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1.2, &quot;min&quot;: 0.3, &quot;max&quot;: 1.5, &quot;step&quot;: 0.05, &quot;unit&quot;: &quot;x&quot;, &quot;section&quot;: &quot;Slider motion&quot;, &quot;tsType&quot;: &quot;number&quot; }
+}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const outer = document.querySelector('.ss-outer');
+    const sticky = document.querySelector('.ss-sticky');
+    const frame = document.querySelector('.ss-frame');
+    const slider = document.querySelector('.ss-slider');
+    const track = document.querySelector('.ss-track');
+    const bar = document.querySelector('.ss-bar');
+    if (!outer || !sticky || !frame || !track || !slider) return;
+
+    const FRAME_W = 1440, FRAME_H = 1169;
+    // Fit the whole section into the pinned viewport, and reserve scroll distance
+    // (pinLength × viewport) — the page stays PINNED for that distance while only
+    // the cards move; scrolling resumes once the slider finishes.
+    const fit = () => {
+      const availW = sticky.clientWidth;
+      const availH = sticky.clientHeight || window.innerHeight;
+      const scale = Math.min(availW / FRAME_W, availH / FRAME_H);
+      frame.style.transform = 'scale(' + scale + ')';
+      const pinLength = (this.props && this.props.pinLength) ?? 1.4;
+      outer.style.height = (window.innerHeight * (1 + pinLength)) + 'px';
+    };
+    fit();
+    this._fit = fit;
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+    const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+    let curX = 0, targetX = 0;
+    const tick = () => {
+      const p = this.props || {};
+      const smoothing = p.smoothing ?? 0.1;      // higher = snappier / faster catch-up
+      const startAt = p.startAt ?? 0;            // fraction of the pinned range where sliding begins
+      const finishAt = p.finishAt ?? 1;          // fraction of the pinned range where the slider FINISHES
+      const travel = p.travel ?? 1;              // how far the cards travel (1 = until 05 fully shown)
+      const maxX = Math.max(0, track.scrollWidth - slider.clientWidth) * travel;
+      // pinned progress: 0 when the section locks to the top, 1 at the end of the reserve
+      const reserve = Math.max(1, outer.offsetHeight - window.innerHeight);
+      const pinProg = clamp01(-outer.getBoundingClientRect().top / reserve);
+      const denom = Math.max(0.001, finishAt - startAt);
+      const progress = clamp01((pinProg - startAt) / denom);
+      targetX = -progress * maxX;
+      curX += (targetX - curX) * smoothing;
+      if (Math.abs(targetX - curX) < 0.05) curX = targetX;
+      track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
+      if (bar) bar.style.width = (progress * 100).toFixed(1) + '%';
+      this._raf = requestAnimationFrame(tick);
+    };
+    this._raf = requestAnimationFrame(tick);
+  }
+  componentDidUpdate() { if (this._fit) this._fit(); }
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._fit) window.removeEventListener('resize', this._fit);
+  }
+}
+</script>
+</body>
+</html>

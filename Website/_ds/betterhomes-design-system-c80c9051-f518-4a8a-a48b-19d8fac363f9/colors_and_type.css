@@ -1,0 +1,378 @@
+/* =============================================================
+   Betterhomes — Colors & Type tokens
+   Source: Figma "Betterhomes Design System.fig" (Colors page, Typography page)
+   Tagline: "Trust Better. Get Better."
+   Homegrown since 1986. bhomes.com
+   ============================================================= */
+
+/* ---------- Web fonts ---------- */
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyMode";
+  src: url("./fonts/IvyMode-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IvyStyle Sans";
+  src: url("./fonts/IvyStyleSans-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyStyle Sans";
+  src: url("./fonts/IvyStyleSans-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyStyle Sans";
+  src: url("./fonts/IvyStyleSans-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IvyEpic — high-contrast display serif for the tagline lockup + editorial moments */
+@font-face {
+  font-family: "IvyEpic";
+  src: url("./fonts/ivyepic-light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyEpic";
+  src: url("./fonts/ivyepic.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IvyEpic";
+  src: url("./fonts/ivyepic-semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Body sans — Poppins (used as the primary working sans in the Figma type-scales) */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap");
+
+:root {
+  /* =================================================================
+     COLOR PRIMITIVES
+     From /Colors/Section-1 + Figma color usage. Hex values verbatim.
+     ================================================================= */
+
+  /* Primary — Slate Blue. This is the brand's hero dark.
+     Used for logo, backgrounds, body text on light. */
+  --bh-slate-blue:    #1F343F;   /* rgb(31,51,64)  Pantone 7546c — THE brand color */
+  --bh-denim-blue:    #2C537A;   /* rgb(43,84,122) Pantone 2140c — supporting blue */
+
+  /* Deep brand navy — legacy historic-wordmark fill, sparingly used */
+  --bh-deep-navy:     #001E60;   /* rgb(0,30,96) */
+
+  /* Hero light */
+  --bh-white:         #FFFFFF;
+  --bh-off-white:     #FAFAFA;   /* rgb(250,250,250) */
+  --bh-paper:         #F9F9F9;   /* rgb(249,249,249) */
+
+  /* ----- OFFICIAL ACCENT PALETTE -----
+     Per the Betterhomes brand book, ONLY these four accents are sanctioned.
+     Do not introduce additional accent colors. */
+  --bh-powder-blue:   #7BA0B2;   /* Pantone 2205c — primary secondary accent */
+  --bh-sand:          #D9B9A0;   /* Pantone 7590c — warm secondary accent */
+  --bh-mist:          #EDE8E4;   /* Pantone 400c 35% tint — neutral background */
+  --bh-salmon:        #FF787A;   /* Online CTA color only */
+
+  /* Backward-compat aliases. Prefer the names above in new work. */
+  --bh-slate-blue-60: var(--bh-powder-blue);
+  --bh-slate-blue-90: var(--bh-denim-blue);
+  --bh-bone:          var(--bh-mist);
+  --bh-pink:          var(--bh-salmon);
+
+  /* Functional grays */
+  --bh-ink:           #0F1115;   /* rgb(15,17,21) — near-black, used for body text on white */
+  --bh-graphite:      #545C6C;   /* rgb(84,92,108) */
+  --bh-blue-gray:     #AAB4CA;   /* rgb(170,180,202) — secondary text on light */
+  --bh-line:          #DADADA;   /* rgb(218,218,218) — default hairline */
+  --bh-line-soft:     #F4F5F6;   /* rgb(244,245,246) */
+
+  /* ----- SLATE NEUTRAL SCALE -----
+     A cool, slate-tinted gray ramp derived from --bh-slate-blue. Use for
+     surfaces, dividers, body/secondary text, disabled states. The 900 step
+     IS the brand slate — every step before it is a tint, every step after
+     it (950) is a shade. */
+  --bh-slate-0:    #FFFFFF;
+  --bh-slate-50:   #F5F7F8;
+  --bh-slate-100:  #E6ECEE;
+  --bh-slate-200:  #CDD7DC;
+  --bh-slate-300:  #A7B7BF;
+  --bh-slate-400:  #7C919A;
+  --bh-slate-500:  #586E78;
+  --bh-slate-600:  #3F555F;
+  --bh-slate-700:  #2D4250;
+  --bh-slate-900:  #1F343F;     /* === brand slate blue === */
+  --bh-slate-950:  #112028;
+
+  /* =================================================================
+     SEMANTIC TOKENS — what to reach for in components
+     ================================================================= */
+
+  /* Surfaces */
+  --bg-page:        var(--bh-white);
+  --bg-page-dark:   var(--bh-slate-blue);
+  --bg-elevated:    var(--bh-white);
+  --bg-muted:       var(--bh-paper);
+  --bg-warm:        var(--bh-mist);
+  --bg-inverse:     var(--bh-slate-blue);
+
+  /* Foregrounds */
+  --fg-default:     var(--bh-slate-blue);     /* primary text on light */
+  --fg-muted:       rgba(30,51,64,0.7);
+  --fg-subtle:      rgba(30,51,64,0.5);
+  --fg-on-dark:     var(--bh-white);
+  --fg-on-dark-muted: rgba(255,255,255,0.7);
+  --fg-on-dark-subtle: rgba(255,255,255,0.5);
+
+  /* Brand */
+  --brand-primary:   var(--bh-slate-blue);
+  --brand-on-primary: var(--bh-white);
+  --brand-accent:    var(--bh-sand);  /* used on seals / highlights */
+
+  /* Borders */
+  --border-default: rgba(30,51,64,0.12);
+  --border-strong:  rgba(30,51,64,0.30);
+  --border-on-dark: rgba(255,255,255,0.20);
+  --hairline:       1px solid var(--border-default);
+
+  /* Status (semantic) — derived from the sanctioned accent palette */
+  --status-success: var(--bh-powder-blue);  /* no green in the brand; powder-blue stands in */
+  --status-info:    var(--bh-powder-blue);
+  --status-warn:    var(--bh-sand);
+  --status-danger:  var(--bh-salmon);
+
+  /* Shadows — soft, "considered" elevation. The brand is restrained;
+     shadows are gentle, never dramatic. */
+  --shadow-xs: 0 1px 2px rgba(30,51,64,0.06);
+  --shadow-sm: 0 2px 8px rgba(30,51,64,0.06), 0 1px 2px rgba(30,51,64,0.04);
+  --shadow-md: 0 8px 24px rgba(30,51,64,0.08), 0 2px 6px rgba(30,51,64,0.04);
+  --shadow-lg: 0 24px 56px rgba(30,51,64,0.14), 0 8px 16px rgba(30,51,64,0.06);
+  --shadow-overlay: 0 32px 64px rgba(15,17,21,0.32);
+
+  /* Corner radii — Figma uses 32 and 48 on hero cards, 8 on imagery,
+     350 (full pill / circle) on seals. */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-3xl:  48px;
+  --radius-pill: 999px;
+
+  /* Spacing scale (8pt grid; Figma uses 16/24/32/48/64/96 most) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* =================================================================
+     TYPOGRAPHY — fonts + scale
+     ================================================================= */
+  --font-serif:   "IvyMode", "IvyEpic", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-sans:    "Poppins", "IvyStyle Sans", "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* IvyEpic — the brand's high-contrast display serif used for the tagline
+     lockup and very large editorial moments. Now self-hosted from fonts/. */
+  --font-epic:    "IvyEpic", "Cormorant Garamond", "IvyMode", Georgia, serif;
+
+  /* Display = IvyMode serif. Per the Figma type-scales frame, headlines
+     are serif; subheaders + body are Poppins. */
+  --font-display: var(--font-serif);
+  --font-body:    var(--font-sans);
+
+  /* Type scale — "Large" column from the Figma type-scales frame
+     (header1=92px Light IvyMode → derived ladder). */
+  --type-display-xl:   clamp(56px, 8vw, 96px);
+  --type-display-lg:   clamp(44px, 6vw, 72px);
+  --type-display-md:   clamp(36px, 5vw, 56px);
+  --type-display-sm:   clamp(28px, 4vw, 40px);
+
+  --type-h1:           43px;  /* Poppins Light 43 — major slide headers */
+  --type-h2:           36px;
+  --type-h3:           33px;
+  --type-h4:           28px;
+  --type-subhead-1:    25px;
+  --type-subhead-2:    21px;
+  --type-body-l:       17px;
+  --type-body-m:       14px;
+  --type-body-s:       12px;
+  --type-body-xs:      10px;
+  --type-eyebrow:      12px; /* uppercase, tracked */
+
+  /* Line heights */
+  --lh-tight:   1.0;  /* @kind other */
+  --lh-display: 1.1;  /* @kind other */
+  --lh-heading: 1.2;  /* @kind other */
+  --lh-body:    1.4;  /* @kind other */
+  --lh-prose:   1.55; /* @kind other */
+
+  /* Tracking */
+  --tracking-tight:   -0.01em;
+  --tracking-normal:   0em;
+  --tracking-eyebrow:  0.20em; /* matches Figma color-card CMYK labels */
+  --tracking-wide:     0.10em;
+}
+
+/* =============================================================
+   ELEMENT DEFAULTS — opt-in by linking this file in <head>
+   ============================================================= */
+html {
+  font-family: var(--font-body);
+  color: var(--fg-default);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-size: var(--type-body-l);
+  line-height: var(--lh-body);
+  font-weight: 400;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;       /* IvyMode Regular is the workhorse weight for headers */
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-default);
+  margin: 0;
+}
+
+h1 { font-size: var(--type-display-lg); line-height: var(--lh-display); }
+h2 { font-size: var(--type-display-md); }
+h3 { font-size: var(--type-display-sm); }
+h4 { font-size: var(--type-h3); }
+
+/* Subheaders — Poppins, not IvyMode, per the Figma type-scales */
+h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: var(--lh-heading);
+  margin: 0;
+  color: var(--fg-default);
+}
+h5 { font-size: var(--type-subhead-1); }
+h6 { font-size: var(--type-subhead-2); }
+
+p {
+  margin: 0;
+  font-size: var(--type-body-l);
+  line-height: var(--lh-prose);
+  color: var(--fg-default);
+  text-wrap: pretty;
+}
+
+small { font-size: var(--type-body-s); color: var(--fg-muted); }
+
+/* Utility text classes */
+.bh-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--type-eyebrow);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.bh-display { font-family: var(--font-display); font-weight: 400; }
+.bh-display-italic { font-family: var(--font-display); font-weight: 400; font-style: italic; }
+.bh-quote {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--type-display-md);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+::selection { background: var(--bh-slate-blue); color: var(--bh-white); }
