@@ -47,9 +47,9 @@ window.__resources = {
 <style>
   @font-face { font-family: 'PP Museum'; src: url('assets/fonts/PPMuseum-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
   html, body { margin: 0; padding: 0; background: #ffffff; }
-  /* Keep the 1440px design at native scale on large screens (no upscaling) and center it. */
+  /* Each section scales to fill the full viewport width — the fixed 1440px
+     design frame stretches edge-to-edge on both sides (see fit()). */
   x-dc { display: block; }
-  .cth-wrap, .s2-scroll, .s6-scroll, .s8b-scroll, .s9-scroll, .s10-scroll { max-width: 1440px; margin-left: auto; margin-right: auto; }
   .cth-wrap { position: relative; width: 100%; overflow: hidden; background: #ffffff; }
   .cth-frame { position: absolute; top: 0; left: 0; width: 1440px; height: 848px; transform-origin: top left; }
   .cth-link { position: relative; font-family: var(--font-sans); font-weight: 400; font-size: 16px; line-height: 1.5; color: #210302; text-decoration: none; white-space: nowrap; opacity: 0.92; transition: opacity .25s cubic-bezier(.22,1,.36,1); }
@@ -921,27 +921,34 @@ class Component extends DCLogic {
     const fit = () => {
       if (!wrap || !frame) return;
       const s = wrap.clientWidth / 1440;
+      const cx = 0;
       frame.style.transform = 'scale(' + s + ')';
+      frame.style.left = cx + 'px';
       wrap.style.height = (848 * s) + 'px';
       if (s6Scroll && s6Frame) {
         s6Frame.style.transform = 'scale(' + s + ')';
+        s6Frame.style.left = cx + 'px';
         s6Scroll.style.height = sectionH(s6Scroll, this.props.s6SectionGap ?? 1353, s);
       }
       if (s9Scroll && s9Frame) {
         s9Frame.style.transform = 'scale(' + s + ')';
+        s9Frame.style.left = cx + 'px';
         s9Scroll.style.height = sectionH(s9Scroll, 1101, s);
       }
       if (s8bScroll && s8bFrame) {
         s8bFrame.style.transform = 'scale(' + s + ')';
+        s8bFrame.style.left = cx + 'px';
         s8bScroll.style.height = sectionH(s8bScroll, 800, s);
       }
       if (s10Scroll && s10Frame) {
         s10Frame.style.transform = 'scale(' + s + ')';
+        s10Frame.style.left = cx + 'px';
         s10Scroll.style.height = sectionH(s10Scroll, this._layoutOfferHighlights(s10Frame), s);
       }
       if (scroll2 && wrap2 && frame2) {
         const sh = 788 * s;
         frame2.style.transform = 'scale(' + s + ')';
+        frame2.style.left = cx + 'px';
         wrap2.style.height = sh + 'px';
         wrap2.style.top = Math.max(0, (window.innerHeight - sh) / 2) + 'px';
         scroll2.style.height = sectionH(scroll2, sh / s + REVEAL, s);
@@ -949,6 +956,7 @@ class Component extends DCLogic {
       if (mapScroll && mapWrap && mapFrame) {
         const mh = 848 * s;
         mapFrame.style.transform = 'scale(' + s + ')';
+        mapFrame.style.left = cx + 'px';
         mapWrap.style.height = mh + 'px';
         mapWrap.style.top = Math.max(0, (window.innerHeight - mh) / 2) + 'px';
         mapScroll.style.height = sectionH(mapScroll, mh / s + (this.props.mapScrollLength ?? MAP_REVEAL), s);
