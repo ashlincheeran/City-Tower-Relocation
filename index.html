@@ -1058,7 +1058,7 @@ class Component extends DCLogic {
     setTimeout(fitS5, 500);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitS5);
     const mS5Form = document.querySelector('.m-s5-card');
-    if (mS5Form) mS5Form.addEventListener('submit', e => e.preventDefault());
+    /* mobile form submit is wired in _initLeadForms() (Zapier webhook) */
 
     const mS4Slides = [...document.querySelectorAll('.m-s4-slide')];
     if (mS4Slides.length) {
@@ -1277,6 +1277,7 @@ class Component extends DCLogic {
     this._initHScroll();
     this._initOfferSlider();
     this._initSmoothNav();
+    this._initLeadForms();
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
   }
@@ -1346,6 +1347,122 @@ class Component extends DCLogic {
     this._osResize = () => { if (this._osLayout) this._osLayout(); apply(); };
     window.addEventListener('resize', this._osResize);
     apply();
+  }
+  _initLeadForms() {
+    // Lead capture -> Zapier "Catch Hook". Static site, so we POST straight
+    // from the browser (url-encoded = a simple request, no CORS preflight).
+    const HOOK = 'https://hooks.zapier.com/hooks/catch/4753585/44t9c7j/';
+    const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    // Capture UTM / click-id / referrer once at load (the landing URL keeps its
+    // query string on this single-page site) so every submission carries them.
+    const tracking = (() => {
+      const out = {};
+      try {
+        const q = new URLSearchParams(location.search);
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'msclkid'].forEach(k => {
+          const v = q.get(k);
+          if (v) out[k] = v;
+        });
+        if (document.referrer) out.referrer = document.referrer;
+      } catch (e) {}
+      return out;
+    })();
+    const setup = (root, getFields, btn) => {
+      if (!root || !btn || root.dataset.leadInit) return;
+      root.dataset.leadInit = '1';
+      const isForm = root.tagName === 'FORM';
+      // honeypot: hidden field real users never fill; bots do -> silently drop
+      const hp = document.createElement('input');
+      hp.type = 'text'; hp.tabIndex = -1; hp.autocomplete = 'off';
+      hp.setAttribute('aria-hidden', 'true');
+      hp.name = 'company_website';
+      hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+      root.appendChild(hp);
+      // status line above the button
+      const status = document.createElement('p');
+      status.setAttribute('aria-live', 'polite');
+      status.style.cssText = 'margin:2px 0 0;min-height:1em;font-family:var(--font-sans),sans-serif;font-weight:300;font-size:13px;line-height:1.35;text-align:center;opacity:0;transition:opacity .2s ease;';
+      btn.parentNode.insertBefore(status, btn);
+      const say = (msg, ok) => {
+        status.textContent = msg || '';
+        status.style.color = ok ? '#CBECCB' : '#F3B7AC';
+        status.style.opacity = msg ? '1' : '0';
+      };
+      let busy = false;
+      const submit = async (e) => {
+        if (e) e.preventDefault();
+        if (busy) return;
+        if (hp.value) { return; } // bot
+        const fields = getFields();
+        const data = {
+          source: 'City Tower — Request the relocation pack',
+          page_url: location.href,
+          submitted_at: new Date().toISOString()
+        };
+        for (const f of fields) data[f.key] = (f.value || '').trim();
+        Object.assign(data, tracking);
+        if (!data.name || !data.email || !data.phone) { say('Please add your name, email and phone number.'); return; }
+        if (!emailOk(data.email)) { say('Please enter a valid email address.'); return; }
+        busy = true;
+        const label = btn.textContent;
+        btn.textContent = 'Sending…'; btn.disabled = true; btn.style.opacity = '.7'; btn.style.cursor = 'default';
+        say('');
+        try {
+          await fetch(HOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: new URLSearchParams(data).toString()
+          });
+          root.querySelectorAll('.s9-input, .m-s5-input, .s9-form-disclaimer, .m-s5-disclaimer').forEach(el => { el.style.display = 'none'; });
+          btn.style.display = 'none';
+          status.style.fontSize = '16px'; status.style.marginTop = '8px';
+          say('Thank you — your request is in. Our team will be in touch shortly with your relocation pack.', true);
+        } catch (err) {
+          busy = false;
+          btn.textContent = label; btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = '';
+          say('Sorry, something went wrong — please try again in a moment.');
+        }
+      };
+      if (isForm) root.addEventListener('submit', submit);
+      else {
+        btn.addEventListener('click', submit);
+        root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') submit(e); });
+      }
+    };
+
+    // Desktop form (.s9-form is a div with a plain button)
+    const d = document.querySelector('.s9-form');
+    if (d) setup(d, () => {
+      const txt = d.querySelector('input[type="text"]');
+      const email = d.querySelector('input[type="email"]');
+      const tel = d.querySelector('input[type="tel"]');
+      const sel = d.querySelectorAll('select');
+      return [
+        { key: 'name', value: txt && txt.value },
+        { key: 'email', value: email && email.value },
+        { key: 'phone', value: tel && tel.value },
+        { key: 'employees', value: sel[0] && sel[0].value },
+        { key: 'move_in', value: sel[1] && sel[1].value }
+      ];
+    }, d.querySelector('.s9-form-submit'));
+
+    // Mobile form (.m-s5-card is a <form>; has Company + UAE dial code)
+    const m = document.querySelector('.m-s5-card');
+    if (m) setup(m, () => {
+      const texts = m.querySelectorAll('input[type="text"]');
+      const email = m.querySelector('input[type="email"]');
+      const tel = m.querySelector('input[type="tel"]');
+      const sel = m.querySelectorAll('select');
+      const phone = tel && tel.value.trim() ? '+971 ' + tel.value.trim() : '';
+      return [
+        { key: 'company', value: texts[0] && texts[0].value },
+        { key: 'name', value: texts[1] && texts[1].value },
+        { key: 'email', value: email && email.value },
+        { key: 'phone', value: phone },
+        { key: 'employees', value: sel[0] && sel[0].value },
+        { key: 'move_in', value: sel[1] && sel[1].value }
+      ];
+    }, m.querySelector('.m-s5-submit'));
   }
   _initSmoothNav() {
     if (document.documentElement.dataset.ctSmooth) return;
