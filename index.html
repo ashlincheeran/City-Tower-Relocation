@@ -1296,8 +1296,10 @@ class Component extends DCLogic {
     this._initHScroll();
     this._initOfferSlider();
     this._initSmoothNav();
-    this._initPhoneInputs();
-    this._initLeadForms();
+    // Attach form handlers FIRST so submission always works even if the phone
+    // widget upgrade hits an issue; each guarded so one can't block the other.
+    try { this._initLeadForms(); } catch (e) { console.warn('lead forms init', e); }
+    try { this._initPhoneInputs(); } catch (e) { console.warn('phone init', e); }
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
   }
@@ -1514,6 +1516,7 @@ class Component extends DCLogic {
         try {
           await fetch(HOOK, {
             method: 'POST',
+            mode: 'no-cors', // Zapier catch hook: deliver the POST reliably; response is opaque (we don't need to read it)
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
             body: new URLSearchParams(data).toString()
           });
@@ -1541,7 +1544,7 @@ class Component extends DCLogic {
       const email = d.querySelector('input[type="email"]');
       const tel = d.querySelector('input[type="tel"]');
       const sel = d.querySelectorAll('select');
-      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '') + ' ' + tel.value.trim() : '';
+      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '971') + ' ' + tel.value.trim() : '';
       return [
         { key: 'name', value: txt && txt.value },
         { key: 'email', value: email && email.value },
