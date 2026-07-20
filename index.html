@@ -1846,7 +1846,7 @@ class Component extends DCLogic {
     root.setAttribute('data-lead-sent', '1');
     send(data);
     var hide = root.querySelectorAll('.s9-input, .m-s5-input, .s9-form-disclaimer, .m-s5-disclaimer');
-    for (var i = 0; i < hide.length; i++) hide[i].style.display = 'none';
+    for (var i = 0; i < hide.length; i++) hide[i].style.setProperty('display', 'none', 'important');
     if (btn) btn.style.display = 'none';
     st.style.fontSize = '16px'; st.style.marginTop = '8px';
     say('Thank you — your request is in. Our team will be in touch shortly with your relocation pack.', true);
