@@ -1317,18 +1317,35 @@ class Component extends DCLogic {
     };
     layout();
     this._osLayout = layout;
-    const update = () => {
-      track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
-      const m = maxX();
-      const set = (btn, off) => { btn.style.opacity = off ? '0.3' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
-      set(prev, x <= 1);
-      set(next, x >= m - 1);
+    // Card-aligned stops. If the last card-aligned stop lands within half a card
+    // of the true end, snap it to the end instead of adding a near-duplicate stop
+    // — otherwise the final click is a tiny ~30px "centering" nudge (the reported
+    // 3rd-click bug). With 5 cards this yields a clean 2 clicks end-to-end.
+    const buildStops = () => {
+      const m = maxX(), step = stepW() || 1;
+      const stops = [];
+      for (let v = 0; v < m - 1; v += step) stops.push(Math.round(v));
+      if (!stops.length) stops.push(0);
+      const last = stops[stops.length - 1];
+      if (m - last < step * 0.5 && stops.length > 1) stops[stops.length - 1] = m;
+      else if (last < m) stops.push(m);
+      return stops;
     };
-    prev.addEventListener('click', () => { x = Math.max(0, x - stepW()); update(); });
-    next.addEventListener('click', () => { x = Math.min(maxX(), x + stepW()); update(); });
-    this._osResize = () => { x = Math.min(x, maxX()); if (this._osLayout) this._osLayout(); update(); };
+    let idx = 0;
+    const apply = () => {
+      const stops = buildStops();
+      idx = Math.max(0, Math.min(stops.length - 1, idx));
+      x = stops[idx];
+      track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
+      const set = (btn, off) => { btn.style.opacity = off ? '0.3' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
+      set(prev, idx <= 0);
+      set(next, idx >= stops.length - 1);
+    };
+    prev.addEventListener('click', () => { idx -= 1; apply(); });
+    next.addEventListener('click', () => { idx += 1; apply(); });
+    this._osResize = () => { if (this._osLayout) this._osLayout(); apply(); };
     window.addEventListener('resize', this._osResize);
-    update();
+    apply();
   }
   _initSmoothNav() {
     if (document.documentElement.dataset.ctSmooth) return;
