@@ -1296,9 +1296,8 @@ class Component extends DCLogic {
     this._initHScroll();
     this._initOfferSlider();
     this._initSmoothNav();
-    // Attach form handlers FIRST so submission always works even if the phone
-    // widget upgrade hits an issue; each guarded so one can't block the other.
-    try { this._initLeadForms(); } catch (e) { console.warn('lead forms init', e); }
+    // Lead-form submission is wired by a standalone script at the end of <body>
+    // (outside the React runtime) so it can't be affected by re-renders.
     try { this._initPhoneInputs(); } catch (e) { console.warn('phone init', e); }
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
@@ -1787,6 +1786,89 @@ class Component extends DCLogic {
   }
   renderVals() { return {}; }
 }
+</script>
+<script>
+/* Lead form -> Zapier Catch Hook. Standalone (outside the DC/React runtime) with
+   delegated listeners on document, so it works regardless of component re-renders.
+   Fire-and-forget delivery (sendBeacon, fetch no-cors fallback); thank-you shows
+   immediately. */
+(function () {
+  var HOOK = 'https://hooks.zapier.com/hooks/catch/4753585/44t9c7j/';
+  var emailOk = function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
+  var tracking = (function () {
+    var out = {};
+    try {
+      var q = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','msclkid'].forEach(function (k) { var v = q.get(k); if (v) out[k] = v; });
+      if (document.referrer) out.referrer = document.referrer;
+    } catch (e) {}
+    return out;
+  })();
+  function val(el) { return (el && el.value || '').trim(); }
+  function collect(root) {
+    var texts = root.querySelectorAll('input[type="text"]:not([name="company_website"])');
+    var email = root.querySelector('input[type="email"]');
+    var tel = root.querySelector('input[type="tel"]');
+    var sels = root.querySelectorAll('select');
+    var mobile = root.classList.contains('m-s5-card');
+    var data = { source: 'City Tower — Request the relocation pack', page_url: location.href, submitted_at: new Date().toISOString() };
+    if (mobile) { data.company = val(texts[0]); data.name = val(texts[1]); } else { data.name = val(texts[0]); }
+    data.email = val(email);
+    data.phone = (tel && val(tel)) ? ('+' + (tel.getAttribute('data-dial') || '971') + ' ' + val(tel)) : '';
+    data.employees = val(sels[0]);
+    data.move_in = val(sels[1]);
+    for (var k in tracking) data[k] = tracking[k];
+    return data;
+  }
+  function statusEl(root, btn) {
+    var s = root.querySelector('.lead-status');
+    if (!s) {
+      s = document.createElement('p'); s.className = 'lead-status'; s.setAttribute('aria-live', 'polite');
+      s.style.cssText = 'margin:2px 0 0;min-height:1em;font-family:var(--font-sans),sans-serif;font-weight:300;font-size:13px;line-height:1.35;text-align:center;opacity:0;transition:opacity .2s ease;';
+      if (btn && btn.parentNode) btn.parentNode.insertBefore(s, btn); else root.appendChild(s);
+    }
+    return s;
+  }
+  function send(data) {
+    var body = new URLSearchParams(data).toString();
+    try { if (navigator.sendBeacon && navigator.sendBeacon(HOOK, new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' }))) return; } catch (e) {}
+    try { fetch(HOOK, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: body }); } catch (e) {}
+  }
+  function handle(root, btn) {
+    if (!root || root.getAttribute('data-lead-sent')) return;
+    var hp = root.querySelector('input[name="company_website"]');
+    if (hp && hp.value) return;
+    var data = collect(root);
+    var st = statusEl(root, btn);
+    function say(m, ok) { st.textContent = m || ''; st.style.color = ok ? '#CBECCB' : '#F3B7AC'; st.style.opacity = m ? '1' : '0'; }
+    if (!data.name || !data.email || !data.phone) { say('Please add your name, email and phone number.'); return; }
+    if (!emailOk(data.email)) { say('Please enter a valid email address.'); return; }
+    root.setAttribute('data-lead-sent', '1');
+    send(data);
+    var hide = root.querySelectorAll('.s9-input, .m-s5-input, .s9-form-disclaimer, .m-s5-disclaimer');
+    for (var i = 0; i < hide.length; i++) hide[i].style.display = 'none';
+    if (btn) btn.style.display = 'none';
+    st.style.fontSize = '16px'; st.style.marginTop = '8px';
+    say('Thank you — your request is in. Our team will be in touch shortly with your relocation pack.', true);
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.s9-form-submit');
+    if (!b) return;
+    e.preventDefault();
+    handle(b.closest('.s9-form') || document.querySelector('.s9-form'), b);
+  }, true);
+  document.addEventListener('submit', function (e) {
+    var form = e.target.closest && e.target.closest('.m-s5-card');
+    if (!form) return;
+    e.preventDefault();
+    handle(form, form.querySelector('.m-s5-submit'));
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var form = e.target.closest && e.target.closest('.s9-form');
+    if (form && e.target.tagName === 'INPUT') { e.preventDefault(); handle(form, form.querySelector('.s9-form-submit')); }
+  }, true);
+})();
 </script>
 </body>
 </html>
