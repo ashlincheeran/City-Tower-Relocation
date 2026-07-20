@@ -52,7 +52,7 @@ window.__resources = {
   x-dc { display: block; }
   .cth-wrap { position: relative; width: 100%; height: 100vh; height: 100svh; min-height: 600px; overflow: hidden; background: #c4d2dc; }
   /* Pictorial scene: cover-fills the viewport — fit() sets translateX(-50%) scale(cover). */
-  .cth-frame { position: absolute; left: 50%; bottom: 0; width: 1440px; height: 848px; transform-origin: center bottom; will-change: transform; }
+  .cth-frame { position: absolute; left: 50%; top: 0; width: 1440px; height: 848px; transform-origin: center top; will-change: transform; }
   /* Viewport-anchored UI overlay — always fully visible at any window size. */
   .cth-ui { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
   .cth-ui > * { pointer-events: auto; }
@@ -62,9 +62,9 @@ window.__resources = {
   .cth-copy .headline { position: relative; margin: 0; width: auto; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(38px,4.6vw,64px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
   .cth-copy .subhead { position: relative; margin: 22px 0 0; width: auto; max-width: 34ch; font-family: 'PP Museum', var(--font-display); font-weight: 400; font-size: clamp(15px,1.5vw,24px); line-height: 1.3; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
   .cth-copy .cta-center { position: relative; margin-top: clamp(26px,4vh,44px); display: flex; flex-direction: row; align-items: center; gap: 18px; flex-wrap: wrap; }
-  .cth-stats { position: absolute; right: clamp(20px,4vw,64px); top: 50%; transform: translateY(-34%); display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
-  .cth-stats .hero-stat-label { position: relative; left: auto; top: auto; width: auto; text-align: right; font-family: 'PP Museum', var(--font-display); font-weight: 500; font-size: clamp(15px,1.3vw,20px); line-height: 1; color: #210302; }
-  .cth-stats .hero-stats { position: relative; left: auto; top: auto; display: grid; grid-template-columns: repeat(2, clamp(128px,12vw,173px)); gap: clamp(10px,1vw,20px); z-index: 3; }
+  .cth-stats { position: absolute; left: 50%; bottom: clamp(18px,3.5vh,40px); transform: translateX(-50%); width: min(1240px, calc(100% - 2 * clamp(20px,4vw,64px))); display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+  .cth-stats .hero-stat-label { position: relative; left: auto; top: auto; width: auto; align-self: flex-end; text-align: right; font-family: 'PP Museum', var(--font-display); font-weight: 500; font-size: clamp(15px,1.3vw,20px); line-height: 1; color: #210302; }
+  .cth-stats .hero-stats { position: relative; left: auto; top: auto; display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: clamp(10px,1.2vw,20px); z-index: 3; }
   .cth-stats .hero-stat { width: 100%; height: clamp(108px,10vw,136px); background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 10px; padding: clamp(14px,1.4vw,22px); justify-content: center; align-items: flex-start; box-sizing: border-box; }
   .cth-stats .hero-stat .stat-num { font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(30px,2.8vw,40px); line-height: 1; color: #210302; }
   .cth-stats .hero-stat .stat-num small { font-size: 0.5em; }
@@ -407,17 +407,12 @@ window.__resources = {
     <div class="nav">
       <img src="assets/betterhomes-logo.png" alt="betterhomes" style="height: 25px; width: 186px; display: block">
       <div class="nav-links">
-        <a class="cth-link" href="#" style="font-size: 12px">Buy</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Rent</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Commercial</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Off-Plan</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Luxury</a>
-        <a class="cth-link" href="#" style="font-size: 12px">International</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Services</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Insights</a>
-        <a class="cth-link" href="#" style="font-size: 12px">About</a>
+        <a class="cth-link" href="#offers" style="font-size: 12px">What We Offer</a>
+        <a class="cth-link" href="#about-project" style="font-size: 12px">About The Project</a>
+        <a class="cth-link" href="#amenities" style="font-size: 12px">Amenities &amp; Services</a>
+        <a class="cth-link" href="#contact" data-scroll-to="#contact" style="font-size: 12px">Request Pack</a>
       </div>
-      <div class="cth-btn" style="width: 150px; height: 35px; border-radius: 55px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center">
+      <div class="cth-btn" data-scroll-to="#contact" style="width: 150px; height: 35px; border-radius: 55px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center">
         <span style="font-family: var(--font-sans); font-weight: 400; font-size: 12px; color: #ffffff; white-space: nowrap;">Speak to an advisor</span>
       </div>
     </div>
@@ -426,10 +421,10 @@ window.__resources = {
       <h1 class="headline">The address your team deserves</h1>
       <p class="subhead">Studios to four-bedroom penthouses. Move-in from June 2026.</p>
       <div class="cta-center">
-        <div class="cth-btn" style="height: 38px; border-radius: 33px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center; padding: 0 20px;">
+        <div class="cth-btn" data-scroll-to="#contact" style="height: 38px; border-radius: 33px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center; padding: 0 20px;">
           <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #ffffff; white-space: nowrap;">Download relocation pack</span>
         </div>
-        <div class="cth-btn" style="height: 38px; border-radius: 33px; background: rgba(255,255,255,0.15); backdrop-filter: blur(11px); box-shadow: inset 0 0 0 0.5px #ffffff; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
+        <div class="cth-btn" data-scroll-to="#about-project" style="height: 38px; border-radius: 33px; background: rgba(255,255,255,0.15); backdrop-filter: blur(11px); box-shadow: inset 0 0 0 0.5px #ffffff; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
           <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #482E2A; white-space: nowrap;">Explore project information</span>
         </div>
       </div>
@@ -557,7 +552,7 @@ window.__resources = {
   </div>
 </div>
 
-<div class="s10-scroll" data-screen-label="What we offer your company">
+<div class="s10-scroll" id="offers" data-screen-label="What we offer your company">
   <div class="s10-frame" style="width: 1440px; height: 945px; left: 1px; top: 1px">
 
     <div class="s10-eyebrow s6-fade" style="font-weight: 300; font-size: 14px; top: 71px; letter-spacing: 0px; width: 179px; height: 18px">Corporate relocation</div>
@@ -635,7 +630,7 @@ types (from studios to<br>4-bedroom penthouses)</span><br></p>
 move-in ready</span></p>
           
         </div>
-      </div><button class="s10-cta" type="button" style="width: 176px; height: 47px">Claim this offer</button>
+      </div><button class="s10-cta" type="button" data-scroll-to="#contact" style="width: 176px; height: 47px">Claim this offer</button>
       
       
     </div>
@@ -747,7 +742,7 @@ move-in ready</span></p>
 </div>
 
 
-<div class="s6-scroll" data-screen-label="Space to live, work and grow">
+<div class="s6-scroll" id="about-project" data-screen-label="Space to live, work and grow">
   <div class="s6-frame" style="width: 1440px; height: 1020px; left: 0px; position: absolute">
     <div class="s6-band" style="height: 521px; width: 1440px; left: 0px; background-color: #D4BD9C54; top: -49px">
       <span class="ln ln3" style="position: absolute; left: 57px; top: 74px; font-size: 64px; font-family: &quot;PP Museum&quot;, IvyMode, IvyEpic, &quot;Cormorant Garamond&quot;, &quot;Playfair Display&quot;, Georgia, serif; text-transform: uppercase; color: #210302; line-height: 64px">Urban living,</span>
@@ -786,7 +781,7 @@ move-in ready</span></p>
   <p class="s6-intro s6-fade" style="top: 517px; width: 488px; height: 48px; opacity: 1; transform: translateY(0px); position: absolute; left: 735px; font-size: 16px; font-weight: 400">Our team will work with you to match the right units to your team's seniority and family profiles.</p></div>
 </div>
 
-<div class="s8b-scroll" data-screen-label="Amenities &amp; Services slider">
+<div class="s8b-scroll" id="amenities" data-screen-label="Amenities &amp; Services slider">
   <div class="s8b-frame">
     <div class="s8b-slide active" id="s8b-slide-0" style="background-image: url(&quot;./slider--image-1-mrkptgfs-0rit.png&quot;);"></div>
     <div class="s8b-slide" id="s8b-slide-1" style="background-image: url(assets/slider-img-2s.png);"></div>
@@ -809,7 +804,7 @@ move-in ready</span></p>
   </div>
 </div>
 
-<div class="s9-scroll" data-screen-label="Backed by experience, designed for living">
+<div class="s9-scroll" id="contact" data-screen-label="Backed by experience, designed for living">
   <div class="s9-frame">
 
     <div class="s9-bg s6-par" data-par="-30"><div class="s9-scrim" style="left: 41px; top: 54px; position: absolute"><div class="s9-right s6-fade" style="left: 733px; top: 192px; position: absolute">
@@ -1263,36 +1258,99 @@ class Component extends DCLogic {
     this._applyToggles();
     this._initHScroll();
     this._initOfferSlider();
+    this._initSmoothNav();
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
   }
   _initOfferSlider() {
+    // Offer cards advance on arrow clicks (one card per click) instead of scroll.
     const clip = document.querySelector('.s10-corp-row');
     const track = document.querySelector('.s10-corp-track');
-    const s10Scroll = document.querySelector('.s10-scroll');
-    if (!clip || !track || !s10Scroll || track.dataset.osInit) return;
+    if (!clip || !track || track.dataset.osInit) return;
     track.dataset.osInit = '1';
-    const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
-    let curX = 0;
-    const loop = () => {
-      const p = this.props || {};
-      const travel = p.offerCardsTravel ?? 1;
-      const smoothing = p.offerCardsSmoothing ?? 0.12;
-      const startAt = p.offerCardsStart ?? 0.25;
-      const finishAt = p.offerCardsFinish ?? 0.75;
-      const maxX = Math.max(0, track.scrollWidth - clip.clientWidth) * travel;
-      const rect = s10Scroll.getBoundingClientRect();
-      const span = window.innerHeight + rect.height;
-      const raw = clamp01((window.innerHeight - rect.top) / span);
-      const denom = Math.max(0.001, finishAt - startAt);
-      const progress = clamp01((raw - startAt) / denom);
-      const targetX = -progress * maxX;
-      curX += (targetX - curX) * smoothing;
-      if (Math.abs(targetX - curX) < 0.05) curX = targetX;
-      track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
-      this._osRaf = requestAnimationFrame(loop);
+    track.style.transition = 'transform .65s cubic-bezier(.22,1,.36,1)';
+    let x = 0;
+    const maxX = () => Math.max(0, track.scrollWidth - clip.clientWidth);
+    const stepW = () => {
+      const card = track.querySelector('.s10-corp-card');
+      return (card ? card.offsetWidth : 243) + 16;
     };
-    this._osRaf = requestAnimationFrame(loop);
+    const mkArrow = (side, path) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 's10-cards-arrow';
+      b.setAttribute('aria-label', side === 'left' ? 'Previous offers' : 'Next offers');
+      b.style.cssText = 'position:absolute;top:50%;' + side + ':10px;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid #210302;background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;padding:0;transition:opacity .3s ease;';
+      b.innerHTML = '<svg viewBox="0 0 19 12" style="width:17px;height:11px;display:block"><path d="' + path + '" stroke="#210302" fill="none" stroke-width="1.2"></path></svg>';
+      clip.appendChild(b);
+      return b;
+    };
+    const prev = mkArrow('left', 'M19 6H0M6 1L1 6l5 5');
+    const next = mkArrow('right', 'M0 6h19M13 1l5 5-5 5');
+    const update = () => {
+      track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
+      const m = maxX();
+      const set = (btn, off) => { btn.style.opacity = off ? '0.35' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
+      set(prev, x <= 1);
+      set(next, x >= m - 1);
+    };
+    prev.addEventListener('click', () => { x = Math.max(0, x - stepW()); update(); });
+    next.addEventListener('click', () => { x = Math.min(maxX(), x + stepW()); update(); });
+    this._osResize = () => { x = Math.min(x, maxX()); update(); };
+    window.addEventListener('resize', this._osResize);
+    update();
+  }
+  _initSmoothNav() {
+    if (document.documentElement.dataset.ctSmooth) return;
+    document.documentElement.dataset.ctSmooth = '1';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let target = 0, cur = 0, lastY = -1, raf = null;
+    const maxY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const tick = () => {
+      if (lastY >= 0 && Math.abs(window.scrollY - lastY) > 2) { raf = null; return; } // user took over (scrollbar/keys)
+      cur += (target - cur) * 0.12;
+      if (Math.abs(target - cur) < 0.6) cur = target;
+      lastY = Math.round(cur);
+      window.scrollTo(0, lastY);
+      raf = (cur === target) ? null : requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) { lastY = -1; raf = requestAnimationFrame(tick); } };
+    const glide = (y) => {
+      if (raf === null) { cur = window.scrollY; target = cur; }
+      target = Math.max(0, Math.min(maxY(), y));
+      if (reduce) { window.scrollTo(0, target); raf = null; return; }
+      kick();
+    };
+    this._glide = glide;
+    // Inertia-smoothed wheel scrolling (desktop pointers only; touch stays native).
+    if (fine && !reduce) {
+      this._onWheelSm = (e) => {
+        if (e.ctrlKey || e.defaultPrevented) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        const t = e.target;
+        if (t && t.closest && t.closest('select, textarea')) return;
+        e.preventDefault();
+        const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+        if (raf === null) { cur = window.scrollY; target = cur; }
+        target = Math.max(0, Math.min(maxY(), target + dy));
+        kick();
+      };
+      window.addEventListener('wheel', this._onWheelSm, { passive: false });
+    }
+    // Anchor nav + CTA scroll targets.
+    const go = (sel, off) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      glide(el.getBoundingClientRect().top + window.scrollY - (off || 0));
+    };
+    document.querySelectorAll('.cth-ui .nav-links a[href^="#"]').forEach(a => {
+      if (a.dataset.scrollTo) return; // handled by the data binding below
+      a.addEventListener('click', e => { e.preventDefault(); go(a.getAttribute('href'), 0); });
+    });
+    document.querySelectorAll('[data-scroll-to]').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); go(el.dataset.scrollTo, parseFloat(el.dataset.scrollOffset || '0')); });
+    });
   }
   _initHScroll() {
     const track = document.querySelector('.s10-track');
@@ -1392,11 +1450,11 @@ class Component extends DCLogic {
   }
   _initSliderS8b() {
     const slides = [
-      { bg: 'assets/slider-bg-1t.png', heading: 'A lifestyle<br>&nbsp; &nbsp; designed<br>around you', body: 'City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.' },
-      { bg: 'assets/slider-img-2s.png', heading: 'One dedicated<br>&nbsp; &nbsp; contact,<br>start to finish', body: 'One dedicated contact to guide you from first enquiry through to move-in.' },
-      { bg: 'assets/slider-img-3s.png', heading: 'Tours on<br>&nbsp; &nbsp; your<br>schedule', body: 'Exclusive tours and private presentations at a time that suits your schedule.' },
-      { bg: 'assets/slider-img-4s.png', heading: 'Living spaces<br>&nbsp; &nbsp; that<br>invite you in', body: 'Bright, elevated living rooms designed for comfort and unwinding after a long day.' },
-      { bg: 'assets/slider-img-5s.png', heading: 'Room to<br>&nbsp; &nbsp; live and<br>entertain', body: 'Generous open-plan living, framed by sweeping views of the city.' }
+      { heading: 'A lifestyle<br>&nbsp; &nbsp; designed<br>around you', body: 'City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.' },
+      { heading: 'One dedicated<br>&nbsp; &nbsp; contact,<br>start to finish', body: 'One dedicated contact to guide you from first enquiry through to move-in.' },
+      { heading: 'Tours on<br>&nbsp; &nbsp; your<br>schedule', body: 'Exclusive tours and private presentations at a time that suits your schedule.' },
+      { heading: 'Living spaces<br>&nbsp; &nbsp; that<br>invite you in', body: 'Bright, elevated living rooms designed for comfort and unwinding after a long day.' },
+      { heading: 'Room to<br>&nbsp; &nbsp; live and<br>entertain', body: 'Generous open-plan living, framed by sweeping views of the city.' }
     ];
     const slideEls = [document.getElementById('s8b-slide-0'), document.getElementById('s8b-slide-1'), document.getElementById('s8b-slide-2'), document.getElementById('s8b-slide-3'), document.getElementById('s8b-slide-4')];
     const headingEl = document.getElementById('s8b-heading');
@@ -1404,24 +1462,54 @@ class Component extends DCLogic {
     const prevBtn = document.getElementById('s8b-prev');
     const nextBtn = document.getElementById('s8b-next');
     if (!slideEls[0] || !headingEl || !bodyEl || !prevBtn || !nextBtn) return;
-    let idx = 0;
-    const render = (dir) => {
-      slideEls.forEach((el, i) => {
-        if (!el) return;
-        el.classList.remove('was-active');
-        if (i === idx) {
-          el.style.clipPath = dir < 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
-          el.classList.add('active');
-          void el.offsetWidth;
-          el.style.clipPath = '';
-        } else {
-          el.classList.remove('active');
-          if (i === (idx - dir + slides.length) % slides.length) el.classList.add('was-active');
-        }
-      });
+    let idx = 0, textTimer = null;
+    // Initial state: slide 0 fully revealed, the rest parked hidden — no wipe on load.
+    slideEls.forEach((el, i) => {
+      if (!el) return;
+      el.style.transition = 'none';
+      el.classList.toggle('active', i === 0);
+      el.classList.remove('was-active');
+      el.style.clipPath = i === 0 ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)';
+      void el.offsetWidth;
+    });
+    const applyText = (i) => {
+      headingEl.style.opacity = '0'; headingEl.style.transform = 'translateY(14px)';
+      bodyEl.style.opacity = '0'; bodyEl.style.transform = 'translateY(14px)';
+      if (textTimer) clearTimeout(textTimer);
+      textTimer = setTimeout(() => {
+        headingEl.innerHTML = slides[i].heading;
+        bodyEl.textContent = slides[i].body;
+        headingEl.style.opacity = ''; headingEl.style.transform = '';
+        bodyEl.style.opacity = ''; bodyEl.style.transform = '';
+      }, 280);
     };
-    const go = d => { idx = (idx + d + slides.length) % slides.length; render(d); };
-    render(0);
+    const swap = (nextIdx, dir) => {
+      if (nextIdx === idx) return;
+      const cur = slideEls[idx], nx = slideEls[nextIdx];
+      // Snap every slide out of any in-flight transition; park all but the incoming one.
+      slideEls.forEach(el => {
+        if (!el || el === nx) return;
+        el.style.transition = 'none';
+        el.classList.remove('active', 'was-active');
+        el.style.clipPath = 'inset(0 100% 0 0)';
+      });
+      // Outgoing slide stays fully revealed beneath the incoming wipe (never animates out).
+      if (cur && cur !== nx) {
+        cur.classList.add('was-active');
+        cur.style.clipPath = 'inset(0 0 0 0)';
+      }
+      // Incoming slide wipes in from the direction of travel only.
+      nx.style.transition = 'none';
+      nx.classList.remove('was-active');
+      nx.style.clipPath = dir < 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
+      nx.classList.add('active');
+      void nx.offsetWidth;
+      nx.style.transition = '';
+      nx.style.clipPath = 'inset(0 0 0 0)';
+      idx = nextIdx;
+      applyText(idx);
+    };
+    const go = d => swap((idx + d + slides.length) % slides.length, d);
     this._s8bPrev = () => go(-1);
     this._s8bNext = () => go(1);
     prevBtn.addEventListener('click', this._s8bPrev);
@@ -1440,6 +1528,8 @@ class Component extends DCLogic {
     if (this._rafM) cancelAnimationFrame(this._rafM);
     if (this._onMove) window.removeEventListener('pointermove', this._onMove);
     if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onWheelSm) window.removeEventListener('wheel', this._onWheelSm);
+    if (this._osResize) window.removeEventListener('resize', this._osResize);
   }
   renderVals() { return {}; }
 }
