@@ -389,6 +389,25 @@ window.__resources = {
   .m-s5-phone .code { display: flex; align-items: center; gap: 8px; padding: 0 12px 0 17px; margin-right: 8px; color: #ffffff; font-family: 'Poppins', var(--font-sans); font-weight: 300; font-size: 12px; white-space: nowrap; border-right: 0.5px solid #ffffff; height: 22.5px; }
   .m-s5-phone .code svg { width: 10px; height: 5px; }
   .m-s5-phone input { flex: 1; padding: 0 12px 0 0; }
+  /* International phone widget (applied to the phone field in both forms) */
+  .itc { display: flex !important; align-items: center; overflow: visible !important; }
+  .itc > input[type="tel"] { position: static !important; left: auto !important; top: auto !important; width: auto !important; flex: 1 1 auto; min-width: 0; height: 100%; padding: 0 16px 0 2px; }
+  .itc-btn { display: flex; align-items: center; gap: 6px; height: 70%; padding: 0 10px 0 15px; background: transparent; border: none; cursor: pointer; color: #ffffff; font-family: var(--font-sans), sans-serif; font-weight: 300; font-size: 14px; white-space: nowrap; }
+  .m-s5-input.itc .itc-btn { font-size: 12px; padding-left: 14px; }
+  .itc-btn .fl { font-size: 1.3em; line-height: 1; }
+  .itc-btn .cv { width: 9px; height: 5px; margin-left: 1px; opacity: .8; }
+  .itc-sep { width: 1px; align-self: center; height: 55%; background: rgba(255,255,255,0.45); margin-right: 10px; flex: none; }
+  .itc-pop { position: absolute; z-index: 60; top: calc(100% + 6px); left: 0; width: 300px; max-width: 86vw; background: #24090a; border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0 16px 46px rgba(0,0,0,0.55); display: none; overflow: hidden; text-align: left; }
+  .itc-pop.open { display: block; }
+  .itc .itc-search { position: static; left: auto; top: auto; display: block; width: 100%; height: auto; box-sizing: border-box; padding: 12px 15px; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.12); color: #ffffff; font-family: var(--font-sans), sans-serif; font-weight: 300; font-size: 14px; outline: none; }
+  .itc .itc-search::placeholder { color: rgba(255,255,255,0.5); }
+  .itc-list { max-height: 232px; overflow-y: auto; }
+  .itc-opt { display: flex; align-items: center; gap: 10px; padding: 9px 15px; cursor: pointer; color: #ffffff; font-family: var(--font-sans), sans-serif; font-weight: 300; font-size: 14px; }
+  .itc-opt:hover, .itc-opt.hi { background: rgba(255,255,255,0.09); }
+  .itc-opt .fl { font-size: 1.25em; line-height: 1; }
+  .itc-opt .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .itc-opt .dc { color: rgba(255,255,255,0.55); }
+  .itc-empty { padding: 12px 15px; color: rgba(255,255,255,0.5); font-size: 13px; }
   .m-s5-phone input::placeholder { color: rgba(255,255,255,0.66); }
   .m-s5-disclaimer { font-family: var(--font-sans); font-weight: 400; font-size: 10px; line-height: 13px; text-align: center; color: #ffffff; margin: 0; }
   .m-s5-submit { width: 160px; height: 35px; border-radius: 55px; background: #ffffff; backdrop-filter: blur(11px); border: none; cursor: pointer; font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #210302; transition: opacity .3s cubic-bezier(.22,1,.36,1); }
@@ -1277,6 +1296,7 @@ class Component extends DCLogic {
     this._initHScroll();
     this._initOfferSlider();
     this._initSmoothNav();
+    this._initPhoneInputs();
     this._initLeadForms();
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
@@ -1347,6 +1367,90 @@ class Component extends DCLogic {
     this._osResize = () => { if (this._osLayout) this._osLayout(); apply(); };
     window.addEventListener('resize', this._osResize);
     apply();
+  }
+  _initPhoneInputs() {
+    if (this._phoneInit) return; this._phoneInit = true;
+    // [iso2, name, dial code, sample national number] — sample's digit count sets the max length.
+    const C = [
+      ['ae','United Arab Emirates','971','50 123 4567'],['sa','Saudi Arabia','966','51 234 5678'],
+      ['qa','Qatar','974','3312 3456'],['kw','Kuwait','965','500 12345'],['bh','Bahrain','973','3600 1234'],
+      ['om','Oman','968','9212 3456'],['in','India','91','81234 56789'],['pk','Pakistan','92','301 2345678'],
+      ['bd','Bangladesh','880','1812 345678'],['lk','Sri Lanka','94','71 234 5678'],['np','Nepal','977','984 1234567'],
+      ['ph','Philippines','63','917 123 4567'],['eg','Egypt','20','100 123 4567'],['jo','Jordan','962','7 9012 3456'],
+      ['lb','Lebanon','961','71 123 456'],['iq','Iraq','964','791 234 5678'],['il','Israel','972','50 123 4567'],
+      ['gb','United Kingdom','44','7400 123456'],['us','United States','1','201 555 0123'],['ca','Canada','1','204 234 5678'],
+      ['de','Germany','49','1512 3456789'],['fr','France','33','6 12 34 56 78'],['it','Italy','39','312 345 6789'],
+      ['es','Spain','34','612 34 56 78'],['nl','Netherlands','31','6 12345678'],['ch','Switzerland','41','78 123 45 67'],
+      ['se','Sweden','46','70 123 45 67'],['be','Belgium','32','470 12 34 56'],['at','Austria','43','664 123456'],
+      ['dk','Denmark','45','20 12 34 56'],['no','Norway','47','406 12 345'],['fi','Finland','358','41 2345678'],
+      ['ie','Ireland','353','85 012 3456'],['pt','Portugal','351','912 345 678'],['pl','Poland','48','512 345 678'],
+      ['gr','Greece','30','691 234 5678'],['cz','Czechia','420','601 123 456'],['ro','Romania','40','712 345 678'],
+      ['ua','Ukraine','380','50 123 4567'],['ru','Russia','7','912 345 6789'],['tr','Turkey','90','501 234 5678'],
+      ['za','South Africa','27','71 123 4567'],['ng','Nigeria','234','802 123 4567'],['ke','Kenya','254','712 123456'],
+      ['ma','Morocco','212','650 123456'],['au','Australia','61','412 345 678'],['nz','New Zealand','64','21 123 4567'],
+      ['cn','China','86','131 2345 6789'],['hk','Hong Kong','852','5123 4567'],['sg','Singapore','65','8123 4567'],
+      ['my','Malaysia','60','12 345 6789'],['id','Indonesia','62','812 3456 789'],['th','Thailand','66','81 234 5678'],
+      ['vn','Vietnam','84','91 234 5678'],['jp','Japan','81','90 1234 5678'],['kr','South Korea','82','10 1234 5678'],
+      ['br','Brazil','55','11 91234 5678'],['mx','Mexico','52','222 123 4567'],['ar','Argentina','54','11 2345 6789'],
+      ['af','Afghanistan','93','70 123 4567'],['sy','Syria','963','944 567 890'],['ye','Yemen','967','712 345 678']
+    ].map(a => ({ i: a[0], n: a[1], d: a[2], e: a[3] }));
+    const flag = iso => iso.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt(0)));
+    const ndigits = s => (s.match(/\d/g) || []).length;
+
+    const upgrade = (input) => {
+      if (!input || input.dataset.itc) return;
+      const box = input.closest('.s9-input, .m-s5-input');
+      if (!box) return;
+      input.dataset.itc = '1';
+      const codeSpan = box.querySelector('.code'); if (codeSpan) codeSpan.remove();
+      box.classList.add('itc');
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'itc-btn'; btn.setAttribute('aria-label', 'Select country');
+      btn.innerHTML = '<span class="fl"></span><span class="dc"></span><svg class="cv" viewBox="0 0 10 5" fill="none"><path d="M0 0l5 5 5-5" stroke="#ffffff"></path></svg>';
+      const sep = document.createElement('span'); sep.className = 'itc-sep';
+      box.insertBefore(btn, input); box.insertBefore(sep, input);
+      const pop = document.createElement('div'); pop.className = 'itc-pop';
+      const search = document.createElement('input');
+      search.className = 'itc-search'; search.type = 'text'; search.placeholder = 'Search country'; search.setAttribute('autocomplete', 'off');
+      const list = document.createElement('div'); list.className = 'itc-list';
+      pop.appendChild(search); pop.appendChild(list); box.appendChild(pop);
+
+      const setCountry = c => {
+        input.dataset.dial = c.d;
+        btn.querySelector('.fl').textContent = flag(c.i);
+        btn.querySelector('.dc').textContent = '+' + c.d;
+        input.placeholder = c.e;
+        input.maxLength = ndigits(c.e);
+        input.value = input.value.replace(/\D/g, '').slice(0, input.maxLength);
+      };
+      const renderList = q => {
+        q = (q || '').toLowerCase().trim();
+        list.innerHTML = '';
+        const items = C.filter(c => !q || c.n.toLowerCase().includes(q) || c.d.includes(q.replace(/^\+/, '')) || c.i.includes(q));
+        if (!items.length) { const e = document.createElement('div'); e.className = 'itc-empty'; e.textContent = 'No matches'; list.appendChild(e); return; }
+        items.forEach(c => {
+          const o = document.createElement('div'); o.className = 'itc-opt'; o.setAttribute('role', 'option');
+          o.innerHTML = '<span class="fl">' + flag(c.i) + '</span><span class="nm"></span><span class="dc">+' + c.d + '</span>';
+          o.querySelector('.nm').textContent = c.n;
+          o.addEventListener('click', () => { setCountry(c); close(); input.focus(); });
+          list.appendChild(o);
+        });
+      };
+      const open = () => { pop.classList.add('open'); search.value = ''; renderList(''); setTimeout(() => search.focus(), 0); };
+      const close = () => { pop.classList.remove('open'); };
+      btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); pop.classList.contains('open') ? close() : open(); });
+      search.addEventListener('input', () => renderList(search.value));
+      search.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); const f = list.querySelector('.itc-opt'); if (f) f.click(); }
+        else if (e.key === 'Escape') { close(); }
+      });
+      document.addEventListener('click', e => { if (!box.contains(e.target)) close(); });
+      input.setAttribute('inputmode', 'numeric');
+      input.addEventListener('input', () => { const m = input.maxLength > 0 ? input.maxLength : 15; input.value = input.value.replace(/\D/g, '').slice(0, m); });
+      input.addEventListener('keypress', e => { if (e.key && e.key.length === 1 && /\D/.test(e.key)) e.preventDefault(); });
+      setCountry(C[0]);
+    };
+    document.querySelectorAll('.s9-form input[type="tel"], .m-s5-card input[type="tel"]').forEach(upgrade);
   }
   _initLeadForms() {
     // Lead capture -> Zapier "Catch Hook". Static site, so we POST straight
@@ -1437,10 +1541,11 @@ class Component extends DCLogic {
       const email = d.querySelector('input[type="email"]');
       const tel = d.querySelector('input[type="tel"]');
       const sel = d.querySelectorAll('select');
+      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '') + ' ' + tel.value.trim() : '';
       return [
         { key: 'name', value: txt && txt.value },
         { key: 'email', value: email && email.value },
-        { key: 'phone', value: tel && tel.value },
+        { key: 'phone', value: phone },
         { key: 'employees', value: sel[0] && sel[0].value },
         { key: 'move_in', value: sel[1] && sel[1].value }
       ];
@@ -1453,7 +1558,7 @@ class Component extends DCLogic {
       const email = m.querySelector('input[type="email"]');
       const tel = m.querySelector('input[type="tel"]');
       const sel = m.querySelectorAll('select');
-      const phone = tel && tel.value.trim() ? '+971 ' + tel.value.trim() : '';
+      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '971') + ' ' + tel.value.trim() : '';
       return [
         { key: 'company', value: texts[0] && texts[0].value },
         { key: 'name', value: texts[1] && texts[1].value },
