@@ -69,6 +69,10 @@ window.__resources = {
   .cth-stats .hero-stat .stat-num { font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(30px,2.8vw,40px); line-height: 1; color: #210302; }
   .cth-stats .hero-stat .stat-num small { font-size: 0.5em; }
   .cth-stats .hero-stat .stat-cap { font-family: var(--font-sans); font-weight: 300; font-size: clamp(12px,1vw,14px); line-height: 1.2; color: #210302; }
+  /* Offer-card arrows — same circular style as the Amenities & Services slider. */
+  .s10-cards-arrow { position: absolute; z-index: 5; border-radius: 50%; border: 1px solid rgba(255,255,255,0.9); background: rgba(33,3,2,0.24); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; box-shadow: 0 4px 14px rgba(0,0,0,0.14); transition: background .35s cubic-bezier(.22,1,.36,1), border-color .35s cubic-bezier(.22,1,.36,1), opacity .35s ease; }
+  .s10-cards-arrow:hover { background: #210302; border-color: #210302; }
+  .s10-cards-arrow svg { width: 19px; height: 12px; stroke: #ffffff; fill: none; stroke-width: 1; display: block; }
   /* On narrower screens the full horizontal menu would overflow — collapse the
      placeholder links, keeping the logo and primary CTA. */
   @media (max-width: 1100px) { .cth-ui .nav .nav-links { display: none; } }
@@ -397,7 +401,7 @@ window.__resources = {
     <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div></div>
     <div class="burj" style="position: absolute; left: 1041px; top: 60px; width: 204px; height: 511px; background: url(assets/burj.png) 41.35% 0% / 1003.922% 225.468% no-repeat;"></div>
     <div class="tower-a" style="position: absolute; left: 617px; top: 89px; width: 399px; height: 1029px; background: url(assets/tower-a-new.png) 50% 100% / 100% auto no-repeat"></div>
-    <div class="tower-b" style="position: absolute; left: -97px; top: 346px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
+    <div class="tower-b" style="position: absolute; left: -97px; top: 296px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
     <div class="cloud-2" style="position: absolute; left: -13px; top: 587px; width: 941px; height: 529px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div>
     <div class="cloud-top" style="position: absolute; left: 888px; top: 388px; width: 550px; height: 333px; background: url(assets/cloud-top.png) center/contain no-repeat; z-index: 1;"></div>
     <div class="cloud-1" style="position:absolute; left:527px; top:697px; width:809px; height:455px; background:url(assets/cloud3b.png) center/cover no-repeat;"></div>
@@ -1289,33 +1293,40 @@ class Component extends DCLogic {
       const card = track.querySelector('.s10-corp-card');
       return (card ? card.offsetWidth : 243) + 16;
     };
-    // Arrows live OUTSIDE the clipped image row (below each end), minimal line style.
+    // Circular arrows (same as the Amenities & Services slider), on the RIGHT of the card row.
     const host = clip.parentElement || clip;
-    const arrowTop = clip.offsetTop + 362 + 18; // just under the cards
-    const mkArrow = (leftPx, path, label) => {
+    const SZ = 72, GAP = 14, PAD = 26, CARD_H = 362;
+    const mkArrow = (path, label) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 's10-cards-arrow';
       b.setAttribute('aria-label', label);
-      b.style.cssText = 'position:absolute;top:' + arrowTop + 'px;left:' + leftPx + 'px;width:34px;height:22px;border:none;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;opacity:.5;transition:opacity .3s ease;';
-      b.innerHTML = '<svg viewBox="0 0 19 12" style="width:22px;height:14px;display:block"><path d="' + path + '" stroke="#210302" fill="none" stroke-width="1"></path></svg>';
-      b.addEventListener('mouseenter', () => { if (b.style.pointerEvents !== 'none') b.style.opacity = '1'; });
-      b.addEventListener('mouseleave', () => { if (b.style.pointerEvents !== 'none') b.style.opacity = '.5'; });
+      b.style.width = b.style.height = SZ + 'px';
+      b.innerHTML = '<svg viewBox="0 0 19 12"><path d="' + path + '"></path></svg>';
       host.appendChild(b);
       return b;
     };
-    const prev = mkArrow(clip.offsetLeft, 'M19 6H0M6 1L1 6l5 5', 'Previous offers');
-    const next = mkArrow(clip.offsetLeft + clip.offsetWidth - 34, 'M0 6h19M13 1l5 5-5 5', 'Next offers');
+    const prev = mkArrow('M19 6H0M6 1L1 6l5 5', 'Previous offers');
+    const next = mkArrow('M0 6h19M13 1l5 5-5 5', 'Next offers');
+    const layout = () => {
+      const top = clip.offsetTop + Math.max(0, (CARD_H - SZ) / 2);
+      const rightEdge = clip.offsetLeft + clip.offsetWidth - PAD;
+      prev.style.top = next.style.top = top + 'px';
+      prev.style.left = (rightEdge - SZ * 2 - GAP) + 'px';
+      next.style.left = (rightEdge - SZ) + 'px';
+    };
+    layout();
+    this._osLayout = layout;
     const update = () => {
       track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
       const m = maxX();
-      const set = (btn, off) => { btn.style.opacity = off ? '0.15' : '.5'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
+      const set = (btn, off) => { btn.style.opacity = off ? '0.3' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
       set(prev, x <= 1);
       set(next, x >= m - 1);
     };
     prev.addEventListener('click', () => { x = Math.max(0, x - stepW()); update(); });
     next.addEventListener('click', () => { x = Math.min(maxX(), x + stepW()); update(); });
-    this._osResize = () => { x = Math.min(x, maxX()); update(); };
+    this._osResize = () => { x = Math.min(x, maxX()); if (this._osLayout) this._osLayout(); update(); };
     window.addEventListener('resize', this._osResize);
     update();
   }
