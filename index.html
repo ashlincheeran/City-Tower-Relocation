@@ -401,7 +401,7 @@ window.__resources = {
     <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div></div>
     <div class="burj" style="position: absolute; left: 1041px; top: 60px; width: 204px; height: 511px; background: url(assets/burj.png) 41.35% 0% / 1003.922% 225.468% no-repeat;"></div>
     <div class="tower-a" style="position: absolute; left: 617px; top: 89px; width: 399px; height: 1029px; background: url(assets/tower-a-new.png) 50% 100% / 100% auto no-repeat"></div>
-    <div class="tower-b" style="position: absolute; left: -97px; top: 296px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
+    <div class="tower-b" style="position: absolute; left: -97px; top: 230px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
     <div class="cloud-2" style="position: absolute; left: -13px; top: 587px; width: 941px; height: 529px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div>
     <div class="cloud-top" style="position: absolute; left: 888px; top: 388px; width: 550px; height: 333px; background: url(assets/cloud-top.png) center/contain no-repeat; z-index: 1;"></div>
     <div class="cloud-1" style="position:absolute; left:527px; top:697px; width:809px; height:455px; background:url(assets/cloud3b.png) center/cover no-repeat;"></div>
@@ -1309,7 +1309,7 @@ class Component extends DCLogic {
     const prev = mkArrow('M19 6H0M6 1L1 6l5 5', 'Previous offers');
     const next = mkArrow('M0 6h19M13 1l5 5-5 5', 'Next offers');
     const layout = () => {
-      const top = clip.offsetTop + Math.max(0, (CARD_H - SZ) / 2);
+      const top = clip.offsetTop - SZ - 44; // in the empty band above the cards
       const rightEdge = clip.offsetLeft + clip.offsetWidth - PAD;
       prev.style.top = next.style.top = top + 'px';
       prev.style.left = (rightEdge - SZ * 2 - GAP) + 'px';
