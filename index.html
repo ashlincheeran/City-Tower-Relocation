@@ -62,9 +62,9 @@ window.__resources = {
   .cth-copy .headline { position: relative; margin: 0; width: auto; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(38px,4.6vw,64px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
   .cth-copy .subhead { position: relative; margin: 22px 0 0; width: auto; max-width: 34ch; font-family: 'PP Museum', var(--font-display); font-weight: 400; font-size: clamp(15px,1.5vw,24px); line-height: 1.3; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
   .cth-copy .cta-center { position: relative; margin-top: clamp(26px,4vh,44px); display: flex; flex-direction: row; align-items: center; gap: 18px; flex-wrap: wrap; }
-  .cth-stats { position: absolute; left: 50%; bottom: clamp(18px,3.5vh,40px); transform: translateX(-50%); width: min(1240px, calc(100% - 2 * clamp(20px,4vw,64px))); display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+  .cth-stats { position: absolute; right: clamp(20px,4vw,64px); bottom: clamp(24px,5vh,56px); display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
   .cth-stats .hero-stat-label { position: relative; left: auto; top: auto; width: auto; align-self: flex-end; text-align: right; font-family: 'PP Museum', var(--font-display); font-weight: 500; font-size: clamp(15px,1.3vw,20px); line-height: 1; color: #210302; }
-  .cth-stats .hero-stats { position: relative; left: auto; top: auto; display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: clamp(10px,1.2vw,20px); z-index: 3; }
+  .cth-stats .hero-stats { position: relative; left: auto; top: auto; display: grid; grid-template-columns: repeat(2, clamp(128px,12vw,173px)); gap: clamp(10px,1vw,20px); z-index: 3; }
   .cth-stats .hero-stat { width: 100%; height: clamp(108px,10vw,136px); background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 10px; padding: clamp(14px,1.4vw,22px); justify-content: center; align-items: flex-start; box-sizing: border-box; }
   .cth-stats .hero-stat .stat-num { font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(30px,2.8vw,40px); line-height: 1; color: #210302; }
   .cth-stats .hero-stat .stat-num small { font-size: 0.5em; }
@@ -397,7 +397,7 @@ window.__resources = {
     <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div></div>
     <div class="burj" style="position: absolute; left: 1041px; top: 60px; width: 204px; height: 511px; background: url(assets/burj.png) 41.35% 0% / 1003.922% 225.468% no-repeat;"></div>
     <div class="tower-a" style="position: absolute; left: 617px; top: 89px; width: 399px; height: 1029px; background: url(assets/tower-a-new.png) 50% 100% / 100% auto no-repeat"></div>
-    <div class="tower-b" style="position: absolute; left: -97px; top: 406px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
+    <div class="tower-b" style="position: absolute; left: -97px; top: 346px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
     <div class="cloud-2" style="position: absolute; left: -13px; top: 587px; width: 941px; height: 529px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div>
     <div class="cloud-top" style="position: absolute; left: 888px; top: 388px; width: 550px; height: 333px; background: url(assets/cloud-top.png) center/contain no-repeat; z-index: 1;"></div>
     <div class="cloud-1" style="position:absolute; left:527px; top:697px; width:809px; height:455px; background:url(assets/cloud3b.png) center/cover no-repeat;"></div>
@@ -1206,20 +1206,34 @@ class Component extends DCLogic {
       // re-query each frame so newly added sections (s9, etc.) are always included
       const fadeEls = document.querySelectorAll('.s6-fade');
       const parEls = document.querySelectorAll('.s6-par');
-      // fade-up on enter
+      // fade-up on enter. Progress is computed from the element's UNTRANSFORMED
+      // position (subtracting the translate we applied last frame) so the reveal
+      // cannot feed back into its own measurement and oscillate at the threshold,
+      // and styles are only written when the value actually changes (prevents
+      // constant backdrop-filter repaints -> flicker near the footer).
       fadeEls.forEach(el => {
+        const applied = parseFloat(el.dataset.fy || '0');
         const r = el.getBoundingClientRect();
-        const ep = reduce ? 1 : clamp01((vh - r.top) / (vh * 0.85));
+        const ep = reduce ? 1 : clamp01((vh - (r.top - applied)) / (vh * 0.85));
         const e = easeOutQ(ep);
+        const ny = (1 - e) * 46;
+        const key = ny.toFixed(1) + '|' + e.toFixed(3);
+        if (el.dataset.fk === key) return;
+        el.dataset.fk = key;
+        el.dataset.fy = ny;
         el.style.opacity = e.toFixed(3);
-        el.style.transform = 'translateY(' + ((1 - e) * 46).toFixed(1) + 'px)';
+        el.style.transform = 'translateY(' + ny.toFixed(1) + 'px)';
       });
       // parallax drift (centred progress × speed), scaled to viewport
       parEls.forEach(el => {
+        const applied = parseFloat(el.dataset.py || '0');
         const r = el.getBoundingClientRect();
         const speed = parseFloat(el.getAttribute('data-par')) || 0;
-        const cp = ((r.top + r.height / 2) - vh / 2) / vh; // -~0.5..0.5
+        const cp = (((r.top - applied) + r.height / 2) - vh / 2) / vh; // -~0.5..0.5
         const y = reduce ? 0 : cp * speed * s;
+        if (el.dataset.pk === y.toFixed(1)) return;
+        el.dataset.pk = y.toFixed(1);
+        el.dataset.py = y;
         el.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
       });
     };
@@ -1275,22 +1289,27 @@ class Component extends DCLogic {
       const card = track.querySelector('.s10-corp-card');
       return (card ? card.offsetWidth : 243) + 16;
     };
-    const mkArrow = (side, path) => {
+    // Arrows live OUTSIDE the clipped image row (below each end), minimal line style.
+    const host = clip.parentElement || clip;
+    const arrowTop = clip.offsetTop + 362 + 18; // just under the cards
+    const mkArrow = (leftPx, path, label) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 's10-cards-arrow';
-      b.setAttribute('aria-label', side === 'left' ? 'Previous offers' : 'Next offers');
-      b.style.cssText = 'position:absolute;top:50%;' + side + ':10px;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid #210302;background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;padding:0;transition:opacity .3s ease;';
-      b.innerHTML = '<svg viewBox="0 0 19 12" style="width:17px;height:11px;display:block"><path d="' + path + '" stroke="#210302" fill="none" stroke-width="1.2"></path></svg>';
-      clip.appendChild(b);
+      b.setAttribute('aria-label', label);
+      b.style.cssText = 'position:absolute;top:' + arrowTop + 'px;left:' + leftPx + 'px;width:34px;height:22px;border:none;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;opacity:.5;transition:opacity .3s ease;';
+      b.innerHTML = '<svg viewBox="0 0 19 12" style="width:22px;height:14px;display:block"><path d="' + path + '" stroke="#210302" fill="none" stroke-width="1"></path></svg>';
+      b.addEventListener('mouseenter', () => { if (b.style.pointerEvents !== 'none') b.style.opacity = '1'; });
+      b.addEventListener('mouseleave', () => { if (b.style.pointerEvents !== 'none') b.style.opacity = '.5'; });
+      host.appendChild(b);
       return b;
     };
-    const prev = mkArrow('left', 'M19 6H0M6 1L1 6l5 5');
-    const next = mkArrow('right', 'M0 6h19M13 1l5 5-5 5');
+    const prev = mkArrow(clip.offsetLeft, 'M19 6H0M6 1L1 6l5 5', 'Previous offers');
+    const next = mkArrow(clip.offsetLeft + clip.offsetWidth - 34, 'M0 6h19M13 1l5 5-5 5', 'Next offers');
     const update = () => {
       track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
       const m = maxX();
-      const set = (btn, off) => { btn.style.opacity = off ? '0.35' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
+      const set = (btn, off) => { btn.style.opacity = off ? '0.15' : '.5'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
       set(prev, x <= 1);
       set(next, x >= m - 1);
     };
