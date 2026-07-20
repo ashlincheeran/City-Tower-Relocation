@@ -1083,10 +1083,35 @@ class Component extends DCLogic {
     const mS4Slides = [...document.querySelectorAll('.m-s4-slide')];
     if (mS4Slides.length) {
       let mS4i = 0;
+      // Copy per slide, matching the desktop Amenities slider. Heading is 3 lines
+      // (mapped onto the 3 staggered spans); body is the paragraph beneath it.
+      const mS4Text = [
+        { lines: ['A lifestyle', 'designed', 'around you'], body: 'City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.' },
+        { lines: ['One dedicated', 'contact,', 'start to finish'], body: 'One dedicated contact to guide you from first enquiry through to move-in.' },
+        { lines: ['Tours on', 'your', 'schedule'], body: 'Exclusive tours and private presentations at a time that suits your schedule.' },
+        { lines: ['Living spaces', 'that', 'invite you in'], body: 'Bright, elevated living rooms designed for comfort and unwinding after a long day.' },
+        { lines: ['Room to', 'live and', 'entertain'], body: 'Generous open-plan living, framed by sweeping views of the city.' }
+      ];
+      const mS4Head = document.querySelector('.m-s4-h');
+      const mS4Body = document.querySelector('.m-s4-body');
+      const mS4Spans = mS4Head ? [...mS4Head.querySelectorAll('span')] : [];
+      let mS4tt = null;
+      const applyM4Text = i => {
+        const t = mS4Text[i];
+        if (!t) return;
+        [mS4Head, mS4Body].forEach(el => { if (el) { el.style.transition = 'opacity .25s ease, transform .25s ease'; el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; } });
+        if (mS4tt) clearTimeout(mS4tt);
+        mS4tt = setTimeout(() => {
+          mS4Spans.forEach((sp, k) => { if (t.lines[k] != null) sp.textContent = t.lines[k]; });
+          if (mS4Body) mS4Body.textContent = t.body;
+          [mS4Head, mS4Body].forEach(el => { if (el) { el.style.opacity = ''; el.style.transform = ''; } });
+        }, 240);
+      };
       const goM4 = n => {
         mS4Slides[mS4i].classList.remove('active');
         mS4i = (n + mS4Slides.length) % mS4Slides.length;
         mS4Slides[mS4i].classList.add('active');
+        applyM4Text(mS4i);
       };
       const p = document.getElementById('m-s4-prev');
       const nx = document.getElementById('m-s4-next');
