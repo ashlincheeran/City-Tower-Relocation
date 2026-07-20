@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Tower — The Address Your Team Deserves | betterhomes</title>
+<meta name="description" content="City Tower on Sheikh Zayed Road: studios to four-bedroom penthouses, move-in from June 2026. 93 storeys, 15 min to Dubai International Airport, 5 min walk to Emirates Towers Metro.">
+<meta name="theme-color" content="#210302">
+<link rel="icon" type="image/svg+xml" href="assets/logo-monogram.svg">
+<link rel="apple-touch-icon" href="assets/betterhomes-logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="City Tower — The Address Your Team Deserves">
+<meta property="og:description" content="Studios to four-bedroom penthouses on Sheikh Zayed Road. Move-in from June 2026.">
+<meta property="og:image" content="assets/tower-a-new.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+/* Serve the runtime's React / ReactDOM / Babel from local vendored copies
+   instead of unpkg.com, so the site is self-contained and never depends on a
+   third-party CDN being reachable at load time. */
+window.__resources = {
+  "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js",
+  "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js",
+  "https://unpkg.com/@babel/standalone@7.29.0/babel.min.js": "vendor/babel.min.js"
+};
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -27,8 +47,35 @@
 <style>
   @font-face { font-family: 'PP Museum'; src: url('assets/fonts/PPMuseum-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
   html, body { margin: 0; padding: 0; background: #ffffff; }
-  .cth-wrap { position: relative; width: 100%; overflow: hidden; background: #ffffff; }
-  .cth-frame { position: absolute; top: 0; left: 0; width: 1440px; height: 848px; transform-origin: top left; }
+  /* Each section scales to fill the full viewport width — the fixed 1440px
+     design frame stretches edge-to-edge on both sides (see fit()). */
+  x-dc { display: block; }
+  .cth-wrap { position: relative; width: 100%; height: 100vh; height: 100svh; min-height: 600px; overflow: hidden; background: #c4d2dc; }
+  /* Pictorial scene: cover-fills the viewport — fit() sets translateX(-50%) scale(cover). */
+  .cth-frame { position: absolute; left: 50%; top: 0; width: 1440px; height: 848px; transform-origin: center top; will-change: transform; }
+  /* Viewport-anchored UI overlay — always fully visible at any window size. */
+  .cth-ui { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+  .cth-ui > * { pointer-events: auto; }
+  .cth-ui .nav { position: absolute; top: 0; left: 0; width: 100%; box-sizing: border-box; padding: 22px clamp(20px,4vw,64px); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; }
+  .cth-ui .nav .nav-links { display: flex; flex-direction: row; align-items: center; gap: clamp(10px,1.5vw,24px); }
+  .cth-copy { position: absolute; left: clamp(20px,4vw,64px); top: clamp(100px,15vh,150px); display: flex; flex-direction: column; max-width: min(600px,44vw); }
+  .cth-copy .headline { position: relative; margin: 0; width: auto; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(38px,4.6vw,64px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
+  .cth-copy .subhead { position: relative; margin: 22px 0 0; width: auto; max-width: 34ch; font-family: 'PP Museum', var(--font-display); font-weight: 400; font-size: clamp(15px,1.5vw,24px); line-height: 1.3; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; }
+  .cth-copy .cta-center { position: relative; margin-top: clamp(26px,4vh,44px); display: flex; flex-direction: row; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cth-stats { position: absolute; right: clamp(20px,4vw,64px); bottom: clamp(24px,5vh,56px); display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
+  .cth-stats .hero-stat-label { position: relative; left: auto; top: auto; width: auto; align-self: flex-end; text-align: right; font-family: 'PP Museum', var(--font-display); font-weight: 500; font-size: clamp(15px,1.3vw,20px); line-height: 1; color: #210302; }
+  .cth-stats .hero-stats { position: relative; left: auto; top: auto; display: grid; grid-template-columns: repeat(2, clamp(128px,12vw,173px)); gap: clamp(10px,1vw,20px); z-index: 3; }
+  .cth-stats .hero-stat { width: 100%; height: clamp(108px,10vw,136px); background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 10px; padding: clamp(14px,1.4vw,22px); justify-content: center; align-items: flex-start; box-sizing: border-box; }
+  .cth-stats .hero-stat .stat-num { font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(30px,2.8vw,40px); line-height: 1; color: #210302; }
+  .cth-stats .hero-stat .stat-num small { font-size: 0.5em; }
+  .cth-stats .hero-stat .stat-cap { font-family: var(--font-sans); font-weight: 300; font-size: clamp(12px,1vw,14px); line-height: 1.2; color: #210302; }
+  /* Offer-card arrows — same circular style as the Amenities & Services slider. */
+  .s10-cards-arrow { position: absolute; z-index: 5; border-radius: 50%; border: 1px solid rgba(255,255,255,0.9); background: rgba(33,3,2,0.24); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; box-shadow: 0 4px 14px rgba(0,0,0,0.14); transition: background .35s cubic-bezier(.22,1,.36,1), border-color .35s cubic-bezier(.22,1,.36,1), opacity .35s ease; }
+  .s10-cards-arrow:hover { background: #210302; border-color: #210302; }
+  .s10-cards-arrow svg { width: 19px; height: 12px; stroke: #ffffff; fill: none; stroke-width: 1; display: block; }
+  /* On narrower screens the full horizontal menu would overflow — collapse the
+     placeholder links, keeping the logo and primary CTA. */
+  @media (max-width: 1100px) { .cth-ui .nav .nav-links { display: none; } }
   .cth-link { position: relative; font-family: var(--font-sans); font-weight: 400; font-size: 16px; line-height: 1.5; color: #210302; text-decoration: none; white-space: nowrap; opacity: 0.92; transition: opacity .25s cubic-bezier(.22,1,.36,1); }
   .cth-link:hover { opacity: 1; }
   .cth-btn { transition: opacity .25s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1); cursor: pointer; }
@@ -116,7 +163,7 @@
   .s10-h1 .l2 { display: block; padding-left: 150px; }
   .s10-body { position: absolute; left: 64px; top: 292px; width: 440px; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.5; color: #210302; margin: 0; }
   .s10-corp-row { position: absolute; left: 64px; top: 404px; width: 728px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px; }
-  .s10-corp-card { position: relative; width: 243px; height: 362px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); }
+  .s10-corp-card { position: relative; width: 232px; height: 362px; flex-shrink: 0; overflow: hidden; background: rgba(212,189,156,0.2); }
   .s10-corp-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .s10-corp-panel { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(33,3,2,0.28); backdrop-filter: blur(24px); box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
   .s10-corp-num { font-family: 'PP Museum', var(--font-display); font-weight: 300; font-size: 28px; line-height: 1; color: #D4BD9C; margin: 0; }
@@ -168,18 +215,22 @@
   .s10-card-title { font-family: var(--font-sans); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; text-transform: uppercase; color: #ffffff; line-height: 1.25; margin: 0; }
   .s10-card-desc { font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.85); margin: 0; }
   /* ---- Section 8b: Amenities & Services slider ---- */
-  .s8b-scroll { position: relative; width: 100%; background: #ffffff; }
-  .s8b-frame { position: absolute; top: 0; left: 0; width: 1440px; height: 800px; transform-origin: top left; overflow: hidden; background: #210302; }
+  .s8b-scroll { position: relative; width: 100%; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; background: #210302; }
+  /* Amenities scene: photo slides cover-fill the viewport (fit() sets translate(-50%,-50%) scale(cover)). */
+  .s8b-frame { position: absolute; left: 50%; top: 50%; width: 1440px; height: 800px; transform-origin: center center; overflow: hidden; background: #210302; }
+  /* Panel + copy sit in a viewport-anchored overlay so they stay native size and fully visible. */
+  .s8b-ui { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+  .s8b-ui > * { pointer-events: auto; }
   .s8b-slide { position: absolute; inset: 0; opacity: 1; clip-path: inset(0 100% 0 0); transition: clip-path 1s cubic-bezier(.65,0,.35,1); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
   .s8b-slide.active { clip-path: inset(0 0 0 0); z-index: 2; }
   .s8b-slide.was-active { clip-path: inset(0 0 0 0); z-index: 1; }
   .s8b-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(33,3,2,0.35), rgba(33,3,2,0.35)); }
-  .s8b-panel { position: absolute; left: 819px; top: 132px; width: 556px; height: 535px; background: rgba(33,3,2,0.25); backdrop-filter: blur(44px); z-index: 3; }
-  .s8b-content { position: absolute; left: 854px; top: 164px; width: 487px; height: 470px; z-index: 4; }
-  .s8b-eyebrow { position: absolute; left: 0; top: 0; font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1; color: #ffffff; margin: 0; }
-  .s8b-heading { position: absolute; left: 0; top: 27px; width: 487px; margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 64px; line-height: 64px; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
-  .s8b-body { position: absolute; left: 52.5px; top: 255px; width: 334px; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.4; color: #ffffff; margin: 0; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
-  .s8b-nav { position: absolute; left: 52.5px; top: 389px; display: flex; flex-direction: row; gap: 10px; }
+  .s8b-panel { position: absolute; right: clamp(16px,4vw,64px); top: 50%; transform: translateY(-50%); width: min(556px,48vw); box-sizing: border-box; padding: clamp(28px,3vw,40px); background: rgba(33,3,2,0.25); backdrop-filter: blur(44px); display: flex; flex-direction: column; align-items: flex-start; }
+  .s8b-content { position: static; display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+  .s8b-eyebrow { position: static; width: auto; height: auto; font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1; color: #ffffff; margin: 0 0 22px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .s8b-heading { position: static; width: auto; height: auto; margin: 0; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: clamp(38px,4.4vw,64px); line-height: 1; text-transform: uppercase; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
+  .s8b-body { position: static; width: auto; max-width: 360px; margin: 22px 0 0; font-family: var(--font-sans); font-weight: 300; font-size: clamp(15px,1.2vw,16px); line-height: 1.45; color: #ffffff; transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1); }
+  .s8b-nav { position: static; margin: clamp(24px,3vh,34px) 0 0; display: flex; flex-direction: row; gap: 10px; }
   .s8b-arrow { width: 81px; height: 81px; border-radius: 50%; border: 1px solid #ffffff; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .35s cubic-bezier(.22,1,.36,1), border-color .35s cubic-bezier(.22,1,.36,1), opacity .35s cubic-bezier(.22,1,.36,1); }
   .s8b-arrow:hover { background: #210302; border-color: #210302; opacity: 1; }
   .s8b-arrow svg { width: 19px; height: 12px; stroke: #ffffff; fill: none; stroke-width: 1; }
@@ -201,7 +252,7 @@
   .s9-right { position: absolute; left: 732px; top: 241px; width: 416px; display: flex; flex-direction: column; gap: 13px; }
   .s9-right p { margin: 0; font-family: var(--font-sans); font-weight: 300; font-size: 16px; line-height: 1.45; color: #ffffff; }
   .s9-cube { position: absolute; left: 992px; top: 720px; width: 221px; height: 210px; background: url(assets/deco-cube.png) center / contain no-repeat; }
-  .s9-form { position: absolute; left: 386px; top: 202px; width: 669px; height: 697px; box-sizing: border-box; background: rgba(33,3,2,0.44); backdrop-filter: blur(22px); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 23px; padding: 55px; justify-content: center; align-items: center; z-index: 5; }
+  .s9-form { position: absolute; left: 386px; top: 202px; width: 669px; height: 697px; box-sizing: border-box; background: rgba(28,4,3,0.82); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 23px; padding: 55px; justify-content: center; align-items: center; z-index: 5; }
   .s9-form-head { display: flex; flex-direction: column; gap: 11px; align-items: center; align-self: stretch; }
   .s9-form-title { font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 32px; text-align: center; color: #D4BD9C; margin: 0; }
   .s9-form-sub { font-family: var(--font-sans); font-weight: 300; font-size: 16px; text-align: center; line-height: 1.3; color: #ffffff; margin: 0; align-self: stretch; }
@@ -347,100 +398,52 @@
 </helmet>
 <div class="cth-wrap" data-screen-label="City Tower hero">
   <div class="cth-frame">
-
-    <!-- Background: sky above the clouds -->
-    <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div><div class="headline" style="position: absolute; left: 80px; top: 288px; width: 489px; font-family: 'PP Museum', var(--font-display); font-weight: 400; font-size: 24px; line-height: 31px; letter-spacing: -0.01em; text-transform: uppercase; color: #210302; height: 71px">STUDIOS TO FOUR-BEDROOM PENTHOUSES. MOVE-IN FROM JUNE 2026.</div></div>
-
-    <!-- Burj Khalifa (behind headline) -->
+    <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div></div>
     <div class="burj" style="position: absolute; left: 1041px; top: 60px; width: 204px; height: 511px; background: url(assets/burj.png) 41.35% 0% / 1003.922% 225.468% no-repeat;"></div>
-
+    <div class="tower-b" style="position: absolute; left: -97px; top: 180px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
     <div class="tower-a" style="position: absolute; left: 617px; top: 89px; width: 399px; height: 1029px; background: url(assets/tower-a-new.png) 50% 100% / 100% auto no-repeat"></div>
-    <div class="tower-b" style="position: absolute; left: -97px; top: 406px; width: 807px; height: 688px; background: url(assets/tower-b-museumb.png) center / contain no-repeat"></div>
-    
     <div class="cloud-2" style="position: absolute; left: -13px; top: 587px; width: 941px; height: 529px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div>
-    <div class="cloud-top" style="position: sticky; left: 888px; top: 388px; width: 550px; height: 333px; background: url(assets/cloud-top.png) center/contain no-repeat; z-index: 1;"></div>
-
-    <!-- Lone cloud wisp above the Burj -->
-    
-
-    <!-- Soft cloud wisps (behind headline) -->
-    
-    
-
-    <!-- Hero headline (top-left, above subhead) -->
-    <div class="headline" style="position: absolute; left: 64px; top: 129px; width: 600px; font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 64px; line-height: 64px; letter-spacing: -0.01em; text-transform: uppercase; color: #210302">The address your team deserves</div>
-
-    <!-- Golden glass tower -->
-    
-
-    <!-- Museum of the Future -->
-    
-
-    <!-- Location pin -->
-    
-
-    <!-- Foreground clouds wrapping the building bases -->
+    <div class="cloud-top" style="position: absolute; left: 888px; top: 388px; width: 550px; height: 333px; background: url(assets/cloud-top.png) center/contain no-repeat; z-index: 1;"></div>
     <div class="cloud-1" style="position:absolute; left:527px; top:697px; width:809px; height:455px; background:url(assets/cloud3b.png) center/cover no-repeat;"></div>
-    
-    
+  </div>
 
-    <!-- "Check the view" tooltip pointing at the pin -->
-    
-
-    <!-- Hero CTAs (center) -->
-    
-
-    <!-- Subhead -->
-    
-
-    <!-- Move-in ready label + stats grid (right) -->
-    <div class="hero-stat-label" style="position: absolute; left: 998px; top: 424px; width: 393px; text-align: right; font-family: 'PP Museum', var(--font-display); font-weight: 500; font-size: 20px; line-height: 1; color: #210302">MOVE-IN READY</div>
-    <div class="hero-stats" style="position: absolute; left: 1030px; top: 470px; display: grid; grid-template-columns: 173px 173px; gap: 20px; z-index: 3;">
-      <div class="hero-stat" style="width: 173px; height: 136px; background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 11px; padding: 22px; justify-content: center; align-items: flex-start; box-sizing: border-box;">
-        <span style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; line-height: 1; color: #210302;">93</span>
-        <span style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.2; color: #210302;">Storeys on<br>Sheikh Zayed Road</span>
-      </div>
-      <div class="hero-stat" style="width: 173px; height: 136px; background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 11px; padding: 22px; justify-content: center; align-items: flex-start; box-sizing: border-box;">
-        <span style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; line-height: 1; color: #210302;">15<span style="font-size: 20px;"> MIN</span></span>
-        <span style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.2; color: #210302; width: 137px; height: 49px">To Dubai<br>International Airport</span>
-      </div>
-      <div class="hero-stat" style="width: 173px; height: 136px; background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 11px; padding: 22px; justify-content: center; align-items: flex-start; box-sizing: border-box;">
-        <span style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; line-height: 1; color: #210302;">5<span style="font-size: 20px;"> MIN</span></span>
-        <span style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.2; color: #210302;">Walk to Emirates<br>Towers Metro</span>
-      </div>
-      <div class="hero-stat" style="width: 173px; height: 136px; background: rgba(255,255,255,0.32); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.26); display: flex; flex-direction: column; gap: 11px; padding: 22px; justify-content: center; align-items: flex-start; box-sizing: border-box;">
-        <span style="font-family: 'PP Museum', var(--font-display); font-weight: 100; font-size: 40px; line-height: 1; color: #210302;">695</span>
-        <span style="font-family: var(--font-sans); font-weight: 300; font-size: 14px; line-height: 1.2; color: #210302;">Residences<br>available</span>
-      </div>
-    </div>
-
-    <!-- Top navigation -->
-    <div class="nav" style="position:absolute; left:0; top:0; width:1440px; height:87px; box-sizing:border-box; padding:16px 64px 22px; display:flex; flex-direction:row; align-items:center; justify-content:space-between; z-index:5;">
+  <div class="cth-ui">
+    <div class="nav">
       <img src="assets/betterhomes-logo.png" alt="betterhomes" style="height: 25px; width: 186px; display: block">
-      <div style="display:flex; flex-direction:row; align-items:center; gap:24px;">
-        <a class="cth-link" href="#" style="font-size: 12px">Buy</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Rent</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Commercial</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Off-Plan</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Luxury</a>
-        <a class="cth-link" href="#" style="font-size: 12px">International</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Services</a>
-        <a class="cth-link" href="#" style="font-size: 12px">Insights</a>
-        <a class="cth-link" href="#" style="font-size: 12px">About</a>
-      </div><div class="cth-btn" style="width: 150px; height: 35px; border-radius: 55px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center">
+      <div class="nav-links">
+        <a class="cth-link" href="#offers" style="font-size: 12px">What We Offer</a>
+        <a class="cth-link" href="#about-project" style="font-size: 12px">About The Project</a>
+        <a class="cth-link" href="#amenities" style="font-size: 12px">Amenities &amp; Services</a>
+        <a class="cth-link" href="#contact" data-scroll-to="#contact" style="font-size: 12px">Request Pack</a>
+      </div>
+      <div class="cth-btn" data-scroll-to="#contact" style="width: 150px; height: 35px; border-radius: 55px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center">
         <span style="font-family: var(--font-sans); font-weight: 400; font-size: 12px; color: #ffffff; white-space: nowrap;">Speak to an advisor</span>
       </div>
-      
     </div>
 
-  <div class="cta-center" style="position: absolute; left: 61px; top: 393px; display: flex; flex-direction: row; gap: 24px; align-items: center">
-      
-      <div class="cth-btn" style="height: 38px; border-radius: 33px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center; padding: 0 20px;">
-        <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #ffffff; white-space: nowrap;">Download relocation pack</span>
-      </div><div class="cth-btn" style="height: 38px; border-radius: 33px; background: rgba(255,255,255,0.15); backdrop-filter: blur(11px); box-shadow: inset 0 0 0 0.5px #ffffff; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
-        <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #482E2A; white-space: nowrap;">Explore project information</span>
+    <div class="cth-copy">
+      <h1 class="headline">The address your team deserves</h1>
+      <p class="subhead">Studios to four-bedroom penthouses. Move-in from June 2026.</p>
+      <div class="cta-center">
+        <div class="cth-btn" data-scroll-to="#contact" style="height: 38px; border-radius: 33px; background: #210302; backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: center; padding: 0 20px;">
+          <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #ffffff; white-space: nowrap;">Download relocation pack</span>
+        </div>
+        <div class="cth-btn" data-scroll-to="#about-project" style="height: 38px; border-radius: 33px; background: rgba(255,255,255,0.15); backdrop-filter: blur(11px); box-shadow: inset 0 0 0 0.5px #ffffff; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
+          <span style="font-family: var(--font-sans); font-weight: 400; font-size: 14px; color: #482E2A; white-space: nowrap;">Explore project information</span>
+        </div>
       </div>
-    </div></div>
+    </div>
+
+    <div class="cth-stats">
+      <div class="hero-stat-label">MOVE-IN READY</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-num">93</span><span class="stat-cap">Storeys on<br>Sheikh Zayed Road</span></div>
+        <div class="hero-stat"><span class="stat-num">15<small> MIN</small></span><span class="stat-cap">To Dubai<br>International Airport</span></div>
+        <div class="hero-stat"><span class="stat-num">5<small> MIN</small></span><span class="stat-cap">Walk to Emirates<br>Towers Metro</span></div>
+        <div class="hero-stat"><span class="stat-num">695</span><span class="stat-cap">Residences<br>available</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="m-hero-wrap" data-screen-label="City Tower hero (mobile)">
@@ -553,14 +556,14 @@
   </div>
 </div>
 
-<div class="s10-scroll" data-screen-label="What we offer your company">
+<div class="s10-scroll" id="offers" data-screen-label="What we offer your company">
   <div class="s10-frame" style="width: 1440px; height: 945px; left: 1px; top: 1px">
 
     <div class="s10-eyebrow s6-fade" style="font-weight: 300; font-size: 14px; top: 71px; letter-spacing: 0px; width: 179px; height: 18px">Corporate relocation</div>
     <h2 class="s10-h1 s6-fade">What we offer<span class="l2">your company</span></h2>
     <p class="s10-body s6-fade" style="line-height: 1.25">betterhomes is Dubai's leading relocation partner. We work directly with HR, mobility, and procurement teams to make housing transitions seamless for your incoming employees.</p>
 
-    <div class="s10-corp-row" style="width: 728px; height: 390px; top: 476px; left: 61px; position: absolute; overflow: hidden; display: block">
+    <div class="s10-corp-row" style="width: 728px; height: 390px; top: 392px; left: 61px; position: absolute; overflow: hidden; display: block">
       <div class="s10-corp-track" style="position: absolute; left: 0; top: 0; height: 362px; display: flex; flex-direction: row; gap: 16px; will-change: transform">
       <div class="s10-corp-card s6-fade">
         <img src="assets/slider-thumb-2s.png" alt="">
@@ -593,10 +596,10 @@
         </div>
       </div><div class="s10-corp-card s6-fade" style="background: url(&quot;./04-mrlpuh26-d9eb.png&quot;) center / cover no-repeat">
         
-        <div class="s10-corp-panel" style="width: 213px; height: 169px; top: 178px; left: 14px; position: absolute">
+        <div class="s10-corp-panel" style="width: 213px; height: 156px; top: 191px; left: 14px; position: absolute">
           <p class="s10-corp-num">05</p>
           <p class="s10-corp-title" style="font-family: PP Museum; font-weight: 500; font-size: 16px; width: 106px; height: 37px">CONTINUED SUPPORT</p>
-          <p class="s10-corp-desc" style="width: 186px; height: 56px; line-height: 1.2">Our corporate &amp; relocation team will assist with each tenancy, from renewals to unit changes.</p>
+          <p class="s10-corp-desc" style="width: 186px; height: 43px; line-height: 1.2">Our relocation team assists with each tenancy, from renewals to unit changes.</p>
         </div>
       </div>
       </div>
@@ -631,7 +634,7 @@ types (from studios to<br>4-bedroom penthouses)</span><br></p>
 move-in ready</span></p>
           
         </div>
-      </div><button class="s10-cta" type="button" style="width: 176px; height: 47px">Claim this offer</button>
+      </div><button class="s10-cta" type="button" data-scroll-to="#contact" style="width: 176px; height: 47px">Claim this offer</button>
       
       
     </div>
@@ -709,7 +712,7 @@ move-in ready</span></p>
   </div>
 </div>
 
-<div class="s2-scroll" data-screen-label="Urban living, reimagined" style="width: 2229px; height: 1733px">
+<div class="s2-scroll" data-screen-label="Urban living, reimagined">
   <div class="s2-wrap">
   <div class="s2-frame">
 
@@ -743,7 +746,7 @@ move-in ready</span></p>
 </div>
 
 
-<div class="s6-scroll" data-screen-label="Space to live, work and grow" style="width: 2232px; height: 2102px; top: 222px">
+<div class="s6-scroll" id="about-project" data-screen-label="Space to live, work and grow">
   <div class="s6-frame" style="width: 1440px; height: 1020px; left: 0px; position: absolute">
     <div class="s6-band" style="height: 521px; width: 1440px; left: 0px; background-color: #D4BD9C54; top: -49px">
       <span class="ln ln3" style="position: absolute; left: 57px; top: 74px; font-size: 64px; font-family: &quot;PP Museum&quot;, IvyMode, IvyEpic, &quot;Cormorant Garamond&quot;, &quot;Playfair Display&quot;, Georgia, serif; text-transform: uppercase; color: #210302; line-height: 64px">Urban living,</span>
@@ -782,27 +785,30 @@ move-in ready</span></p>
   <p class="s6-intro s6-fade" style="top: 517px; width: 488px; height: 48px; opacity: 1; transform: translateY(0px); position: absolute; left: 735px; font-size: 16px; font-weight: 400">Our team will work with you to match the right units to your team's seniority and family profiles.</p></div>
 </div>
 
-<div class="s8b-scroll" data-screen-label="Amenities &amp; Services slider">
+<div class="s8b-scroll" id="amenities" data-screen-label="Amenities &amp; Services slider">
   <div class="s8b-frame">
     <div class="s8b-slide active" id="s8b-slide-0" style="background-image: url(&quot;./slider--image-1-mrkptgfs-0rit.png&quot;);"></div>
     <div class="s8b-slide" id="s8b-slide-1" style="background-image: url(assets/slider-img-2s.png);"></div>
     <div class="s8b-slide" id="s8b-slide-2" style="background-image: url(assets/slider-img-3s.png);"></div>
     <div class="s8b-slide" id="s8b-slide-3" style="background-image: url(assets/slider-img-4s.png);"></div>
     <div class="s8b-slide" id="s8b-slide-4" style="background-image: url(assets/slider-img-5s.png);"></div>
-    <div class="s8b-panel"></div>
-    <div class="s8b-content">
-      <p class="s8b-eyebrow" style="text-transform: uppercase; width: 161px; height: 14px">Amenities &amp; Services</p>
-      <h2 class="s8b-heading" id="s8b-heading" style="text-transform: uppercase; width: 496px; height: 191px">A lifestyle<br>&nbsp; &nbsp; &nbsp; &nbsp; designed<br>&nbsp; &nbsp; around you</h2>
-      <p class="s8b-body" id="s8b-body" style="width: 371px; height: 110px; top: 245px">City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.</p>
-      <div class="s8b-nav">
-        <button class="s8b-arrow prev" id="s8b-prev" aria-label="Previous" type="button"><svg viewBox="0 0 19 12"><path d="M19 6H0M6 1L1 6l5 5" stroke="#ffffff" fill="none"></path></svg></button>
-        <button class="s8b-arrow next" id="s8b-next" aria-label="Next" type="button"><svg viewBox="0 0 19 12"><path d="M0 6h19M13 1l5 5-5 5" stroke="#ffffff" fill="none"></path></svg></button>
+  </div>
+  <div class="s8b-ui">
+    <div class="s8b-panel">
+      <div class="s8b-content">
+        <p class="s8b-eyebrow">Amenities &amp; Services</p>
+        <h2 class="s8b-heading" id="s8b-heading">A lifestyle<br>designed<br>around you</h2>
+        <p class="s8b-body" id="s8b-body">City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.</p>
+        <div class="s8b-nav">
+          <button class="s8b-arrow prev" id="s8b-prev" aria-label="Previous" type="button"><svg viewBox="0 0 19 12"><path d="M19 6H0M6 1L1 6l5 5" stroke="#ffffff" fill="none"></path></svg></button>
+          <button class="s8b-arrow next" id="s8b-next" aria-label="Next" type="button"><svg viewBox="0 0 19 12"><path d="M0 6h19M13 1l5 5-5 5" stroke="#ffffff" fill="none"></path></svg></button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="s9-scroll" data-screen-label="Backed by experience, designed for living">
+<div class="s9-scroll" id="contact" data-screen-label="Backed by experience, designed for living">
   <div class="s9-frame">
 
     <div class="s9-bg s6-par" data-par="-30"><div class="s9-scrim" style="left: 41px; top: 54px; position: absolute"><div class="s9-right s6-fade" style="left: 733px; top: 192px; position: absolute">
@@ -814,7 +820,7 @@ move-in ready</span></p>
       
       
       
-    </div><div class="s9-form s6-fade" style="position: absolute; left: 379px; top: 93px">
+    </div><div class="s9-form" style="position: absolute; left: 379px; top: 93px">
       
       <div class="s9-form-head">
         <p class="s9-form-title" style="text-transform: uppercase; width: 549px; height: 43px">Request the relocation pack</p>
@@ -898,27 +904,34 @@ class Component extends DCLogic {
     const fit = () => {
       if (!wrap || !frame) return;
       const s = wrap.clientWidth / 1440;
-      frame.style.transform = 'scale(' + s + ')';
-      wrap.style.height = (848 * s) + 'px';
+      const cx = 0;
+      // Hero scene: cover-fill the viewport (fills width AND height, crops only sky).
+      const cover = Math.max(wrap.clientWidth / 1440, wrap.clientHeight / 848);
+      frame.style.transform = 'translateX(-50%) scale(' + cover + ')';
       if (s6Scroll && s6Frame) {
         s6Frame.style.transform = 'scale(' + s + ')';
-        s6Scroll.style.height = sectionH(s6Scroll, this.props.s6SectionGap ?? 1353, s);
+        s6Frame.style.left = cx + 'px';
+        s6Scroll.style.height = sectionH(s6Scroll, 1040, s);
       }
       if (s9Scroll && s9Frame) {
         s9Frame.style.transform = 'scale(' + s + ')';
+        s9Frame.style.left = cx + 'px';
         s9Scroll.style.height = sectionH(s9Scroll, 1101, s);
       }
       if (s8bScroll && s8bFrame) {
-        s8bFrame.style.transform = 'scale(' + s + ')';
-        s8bScroll.style.height = sectionH(s8bScroll, 800, s);
+        // Amenities scene cover-fills the viewport; section height is 100svh via CSS.
+        const cover8b = Math.max(wrap.clientWidth / 1440, s8bScroll.clientHeight / 800);
+        s8bFrame.style.transform = 'translate(-50%,-50%) scale(' + cover8b + ')';
       }
       if (s10Scroll && s10Frame) {
         s10Frame.style.transform = 'scale(' + s + ')';
+        s10Frame.style.left = cx + 'px';
         s10Scroll.style.height = sectionH(s10Scroll, this._layoutOfferHighlights(s10Frame), s);
       }
       if (scroll2 && wrap2 && frame2) {
         const sh = 788 * s;
         frame2.style.transform = 'scale(' + s + ')';
+        frame2.style.left = cx + 'px';
         wrap2.style.height = sh + 'px';
         wrap2.style.top = Math.max(0, (window.innerHeight - sh) / 2) + 'px';
         scroll2.style.height = sectionH(scroll2, sh / s + REVEAL, s);
@@ -926,6 +939,7 @@ class Component extends DCLogic {
       if (mapScroll && mapWrap && mapFrame) {
         const mh = 848 * s;
         mapFrame.style.transform = 'scale(' + s + ')';
+        mapFrame.style.left = cx + 'px';
         mapWrap.style.height = mh + 'px';
         mapWrap.style.top = Math.max(0, (window.innerHeight - mh) / 2) + 'px';
         mapScroll.style.height = sectionH(mapScroll, mh / s + (this.props.mapScrollLength ?? MAP_REVEAL), s);
@@ -1196,20 +1210,34 @@ class Component extends DCLogic {
       // re-query each frame so newly added sections (s9, etc.) are always included
       const fadeEls = document.querySelectorAll('.s6-fade');
       const parEls = document.querySelectorAll('.s6-par');
-      // fade-up on enter
+      // fade-up on enter. Progress is computed from the element's UNTRANSFORMED
+      // position (subtracting the translate we applied last frame) so the reveal
+      // cannot feed back into its own measurement and oscillate at the threshold,
+      // and styles are only written when the value actually changes (prevents
+      // constant backdrop-filter repaints -> flicker near the footer).
       fadeEls.forEach(el => {
+        const applied = parseFloat(el.dataset.fy || '0');
         const r = el.getBoundingClientRect();
-        const ep = reduce ? 1 : clamp01((vh - r.top) / (vh * 0.85));
+        const ep = reduce ? 1 : clamp01((vh - (r.top - applied)) / (vh * 0.85));
         const e = easeOutQ(ep);
+        const ny = (1 - e) * 46;
+        const key = ny.toFixed(1) + '|' + e.toFixed(3);
+        if (el.dataset.fk === key) return;
+        el.dataset.fk = key;
+        el.dataset.fy = ny;
         el.style.opacity = e.toFixed(3);
-        el.style.transform = 'translateY(' + ((1 - e) * 46).toFixed(1) + 'px)';
+        el.style.transform = 'translateY(' + ny.toFixed(1) + 'px)';
       });
       // parallax drift (centred progress × speed), scaled to viewport
       parEls.forEach(el => {
+        const applied = parseFloat(el.dataset.py || '0');
         const r = el.getBoundingClientRect();
         const speed = parseFloat(el.getAttribute('data-par')) || 0;
-        const cp = ((r.top + r.height / 2) - vh / 2) / vh; // -~0.5..0.5
+        const cp = (((r.top - applied) + r.height / 2) - vh / 2) / vh; // -~0.5..0.5
         const y = reduce ? 0 : cp * speed * s;
+        if (el.dataset.pk === y.toFixed(1)) return;
+        el.dataset.pk = y.toFixed(1);
+        el.dataset.py = y;
         el.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
       });
     };
@@ -1246,340 +1274,130 @@ class Component extends DCLogic {
       } catch(e) { /* keep the loop alive across a bad frame */ }
     };
     this._applyToggles();
-    this._initFreeTransform();
-    this._initSectionResize();
     this._initHScroll();
     this._initOfferSlider();
+    this._initSmoothNav();
     this._raf = requestAnimationFrame(tick);
     } catch(e) { console.warn('CityTower mount error', e); }
   }
-  _initFreeTransform() {
-    if (document.getElementById('cth-ft-btn')) return;
-    // Auto-discover the major editable elements across every section.
-    const SEL = [
-      'h1','h2','h3','h4','p','img','image-slot','video','.s6-h1 .ln',
-      '[class*="photo"]','[class*="cube"]','[class*="disc"]','[class*="logo"]','[class*="pill"]',
-      '[class*="seal"]','[class*="word"]','[class*="marker"]','[class*="head"]','[class*="title"]',
-      '[class*="body"]','[class*="intro"]','[class*="label"]','[class*="badge"]','[class*="eyebrow"]',
-      '[class*="-cat"]','[class*="-num"]','[class*="footer-img"]','[class*="-line"]','[class*="progress"]',
-      '[class*="-h1"]','[class*="-h2"]','[class*="-sub"]','[class*="-disc"]','.s10-hl-card'
-    ].join(',');
-    const seen = new Set();
-    const items = [];
-    Array.from(document.querySelectorAll(SEL)).forEach(el => {
-      if (seen.has(el)) return;
-      if (el.closest('#cth-ft-btn')) return;
-      // skip tiny structural wrappers with no box
-      if (!el.offsetWidth && !el.offsetHeight) return;
-      seen.add(el);
-      const cls = (el.className && typeof el.className === 'string') ? el.className.trim().split(/\s+/)[0] : el.tagName.toLowerCase();
-      items.push({ el, base: cls });
-    });
-    if (!items.length) return;
-    // Stable id: first class (or tag) + ordinal among same-base elements.
-    const counts = {};
-    items.forEach(it => { const n = counts[it.base] = (counts[it.base] || 0) + 1; it.id = it.base + (n > 1 ? '-' + n : ''); });
-    const isText = el => /^(H1|H2|H3|H4|P|SPAN)$/.test(el.tagName) || (el.children.length === 0 && el.textContent.trim().length > 0);
-    const KEY = 'cth_ft_v2';
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
-    items.forEach(it => {
-      const g = saved[it.id];
-      if (g) {
-        if (g.left != null) it.el.style.left = g.left + 'px';
-        if (g.top != null) it.el.style.top = g.top + 'px';
-        if (g.width != null) it.el.style.width = g.width + 'px';
-        if (g.height != null) it.el.style.height = g.height + 'px';
-        if (g.font != null) it.el.style.fontSize = g.font + 'px';
-        if (g.z != null) { it.el.style.zIndex = g.z; if (getComputedStyle(it.el).position === 'static') it.el.style.position = 'relative'; }
-      }
-    });
-    const persist = () => {
-      const out = {};
-      items.forEach(it => {
-        const rec = { left: it.el.offsetLeft, top: it.el.offsetTop, width: it.el.offsetWidth, height: it.el.offsetHeight };
-        if (it.el.style.fontSize) rec.font = parseFloat(it.el.style.fontSize);
-        if (it.el.style.zIndex) rec.z = parseInt(it.el.style.zIndex, 10);
-        out[it.id] = rec;
-      });
-      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
-    };
-    const scaleOf = el => { const f = el.closest('[class*="frame"]'); return (f && f.offsetWidth) ? f.getBoundingClientRect().width / f.offsetWidth : 1; };
-
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;z-index:99998;border:1.5px solid #2C537A;pointer-events:none;display:none;';
-    document.body.appendChild(ov);
-    const body = document.createElement('div');
-    body.style.cssText = 'position:absolute;inset:0;pointer-events:auto;cursor:move;';
-    ov.appendChild(body);
-    const HPOS = [['nw',0,0],['n',.5,0],['ne',1,0],['e',1,.5],['se',1,1],['s',.5,1],['sw',0,1],['w',0,.5]];
-    const handles = HPOS.map(([name, hx, hy]) => {
-      const h = document.createElement('div');
-      h.dataset.hx = hx; h.dataset.hy = hy;
-      const cur = name.length === 2 ? ((name === 'nw' || name === 'se') ? 'nwse-resize' : 'nesw-resize') : ((name === 'n' || name === 's') ? 'ns-resize' : 'ew-resize');
-      h.style.cssText = 'position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;background:#fff;border:1.5px solid #2C537A;border-radius:50%;pointer-events:auto;cursor:' + cur + ';';
-      ov.appendChild(h); return h;
-    });
-    let mode = false, sel = null;
-    const syncOverlay = () => {
-      if (!sel) { ov.style.display = 'none'; return; }
-      const r = sel.el.getBoundingClientRect();
-      ov.style.display = 'block';
-      ov.style.left = r.left + 'px'; ov.style.top = r.top + 'px'; ov.style.width = r.width + 'px'; ov.style.height = r.height + 'px';
-      handles.forEach(h => { h.style.left = (parseFloat(h.dataset.hx) * r.width) + 'px'; h.style.top = (parseFloat(h.dataset.hy) * r.height) + 'px'; });
-    };
-    const promote = el => {
-      const cs = getComputedStyle(el);
-      if (cs.position === 'absolute' || cs.position === 'fixed') return;
-      const container = el.parentElement;
-      const s = scaleOf(el);
-      const er = el.getBoundingClientRect(), cr = container.getBoundingClientRect();
-      const L = (er.left - cr.left) / (s || 1), T = (er.top - cr.top) / (s || 1);
-      el.style.position = 'absolute';
-      el.style.left = L + 'px'; el.style.top = T + 'px';
-      el.style.width = (er.width / (s || 1)) + 'px';
-      el.style.margin = '0';
-      el.style.flexShrink = '';
-      container.style.overflow = 'visible';
-    };
-    body.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      promote(sel.el);
-      const sc = scaleOf(sel.el), sx = e.clientX, sy = e.clientY, L = sel.el.offsetLeft, T = sel.el.offsetTop;
-      const mv = ev => { sel.el.style.left = (L + (ev.clientX - sx) / sc) + 'px'; sel.el.style.top = (T + (ev.clientY - sy) / sc) + 'px'; syncOverlay(); };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    handles.forEach(h => h.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      promote(sel.el);
-      const sc = scaleOf(sel.el), hx = parseFloat(h.dataset.hx), hy = parseFloat(h.dataset.hy);
-      const sx = e.clientX, sy = e.clientY, L = sel.el.offsetLeft, T = sel.el.offsetTop, W = sel.el.offsetWidth, H = sel.el.offsetHeight, aspect = W / H;
-      const txt = isText(sel.el);
-      const F0 = parseFloat(getComputedStyle(sel.el).fontSize) || 0;
-      const mv = ev => {
-        const dx = (ev.clientX - sx) / sc, dy = (ev.clientY - sy) / sc;
-        let nL = L, nT = T, nW = W, nH = H;
-        if (hx === 1) nW = Math.max(24, W + dx);
-        if (hx === 0) { nW = Math.max(24, W - dx); nL = L + (W - nW); }
-        if (hy === 1) nH = Math.max(16, H + dy);
-        if (hy === 0) { nH = Math.max(16, H - dy); nT = T + (H - nH); }
-        // corner drag keeps aspect for images; text scales font by the drag ratio
-        if (hx !== .5 && hy !== .5 && (txt || !ev.shiftKey)) { /* free */ }
-        if (ev.shiftKey && hx !== .5 && hy !== .5) { nH = nW / aspect; if (hy === 0) nT = T + (H - nH); }
-        sel.el.style.left = nL + 'px'; sel.el.style.top = nT + 'px'; sel.el.style.width = nW + 'px';
-        if (txt) {
-          // scale the type with the box; let height follow the text
-          if (F0 && (hy !== .5 || hx !== .5)) {
-            const ratio = hy !== .5 ? (nH / H) : (nW / W);
-            sel.el.style.fontSize = Math.max(6, F0 * ratio) + 'px';
-          }
-          sel.el.style.height = '';
-        } else {
-          sel.el.style.height = nH + 'px';
-        }
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    }));
-    document.addEventListener('pointerdown', e => {
-      if (!mode || ov.contains(e.target)) return;
-      // pick the most specific (smallest-area) element under the cursor
-      const hits = items.filter(it => it.el.contains(e.target));
-      if (hits.length) {
-        hits.sort((a, b) => (a.el.offsetWidth * a.el.offsetHeight) - (b.el.offsetWidth * b.el.offsetHeight));
-        e.preventDefault(); sel = hits[0]; syncOverlay();
-      } else { sel = null; syncOverlay(); }
-    }, true);
-    window.addEventListener('scroll', syncOverlay, true);
-    window.addEventListener('resize', syncOverlay);
-    (function loop() { if (mode && sel) syncOverlay(); requestAnimationFrame(loop); })();
-
-    const btn = document.createElement('button');
-    btn.id = 'cth-ft-btn'; btn.textContent = '✥ Edit layout';
-    btn.style.cssText = 'position:fixed;left:18px;bottom:18px;z-index:99999;font-family:var(--font-sans),sans-serif;font-size:13px;font-weight:500;color:#fff;background:#2C537A;border:none;border-radius:22px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);';
-    document.body.appendChild(btn);
-    const tray = document.createElement('div');
-    tray.style.cssText = 'position:fixed;left:18px;bottom:60px;z-index:99999;display:none;flex-direction:column;gap:6px;align-items:flex-start;';
-    const hint = document.createElement('div');
-    hint.textContent = 'Click any element · drag to move · handles to resize · Shift = keep ratio';
-    hint.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:11px;color:#2C537A;background:rgba(255,255,255,.92);border-radius:12px;padding:6px 10px;max-width:230px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.12);';
-    tray.appendChild(hint);
-    const mk = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#2C537A;background:#fff;border:1px solid #2C537A;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; tray.appendChild(b); return b; };
-    const zrow = document.createElement('div');
-    zrow.style.cssText = 'display:flex;gap:6px;';
-    const mkZ = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#2C537A;background:#fff;border:1px solid #2C537A;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; zrow.appendChild(b); return b; };
-    const bBack = mkZ('↓ Send back'), bFwd = mkZ('↑ Bring front');
-    tray.appendChild(zrow);
-    const bReset = mk('Reset selected'), bAll = mk('Reset all'), bCopy = mk('Copy CSS');
-    document.body.appendChild(tray);
-    const RP = ['left','top','width','height','fontSize','zIndex'];
-    let zTop = 500;
-    const nudgeZ = dir => {
-      if (!sel) return;
-      const cur = parseInt(sel.el.style.zIndex || getComputedStyle(sel.el).zIndex, 10);
-      let z = isNaN(cur) ? 0 : cur;
-      if (dir > 0) { zTop += 1; z = zTop; } else { z = z - 1; }
-      sel.el.style.position = sel.el.style.position || getComputedStyle(sel.el).position;
-      if (sel.el.style.position === 'static') sel.el.style.position = 'relative';
-      sel.el.style.zIndex = z;
-      persist();
-      syncOverlay();
-    };
-    bFwd.addEventListener('click', () => nudgeZ(1));
-    bBack.addEventListener('click', () => nudgeZ(-1));
-    const setMode = on => {
-      mode = on;
-      btn.textContent = on ? '✓ Done' : '✥ Edit layout';
-      btn.style.background = on ? '#1F343F' : '#2C537A';
-      tray.style.display = on ? 'flex' : 'none';
-      items.forEach(it => { it.el.style.outline = on ? '1px dashed rgba(44,83,122,.5)' : ''; it.el.style.outlineOffset = on ? '1px' : ''; });
-      if (!on) { sel = null; syncOverlay(); }
-    };
-    btn.addEventListener('click', () => setMode(!mode));
-    bReset.addEventListener('click', () => { if (sel) { RP.forEach(p => sel.el.style[p] = ''); persist(); syncOverlay(); } });
-    bAll.addEventListener('click', () => { items.forEach(it => RP.forEach(p => it.el.style[p] = '')); try { localStorage.removeItem(KEY); } catch (e) {} sel = null; syncOverlay(); });
-    bCopy.addEventListener('click', () => {
-      const css = items.filter(it => it.el.style.left || it.el.style.top || it.el.style.width || it.el.style.height || it.el.style.fontSize || it.el.style.zIndex).map(it => {
-        const p = [];
-        if (it.el.style.left) p.push('left:' + it.el.offsetLeft + 'px');
-        if (it.el.style.top) p.push('top:' + it.el.offsetTop + 'px');
-        if (it.el.style.width) p.push('width:' + it.el.offsetWidth + 'px');
-        if (it.el.style.height) p.push('height:' + it.el.offsetHeight + 'px');
-        if (it.el.style.fontSize) p.push('font-size:' + parseFloat(it.el.style.fontSize) + 'px');
-        if (it.el.style.zIndex) p.push('z-index:' + parseInt(it.el.style.zIndex, 10));
-        return '.' + it.id + ' { ' + p.join('; ') + '; }';
-      }).join('\n');
-      try { navigator.clipboard.writeText(css); } catch (e) {}
-      console.log(css); bCopy.textContent = 'Copied!'; setTimeout(() => bCopy.textContent = 'Copy CSS', 1200);
-    });
-  }
-  _initSectionResize() {
-    if (document.getElementById('cth-sr-btn')) return;
-    const items = Array.from(document.querySelectorAll('[class$="-scroll"]')).map(el => ({ el, id: el.className.trim().split(/\s+/)[0] }));
-    if (!items.length) return;
-    const KEY = 'cth_sr_v1';
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
-    items.forEach(it => {
-      const g = saved[it.id];
-      if (g) {
-        if (g.h != null) it.el.dataset.hOverride = g.h;
-        if (g.w != null) { it.el.style.maxWidth = g.w + 'px'; it.el.style.marginLeft = 'auto'; it.el.style.marginRight = 'auto'; }
-      }
-    });
-    const persist = () => {
-      const out = {};
-      items.forEach(it => {
-        const rec = {};
-        if (it.el.dataset.hOverride) rec.h = parseFloat(it.el.dataset.hOverride);
-        if (it.el.style.maxWidth) rec.w = parseFloat(it.el.style.maxWidth);
-        if (Object.keys(rec).length) out[it.id] = rec;
-      });
-      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
-    };
-    const ov = document.createElement('div');
-    ov.style.cssText = 'position:fixed;z-index:99998;border:1.5px dashed #D7A86F;pointer-events:none;display:none;';
-    document.body.appendChild(ov);
-    const hHandle = document.createElement('div');
-    hHandle.style.cssText = 'position:absolute;left:50%;bottom:0;width:60px;height:14px;margin:0 0 -7px -30px;background:#fff;border:1.5px solid #D7A86F;border-radius:7px;pointer-events:auto;cursor:ns-resize;';
-    const wHandle = document.createElement('div');
-    wHandle.style.cssText = 'position:absolute;top:50%;right:0;width:14px;height:60px;margin:-30px -7px 0 0;background:#fff;border:1.5px solid #D7A86F;border-radius:7px;pointer-events:auto;cursor:ew-resize;';
-    ov.appendChild(hHandle); ov.appendChild(wHandle);
-    let mode = false, sel = null;
-    const syncOverlay = () => {
-      if (!sel) { ov.style.display = 'none'; return; }
-      const r = sel.el.getBoundingClientRect();
-      ov.style.display = 'block';
-      ov.style.left = r.left + 'px'; ov.style.top = r.top + 'px'; ov.style.width = r.width + 'px'; ov.style.height = r.height + 'px';
-    };
-    hHandle.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      const sy = e.clientY, H0 = sel.el.getBoundingClientRect().height;
-      const frame = sel.el.querySelector('[class$="-frame"]');
-      const s = frame ? frame.getBoundingClientRect().width / (parseFloat(frame.style.width) || frame.offsetWidth || 1440) : 1;
-      const mv = ev => {
-        const nh = Math.max(80, H0 + (ev.clientY - sy));
-        sel.el.dataset.hOverride = (nh / (s || 1)).toFixed(1);
-        sel.el.style.height = nh + 'px';
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    wHandle.addEventListener('pointerdown', e => {
-      if (!sel) return; e.preventDefault(); e.stopPropagation();
-      const sx = e.clientX, W0 = sel.el.getBoundingClientRect().width;
-      const mv = ev => {
-        const nw = Math.max(320, W0 + (ev.clientX - sx) * 2);
-        sel.el.style.maxWidth = nw + 'px';
-        sel.el.style.marginLeft = 'auto'; sel.el.style.marginRight = 'auto';
-        syncOverlay();
-      };
-      const up = () => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); persist(); };
-      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up);
-    });
-    document.addEventListener('pointerdown', e => {
-      if (!mode || ov.contains(e.target)) return;
-      const hit = items.find(it => it.el.contains(e.target));
-      if (hit) { e.preventDefault(); sel = hit; syncOverlay(); } else { sel = null; syncOverlay(); }
-    }, true);
-    window.addEventListener('scroll', syncOverlay, true);
-    window.addEventListener('resize', syncOverlay);
-    (function loop() { if (mode && sel) syncOverlay(); requestAnimationFrame(loop); })();
-    const btn = document.createElement('button');
-    btn.id = 'cth-sr-btn'; btn.textContent = '⤢ Resize sections';
-    btn.style.cssText = 'position:fixed;left:18px;bottom:66px;z-index:99999;font-family:var(--font-sans),sans-serif;font-size:13px;font-weight:500;color:#fff;background:#D7A86F;border:none;border-radius:22px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);';
-    document.body.appendChild(btn);
-    const tray = document.createElement('div');
-    tray.style.cssText = 'position:fixed;left:18px;bottom:112px;z-index:99999;display:none;flex-direction:column;gap:6px;align-items:flex-start;';
-    const hint = document.createElement('div');
-    hint.textContent = 'Click a section \u00b7 bottom handle = height \u00b7 side handle = width';
-    hint.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:11px;color:#a5723a;background:rgba(255,255,255,.92);border-radius:12px;padding:6px 10px;max-width:230px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.12);';
-    tray.appendChild(hint);
-    const mk = label => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'font-family:var(--font-sans),sans-serif;font-size:12px;color:#a5723a;background:#fff;border:1px solid #D7A86F;border-radius:18px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);'; tray.appendChild(b); return b; };
-    const bReset = mk('Reset selected'), bAll = mk('Reset all');
-    document.body.appendChild(tray);
-    const setMode = on => {
-      mode = on;
-      btn.textContent = on ? '✓ Done' : '⤢ Resize sections';
-      btn.style.background = on ? '#a5723a' : '#D7A86F';
-      tray.style.display = on ? 'flex' : 'none';
-      items.forEach(it => { it.el.style.outline = on ? '1px dashed rgba(215,168,111,.7)' : ''; it.el.style.outlineOffset = on ? '2px' : ''; });
-      if (!on) { sel = null; syncOverlay(); }
-    };
-    btn.addEventListener('click', () => setMode(!mode));
-    bReset.addEventListener('click', () => { if (sel) { delete sel.el.dataset.hOverride; sel.el.style.height = ''; sel.el.style.maxWidth = ''; sel.el.style.marginLeft = ''; sel.el.style.marginRight = ''; persist(); syncOverlay(); if (this._fit) this._fit(); } });
-    bAll.addEventListener('click', () => { items.forEach(it => { delete it.el.dataset.hOverride; it.el.style.height = ''; it.el.style.maxWidth = ''; it.el.style.marginLeft = ''; it.el.style.marginRight = ''; }); try { localStorage.removeItem(KEY); } catch (e) {} sel = null; syncOverlay(); if (this._fit) this._fit(); });
-  }
   _initOfferSlider() {
+    // Offer cards advance on arrow clicks (one card per click) instead of scroll.
     const clip = document.querySelector('.s10-corp-row');
     const track = document.querySelector('.s10-corp-track');
-    const s10Scroll = document.querySelector('.s10-scroll');
-    if (!clip || !track || !s10Scroll || track.dataset.osInit) return;
+    if (!clip || !track || track.dataset.osInit) return;
     track.dataset.osInit = '1';
-    const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
-    let curX = 0;
-    const loop = () => {
-      const p = this.props || {};
-      const travel = p.offerCardsTravel ?? 1;
-      const smoothing = p.offerCardsSmoothing ?? 0.12;
-      const startAt = p.offerCardsStart ?? 0.25;
-      const finishAt = p.offerCardsFinish ?? 0.75;
-      const maxX = Math.max(0, track.scrollWidth - clip.clientWidth) * travel;
-      const rect = s10Scroll.getBoundingClientRect();
-      const span = window.innerHeight + rect.height;
-      const raw = clamp01((window.innerHeight - rect.top) / span);
-      const denom = Math.max(0.001, finishAt - startAt);
-      const progress = clamp01((raw - startAt) / denom);
-      const targetX = -progress * maxX;
-      curX += (targetX - curX) * smoothing;
-      if (Math.abs(targetX - curX) < 0.05) curX = targetX;
-      track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
-      this._osRaf = requestAnimationFrame(loop);
+    track.style.transition = 'transform .65s cubic-bezier(.22,1,.36,1)';
+    let x = 0;
+    const maxX = () => Math.max(0, track.scrollWidth - clip.clientWidth);
+    const stepW = () => {
+      const card = track.querySelector('.s10-corp-card');
+      return (card ? card.offsetWidth : 243) + 16;
     };
-    this._osRaf = requestAnimationFrame(loop);
+    // Circular arrows (same as the Amenities & Services slider), on the RIGHT of the card row.
+    const host = clip.parentElement || clip;
+    const SZ = 72, GAP = 14, PAD = 26, CARD_H = 362;
+    const mkArrow = (path, label) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 's10-cards-arrow';
+      b.setAttribute('aria-label', label);
+      b.style.width = b.style.height = SZ + 'px';
+      b.innerHTML = '<svg viewBox="0 0 19 12"><path d="' + path + '"></path></svg>';
+      host.appendChild(b);
+      return b;
+    };
+    const prev = mkArrow('M19 6H0M6 1L1 6l5 5', 'Previous offers');
+    const next = mkArrow('M0 6h19M13 1l5 5-5 5', 'Next offers');
+    const layout = () => {
+      const top = clip.offsetTop - SZ - 44; // in the empty band above the cards
+      const rightEdge = clip.offsetLeft + clip.offsetWidth - PAD;
+      prev.style.top = next.style.top = top + 'px';
+      prev.style.left = (rightEdge - SZ * 2 - GAP) + 'px';
+      next.style.left = (rightEdge - SZ) + 'px';
+    };
+    layout();
+    this._osLayout = layout;
+    // Card-aligned stops. If the last card-aligned stop lands within half a card
+    // of the true end, snap it to the end instead of adding a near-duplicate stop
+    // — otherwise the final click is a tiny ~30px "centering" nudge (the reported
+    // 3rd-click bug). With 5 cards this yields a clean 2 clicks end-to-end.
+    const buildStops = () => {
+      const m = maxX(), step = stepW() || 1;
+      const stops = [];
+      for (let v = 0; v < m - 1; v += step) stops.push(Math.round(v));
+      if (!stops.length) stops.push(0);
+      const last = stops[stops.length - 1];
+      if (m - last < step * 0.5 && stops.length > 1) stops[stops.length - 1] = m;
+      else if (last < m) stops.push(m);
+      return stops;
+    };
+    let idx = 0;
+    const apply = () => {
+      const stops = buildStops();
+      idx = Math.max(0, Math.min(stops.length - 1, idx));
+      x = stops[idx];
+      track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
+      const set = (btn, off) => { btn.style.opacity = off ? '0.3' : '1'; btn.style.pointerEvents = off ? 'none' : 'auto'; };
+      set(prev, idx <= 0);
+      set(next, idx >= stops.length - 1);
+    };
+    prev.addEventListener('click', () => { idx -= 1; apply(); });
+    next.addEventListener('click', () => { idx += 1; apply(); });
+    this._osResize = () => { if (this._osLayout) this._osLayout(); apply(); };
+    window.addEventListener('resize', this._osResize);
+    apply();
+  }
+  _initSmoothNav() {
+    if (document.documentElement.dataset.ctSmooth) return;
+    document.documentElement.dataset.ctSmooth = '1';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let target = 0, cur = 0, lastY = -1, raf = null;
+    const maxY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const tick = () => {
+      if (lastY >= 0 && Math.abs(window.scrollY - lastY) > 2) { raf = null; return; } // user took over (scrollbar/keys)
+      cur += (target - cur) * 0.12;
+      if (Math.abs(target - cur) < 0.6) cur = target;
+      lastY = Math.round(cur);
+      window.scrollTo(0, lastY);
+      raf = (cur === target) ? null : requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) { lastY = -1; raf = requestAnimationFrame(tick); } };
+    const glide = (y) => {
+      if (raf === null) { cur = window.scrollY; target = cur; }
+      target = Math.max(0, Math.min(maxY(), y));
+      if (reduce) { window.scrollTo(0, target); raf = null; return; }
+      kick();
+    };
+    this._glide = glide;
+    // Inertia-smoothed wheel scrolling (desktop pointers only; touch stays native).
+    if (fine && !reduce) {
+      this._onWheelSm = (e) => {
+        if (e.ctrlKey || e.defaultPrevented) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        const t = e.target;
+        if (t && t.closest && t.closest('select, textarea')) return;
+        e.preventDefault();
+        const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+        if (raf === null) { cur = window.scrollY; target = cur; }
+        target = Math.max(0, Math.min(maxY(), target + dy));
+        kick();
+      };
+      window.addEventListener('wheel', this._onWheelSm, { passive: false });
+    }
+    // Anchor nav + CTA scroll targets.
+    const go = (sel, off) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      glide(el.getBoundingClientRect().top + window.scrollY - (off || 0));
+    };
+    document.querySelectorAll('.cth-ui .nav-links a[href^="#"]').forEach(a => {
+      if (a.dataset.scrollTo) return; // handled by the data binding below
+      a.addEventListener('click', e => { e.preventDefault(); go(a.getAttribute('href'), 0); });
+    });
+    document.querySelectorAll('[data-scroll-to]').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); go(el.dataset.scrollTo, parseFloat(el.dataset.scrollOffset || '0')); });
+    });
   }
   _initHScroll() {
     const track = document.querySelector('.s10-track');
@@ -1679,11 +1497,11 @@ class Component extends DCLogic {
   }
   _initSliderS8b() {
     const slides = [
-      { bg: 'assets/slider-bg-1t.png', heading: 'A lifestyle<br>&nbsp; &nbsp; designed<br>around you', body: 'City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.' },
-      { bg: 'assets/slider-img-2s.png', heading: 'One dedicated<br>&nbsp; &nbsp; contact,<br>start to finish', body: 'One dedicated contact to guide you from first enquiry through to move-in.' },
-      { bg: 'assets/slider-img-3s.png', heading: 'Tours on<br>&nbsp; &nbsp; your<br>schedule', body: 'Exclusive tours and private presentations at a time that suits your schedule.' },
-      { bg: 'assets/slider-img-4s.png', heading: 'Living spaces<br>&nbsp; &nbsp; that<br>invite you in', body: 'Bright, elevated living rooms designed for comfort and unwinding after a long day.' },
-      { bg: 'assets/slider-img-5s.png', heading: 'Room to<br>&nbsp; &nbsp; live and<br>entertain', body: 'Generous open-plan living, framed by sweeping views of the city.' }
+      { heading: 'A lifestyle<br>&nbsp; &nbsp; designed<br>around you', body: 'City Tower offers a hospitality-driven residential experience, combining essential services with curated lifestyle and concierge offerings that make everyday life effortless for your employees.' },
+      { heading: 'One dedicated<br>&nbsp; &nbsp; contact,<br>start to finish', body: 'One dedicated contact to guide you from first enquiry through to move-in.' },
+      { heading: 'Tours on<br>&nbsp; &nbsp; your<br>schedule', body: 'Exclusive tours and private presentations at a time that suits your schedule.' },
+      { heading: 'Living spaces<br>&nbsp; &nbsp; that<br>invite you in', body: 'Bright, elevated living rooms designed for comfort and unwinding after a long day.' },
+      { heading: 'Room to<br>&nbsp; &nbsp; live and<br>entertain', body: 'Generous open-plan living, framed by sweeping views of the city.' }
     ];
     const slideEls = [document.getElementById('s8b-slide-0'), document.getElementById('s8b-slide-1'), document.getElementById('s8b-slide-2'), document.getElementById('s8b-slide-3'), document.getElementById('s8b-slide-4')];
     const headingEl = document.getElementById('s8b-heading');
@@ -1691,24 +1509,54 @@ class Component extends DCLogic {
     const prevBtn = document.getElementById('s8b-prev');
     const nextBtn = document.getElementById('s8b-next');
     if (!slideEls[0] || !headingEl || !bodyEl || !prevBtn || !nextBtn) return;
-    let idx = 0;
-    const render = (dir) => {
-      slideEls.forEach((el, i) => {
-        if (!el) return;
-        el.classList.remove('was-active');
-        if (i === idx) {
-          el.style.clipPath = dir < 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
-          el.classList.add('active');
-          void el.offsetWidth;
-          el.style.clipPath = '';
-        } else {
-          el.classList.remove('active');
-          if (i === (idx - dir + slides.length) % slides.length) el.classList.add('was-active');
-        }
-      });
+    let idx = 0, textTimer = null;
+    // Initial state: slide 0 fully revealed, the rest parked hidden — no wipe on load.
+    slideEls.forEach((el, i) => {
+      if (!el) return;
+      el.style.transition = 'none';
+      el.classList.toggle('active', i === 0);
+      el.classList.remove('was-active');
+      el.style.clipPath = i === 0 ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)';
+      void el.offsetWidth;
+    });
+    const applyText = (i) => {
+      headingEl.style.opacity = '0'; headingEl.style.transform = 'translateY(14px)';
+      bodyEl.style.opacity = '0'; bodyEl.style.transform = 'translateY(14px)';
+      if (textTimer) clearTimeout(textTimer);
+      textTimer = setTimeout(() => {
+        headingEl.innerHTML = slides[i].heading;
+        bodyEl.textContent = slides[i].body;
+        headingEl.style.opacity = ''; headingEl.style.transform = '';
+        bodyEl.style.opacity = ''; bodyEl.style.transform = '';
+      }, 280);
     };
-    const go = d => { idx = (idx + d + slides.length) % slides.length; render(d); };
-    render(0);
+    const swap = (nextIdx, dir) => {
+      if (nextIdx === idx) return;
+      const cur = slideEls[idx], nx = slideEls[nextIdx];
+      // Snap every slide out of any in-flight transition; park all but the incoming one.
+      slideEls.forEach(el => {
+        if (!el || el === nx) return;
+        el.style.transition = 'none';
+        el.classList.remove('active', 'was-active');
+        el.style.clipPath = 'inset(0 100% 0 0)';
+      });
+      // Outgoing slide stays fully revealed beneath the incoming wipe (never animates out).
+      if (cur && cur !== nx) {
+        cur.classList.add('was-active');
+        cur.style.clipPath = 'inset(0 0 0 0)';
+      }
+      // Incoming slide wipes in from the direction of travel only.
+      nx.style.transition = 'none';
+      nx.classList.remove('was-active');
+      nx.style.clipPath = dir < 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
+      nx.classList.add('active');
+      void nx.offsetWidth;
+      nx.style.transition = '';
+      nx.style.clipPath = 'inset(0 0 0 0)';
+      idx = nextIdx;
+      applyText(idx);
+    };
+    const go = d => swap((idx + d + slides.length) % slides.length, d);
     this._s8bPrev = () => go(-1);
     this._s8bNext = () => go(1);
     prevBtn.addEventListener('click', this._s8bPrev);
@@ -1727,6 +1575,8 @@ class Component extends DCLogic {
     if (this._rafM) cancelAnimationFrame(this._rafM);
     if (this._onMove) window.removeEventListener('pointermove', this._onMove);
     if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onWheelSm) window.removeEventListener('wheel', this._onWheelSm);
+    if (this._osResize) window.removeEventListener('resize', this._osResize);
   }
   renderVals() { return {}; }
 }
