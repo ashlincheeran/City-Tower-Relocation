@@ -415,7 +415,7 @@ window.__resources = {
   @media (max-width: 767px) { .m-s5-wrap { display: block; } }
 </style>
 </helmet>
-<div class="cth-wrap" data-screen-label="City Tower hero">
+<div class="cth-wrap" id="home" data-screen-label="City Tower hero">
   <div class="cth-frame">
     <div class="bg" style="position: absolute; left: -28px; top: -18px; width: 1528px; height: 915px; background: url(&quot;./background-mremeg4z.png&quot;) center / 102.083% 180.03% no-repeat"><div class="cloud-3" style="position: absolute; left: 162px; top: 268px; width: 609px; height: 331px; mix-blend-mode: hard-light; background: url(assets/cloud1b.png) center/cover no-repeat"></div></div>
     <div class="burj" style="position: absolute; left: 1041px; top: 60px; width: 204px; height: 511px; background: url(assets/burj.png) 41.35% 0% / 1003.922% 225.468% no-repeat;"></div>
@@ -731,7 +731,7 @@ move-in ready</span></p>
   </div>
 </div>
 
-<div class="s2-scroll" data-screen-label="Urban living, reimagined">
+<div class="s2-scroll" id="residences" data-screen-label="Urban living, reimagined">
   <div class="s2-wrap">
   <div class="s2-frame">
 
@@ -1868,6 +1868,63 @@ class Component extends DCLogic {
     var form = e.target.closest && e.target.closest('.s9-form');
     if (form && e.target.tagName === 'INPUT') { e.preventDefault(); handle(form, form.querySelector('.s9-form-submit')); }
   }, true);
+
+  /* ---- Deep-link section navigation (e.g. /#offers). Resolves each name to the
+     version currently on screen (desktop or mobile), so it works on both. ---- */
+  var ANCHORS = {
+    'home':          ['.cth-wrap', '.m-hero-wrap'],
+    'top':           ['.cth-wrap', '.m-hero-wrap'],
+    'offers':        ['#offers', '.m-s10-wrap'],
+    'what-we-offer': ['#offers', '.m-s10-wrap'],
+    'residences':    ['#residences', '.m-s3-wrap'],
+    'living':        ['#residences', '.m-s3-wrap'],
+    'about':         ['#about-project'],
+    'about-project': ['#about-project'],
+    'project':       ['#about-project'],
+    'amenities':     ['#amenities', '.m-s4-wrap'],
+    'services':      ['#amenities', '.m-s4-wrap'],
+    'contact':       ['#contact', '.m-s5-wrap'],
+    'request':       ['#contact', '.m-s5-wrap'],
+    'pack':          ['#contact', '.m-s5-wrap']
+  };
+  // A valid target must be laid out (offsetParent) AND have real height — some
+  // sections collapse to 0px on the other breakpoint and must not be jumped to.
+  function onScreen(el) { return !!(el && el.offsetParent !== null && el.getBoundingClientRect().height > 24); }
+  function resolveAnchor() {
+    var name = '';
+    try { name = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim().toLowerCase(); } catch (e) { name = (location.hash || '').replace(/^#/, '').toLowerCase(); }
+    if (!name) return null;
+    var sels = ANCHORS[name];
+    if (!sels) { var byId = document.getElementById(name); return onScreen(byId) ? byId : null; }
+    // Each entry is [desktopSelector, mobileSelector]; prefer the one for the
+    // current viewport, then fall back to whichever is actually on screen.
+    var mobile = window.matchMedia('(max-width: 767px)').matches;
+    var order = mobile ? sels.slice().reverse() : sels;
+    var i, c;
+    for (i = 0; i < order.length; i++) { c = document.querySelector(order[i]); if (onScreen(c)) return c; }
+    return null;
+  }
+  function scrollToAnchor(smooth) {
+    var el = resolveAnchor();
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+    if (y < 2) y = 0;
+    try { window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' }); }
+    catch (e) { window.scrollTo(0, y); }
+  }
+  window.addEventListener('hashchange', function () { scrollToAnchor(true); });
+  // On first load the page keeps growing as images/fonts settle, which shifts
+  // sections down after a naive jump. Re-align at increasing intervals so the
+  // deep link lands accurately, and stop the moment the user scrolls themselves.
+  if (location.hash) {
+    var userMoved = false;
+    var mark = function () { userMoved = true; };
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, mark, { passive: true }); });
+    var jump = function () { if (!userMoved) scrollToAnchor(false); };
+    var schedule = function () { [0, 80, 200, 400, 700, 1100, 1600, 2200, 3000].forEach(function (d) { setTimeout(jump, d); }); };
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule);
+  }
 })();
 </script>
 </body>
