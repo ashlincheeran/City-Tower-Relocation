@@ -1455,122 +1455,104 @@ class Component extends DCLogic {
     document.querySelectorAll('.s9-form input[type="tel"], .m-s5-card input[type="tel"]').forEach(upgrade);
   }
   _initLeadForms() {
-    // Lead capture -> Zapier "Catch Hook". Static site, so we POST straight
-    // from the browser (url-encoded = a simple request, no CORS preflight).
+    if (this._leadInit) return; this._leadInit = true;
+    // Lead capture -> Zapier "Catch Hook". Handlers are DELEGATED on document so
+    // they can't be lost if the runtime re-renders a form node, and delivery is
+    // fire-and-forget (sendBeacon, fetch no-cors fallback) so the thank-you shows
+    // immediately without waiting on a cross-origin response.
     const HOOK = 'https://hooks.zapier.com/hooks/catch/4753585/44t9c7j/';
     const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    // Capture UTM / click-id / referrer once at load (the landing URL keeps its
-    // query string on this single-page site) so every submission carries them.
     const tracking = (() => {
       const out = {};
       try {
         const q = new URLSearchParams(location.search);
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'msclkid'].forEach(k => {
-          const v = q.get(k);
-          if (v) out[k] = v;
-        });
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'msclkid'].forEach(k => { const v = q.get(k); if (v) out[k] = v; });
         if (document.referrer) out.referrer = document.referrer;
       } catch (e) {}
       return out;
     })();
-    const setup = (root, getFields, btn) => {
-      if (!root || !btn || root.dataset.leadInit) return;
-      root.dataset.leadInit = '1';
-      const isForm = root.tagName === 'FORM';
-      // honeypot: hidden field real users never fill; bots do -> silently drop
-      const hp = document.createElement('input');
-      hp.type = 'text'; hp.tabIndex = -1; hp.autocomplete = 'off';
-      hp.setAttribute('aria-hidden', 'true');
-      hp.name = 'company_website';
-      hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
-      root.appendChild(hp);
-      // status line above the button
-      const status = document.createElement('p');
-      status.setAttribute('aria-live', 'polite');
-      status.style.cssText = 'margin:2px 0 0;min-height:1em;font-family:var(--font-sans),sans-serif;font-weight:300;font-size:13px;line-height:1.35;text-align:center;opacity:0;transition:opacity .2s ease;';
-      btn.parentNode.insertBefore(status, btn);
-      const say = (msg, ok) => {
-        status.textContent = msg || '';
-        status.style.color = ok ? '#CBECCB' : '#F3B7AC';
-        status.style.opacity = msg ? '1' : '0';
-      };
-      let busy = false;
-      const submit = async (e) => {
-        if (e) e.preventDefault();
-        if (busy) return;
-        if (hp.value) { return; } // bot
-        const fields = getFields();
-        const data = {
-          source: 'City Tower — Request the relocation pack',
-          page_url: location.href,
-          submitted_at: new Date().toISOString()
-        };
-        for (const f of fields) data[f.key] = (f.value || '').trim();
-        Object.assign(data, tracking);
-        if (!data.name || !data.email || !data.phone) { say('Please add your name, email and phone number.'); return; }
-        if (!emailOk(data.email)) { say('Please enter a valid email address.'); return; }
-        busy = true;
-        const label = btn.textContent;
-        btn.textContent = 'Sending…'; btn.disabled = true; btn.style.opacity = '.7'; btn.style.cursor = 'default';
-        say('');
-        try {
-          await fetch(HOOK, {
-            method: 'POST',
-            mode: 'no-cors', // Zapier catch hook: deliver the POST reliably; response is opaque (we don't need to read it)
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-            body: new URLSearchParams(data).toString()
-          });
-          root.querySelectorAll('.s9-input, .m-s5-input, .s9-form-disclaimer, .m-s5-disclaimer').forEach(el => { el.style.display = 'none'; });
-          btn.style.display = 'none';
-          status.style.fontSize = '16px'; status.style.marginTop = '8px';
-          say('Thank you — your request is in. Our team will be in touch shortly with your relocation pack.', true);
-        } catch (err) {
-          busy = false;
-          btn.textContent = label; btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = '';
-          say('Sorry, something went wrong — please try again in a moment.');
-        }
-      };
-      if (isForm) root.addEventListener('submit', submit);
-      else {
-        btn.addEventListener('click', submit);
-        root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') submit(e); });
+    // hidden honeypot on each form
+    ['.s9-form', '.m-s5-card'].forEach(sel => {
+      const r = document.querySelector(sel);
+      if (r && !r.querySelector('input[name="company_website"]')) {
+        const hp = document.createElement('input');
+        hp.type = 'text'; hp.name = 'company_website'; hp.tabIndex = -1; hp.autocomplete = 'off';
+        hp.setAttribute('aria-hidden', 'true');
+        hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+        r.appendChild(hp);
       }
+    });
+    const collect = (root) => {
+      const texts = root.querySelectorAll('input[type="text"]:not([name="company_website"])');
+      const email = root.querySelector('input[type="email"]');
+      const tel = root.querySelector('input[type="tel"]');
+      const sels = root.querySelectorAll('select');
+      const mobile = root.classList.contains('m-s5-card');
+      const val = el => (el && el.value || '').trim();
+      const data = { source: 'City Tower — Request the relocation pack', page_url: location.href, submitted_at: new Date().toISOString() };
+      if (mobile) { data.company = val(texts[0]); data.name = val(texts[1]); }
+      else { data.name = val(texts[0]); }
+      data.email = val(email);
+      data.phone = tel && val(tel) ? '+' + (tel.dataset.dial || '971') + ' ' + val(tel) : '';
+      data.employees = val(sels[0]);
+      data.move_in = val(sels[1]);
+      Object.assign(data, tracking);
+      return data;
     };
-
-    // Desktop form (.s9-form is a div with a plain button)
-    const d = document.querySelector('.s9-form');
-    if (d) setup(d, () => {
-      const txt = d.querySelector('input[type="text"]');
-      const email = d.querySelector('input[type="email"]');
-      const tel = d.querySelector('input[type="tel"]');
-      const sel = d.querySelectorAll('select');
-      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '971') + ' ' + tel.value.trim() : '';
-      return [
-        { key: 'name', value: txt && txt.value },
-        { key: 'email', value: email && email.value },
-        { key: 'phone', value: phone },
-        { key: 'employees', value: sel[0] && sel[0].value },
-        { key: 'move_in', value: sel[1] && sel[1].value }
-      ];
-    }, d.querySelector('.s9-form-submit'));
-
-    // Mobile form (.m-s5-card is a <form>; has Company + UAE dial code)
-    const m = document.querySelector('.m-s5-card');
-    if (m) setup(m, () => {
-      const texts = m.querySelectorAll('input[type="text"]');
-      const email = m.querySelector('input[type="email"]');
-      const tel = m.querySelector('input[type="tel"]');
-      const sel = m.querySelectorAll('select');
-      const phone = tel && tel.value.trim() ? '+' + (tel.dataset.dial || '971') + ' ' + tel.value.trim() : '';
-      return [
-        { key: 'company', value: texts[0] && texts[0].value },
-        { key: 'name', value: texts[1] && texts[1].value },
-        { key: 'email', value: email && email.value },
-        { key: 'phone', value: phone },
-        { key: 'employees', value: sel[0] && sel[0].value },
-        { key: 'move_in', value: sel[1] && sel[1].value }
-      ];
-    }, m.querySelector('.m-s5-submit'));
+    const statusEl = (root, btn) => {
+      let s = root.querySelector('.lead-status');
+      if (!s) {
+        s = document.createElement('p'); s.className = 'lead-status'; s.setAttribute('aria-live', 'polite');
+        s.style.cssText = 'margin:2px 0 0;min-height:1em;font-family:var(--font-sans),sans-serif;font-weight:300;font-size:13px;line-height:1.35;text-align:center;opacity:0;transition:opacity .2s ease;';
+        (btn && btn.parentNode ? btn.parentNode : root).insertBefore(s, btn || null);
+      }
+      return s;
+    };
+    const send = (data) => {
+      const body = new URLSearchParams(data).toString();
+      try {
+        if (navigator.sendBeacon) {
+          const ok = navigator.sendBeacon(HOOK, new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' }));
+          if (ok) return;
+        }
+      } catch (e) {}
+      try { fetch(HOOK, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: body }); } catch (e) {}
+    };
+    const handle = (root, btn) => {
+      if (!root || root.dataset.leadSent) return;
+      const hp = root.querySelector('input[name="company_website"]');
+      if (hp && hp.value) return; // bot
+      const data = collect(root);
+      const st = statusEl(root, btn);
+      const say = (m, ok) => { st.textContent = m || ''; st.style.color = ok ? '#CBECCB' : '#F3B7AC'; st.style.opacity = m ? '1' : '0'; };
+      if (!data.name || !data.email || !data.phone) { say('Please add your name, email and phone number.'); return; }
+      if (!emailOk(data.email)) { say('Please enter a valid email address.'); return; }
+      root.dataset.leadSent = '1';
+      send(data);
+      root.querySelectorAll('.s9-input, .m-s5-input, .s9-form-disclaimer, .m-s5-disclaimer').forEach(el => { el.style.display = 'none'; });
+      if (btn) btn.style.display = 'none';
+      st.style.fontSize = '16px'; st.style.marginTop = '8px';
+      say('Thank you — your request is in. Our team will be in touch shortly with your relocation pack.', true);
+    };
+    // Delegated: desktop is a <div> (click its button); mobile is a <form> (submit).
+    document.addEventListener('click', e => {
+      const b = e.target.closest && e.target.closest('.s9-form-submit');
+      if (!b) return;
+      e.preventDefault();
+      handle(b.closest('.s9-form') || document.querySelector('.s9-form'), b);
+    });
+    document.addEventListener('submit', e => {
+      const form = e.target.closest && e.target.closest('.m-s5-card');
+      if (!form) return;
+      e.preventDefault();
+      handle(form, form.querySelector('.m-s5-submit'));
+    });
+    // desktop Enter-to-submit
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const form = e.target.closest && e.target.closest('.s9-form');
+      if (form && e.target.tagName === 'INPUT') { e.preventDefault(); handle(form, form.querySelector('.s9-form-submit')); }
+    });
   }
   _initSmoothNav() {
     if (document.documentElement.dataset.ctSmooth) return;
